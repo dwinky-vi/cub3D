@@ -36,14 +36,13 @@ NORM 	= norminette
 all:		make_lib $(NAME)
 
 make_lib:
-			@make -C $(LIBFT_PATH)
-			@cp $(LIBFT_PATH)/libft.a $(NAME)
+			@cp  $(LIBFT_PATH)/libft.a $(NAME)
 
 $(NAME): 	$(OBJS)
 			@ar rc $(NAME) $?
 			@printf "$(GREEN)$(BOLD)ft_printf –– [Success compiling] $(NO_COLOR)\n"
 
-$(OBJS_DIR)%.o:		%.c $(HEADER) LIBFT_PATH/.obj/*
+$(OBJS_DIR)%.o:		%.c $(HEADER) $(LIBFT_PATH)/.obj/*
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(YELLOW)$(UNDER_LINE)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
 					@$(CC) $(CFLAGS) -c $< -o $@
