@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 13:55:03 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/29 17:03:37 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/08 21:14:36 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,5 @@ void				ft_swap(long long *x, long long *y);
 int					ft_abs(int nbr);
 
 long long			ft_abs_ll(long long nbr);
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 32
-# endif
-
-int					get_next_line(int fd, char **line);
-
-void				ft_clear_tail(char **s_tail);
 
 #endif

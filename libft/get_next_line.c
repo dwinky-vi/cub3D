@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 21:59:43 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/29 15:58:13 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/29 17:07:22 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** -1 –– при любой ошибки: fd –– испорчиный, не смогли аллоцировать память и тд.
 */
 
-int		ft_error(char **str, char *str2)
+static int		ft_error(char **str, char *str2)
 {
 	free(*str);
 	*str = NULL;
@@ -26,7 +26,7 @@ int		ft_error(char **str, char *str2)
 	return (-1);
 }
 
-char	*ft_strjoin_to_new_line_and_free(char **s1, char *s2)
+static char		*ft_strjoin_to_new_line_and_free(char **s1, char *s2)
 {
 	char	*str;
 	size_t	k;
@@ -55,7 +55,7 @@ char	*ft_strjoin_to_new_line_and_free(char **s1, char *s2)
 	return (str - k);
 }
 
-int		check_tail(char **line, char **tail, char **find_end)
+static int		check_tail(char **line, char **tail, char **find_end)
 {
 	char	*cur_ptr;
 
@@ -83,7 +83,7 @@ int		check_tail(char **line, char **tail, char **find_end)
 	return (2);
 }
 
-int		set_line(char **array, char **tail, char **find_end)
+static int		set_line(char **array, char **tail, char **find_end)
 {
 	if ((*find_end = ft_strchr(*array, '\n')) != NULL)
 	{
