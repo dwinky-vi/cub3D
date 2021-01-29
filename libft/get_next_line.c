@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 21:59:43 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/29 17:07:22 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/29 20:43:34 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int		set_line(char **array, char **tail, char **find_end)
 	return (1);
 }
 
-int		get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static	char	*tail = NULL;
 	char			*array;

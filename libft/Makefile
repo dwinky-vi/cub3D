@@ -6,7 +6,7 @@ SRCS	= \
 		ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_tolower.c ft_toupper.c \
 		ft_substr.c  ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-		ft_putchar.c ft_putstr.c ft_putnbr.c \
+		ft_putchar.c ft_putstr.c ft_putnbr.c ft_putnbr_u_int.c \
 		ft_max.c ft_min.c ft_isspace.c ft_swap.c ft_abs.c \
 		ft_lstnew.c ft_lstsize.c ft_lstlast.c ft_lstadd_front.c ft_lstadd_back.c \
 		ft_lstiter.c ft_lstdelone.c ft_lstclear.c ft_lstmap.c \
@@ -40,7 +40,7 @@ all:		$(NAME)
 
 $(NAME): 	$(OBJS)
 			@ar rc $(NAME) $?
-			@printf "$(GREEN)$(BOLD)libft –– [Success compiling]        $(NO_COLOR)\n"
+			@printf "$(GREEN)$(BOLD)libft –– [Success compiling]        $(NO_COLOR)\n\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER)
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
@@ -54,6 +54,7 @@ clean:
 
 fclean: 	clean
 			@rm -rf $(NAME)
+			@printf "$(UNDER_LINE)$(NAME) $(RED)deleted$(NO_COLOR)\n"
 
 norm:		
 			@$(NORM) $(SRCS) $(HEADER)

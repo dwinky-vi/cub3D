@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/29 17:57:17 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/29 20:58:41 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 # define FT_CUB3D_H
 
 # include "./libft/libft.h"
-
+# include "./ft_printf/ft_printf.h"
 
 #endif

@@ -2,12 +2,12 @@
 ./libft/.obj
 ./ft_printf/.obj
 
-./libft/libft.a
-./ft_printf/libftprintf.a
+libft/libft.a
+ft_printf/libftprintf.a
 a.out
 cub3D
 
 .DS_Store
 ./libft/.DS_Store
-.vscode
+.vscode/*
 

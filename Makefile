@@ -8,7 +8,7 @@ LIBFT_PATH	= ./libft
 
 FT_PRINTF_PATH = ./ft_printf
 
-HEADER		= ft_cub3D.h
+HEADER		= ft_cub3d.h
 
 CC		= gcc
 
@@ -31,7 +31,7 @@ make_ft_printf:
 			@cd $(FT_PRINTF_PATH) && make 
 
 $(NAME): 	$(OBJS)
-			@$(CC) $(CFLAGS) $? -o $(NAME)
+			@$(CC) $(CFLAGS) -L./libft -lft -L./ft_printf -lftprintf $? -o $(NAME)
 			@printf "$(GREEN)$(BOLD)cub3D –– [Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) libft/.obj/*
@@ -50,6 +50,7 @@ fclean: 	clean
 			@rm -rf $(NAME)
 			@cd $(LIBFT_PATH) && make fclean
 			@cd $(FT_PRINTF_PATH) && make fclean
+			@printf "$(UNDER_LINE)$(NAME) $(RED)deleted$(NO_COLOR)\n"
 
 norm:		
 			@$(NORM) $(SRCS) $(HEADER)
@@ -57,7 +58,6 @@ norm:
 			@cd $(FT_PRINTF_PATH) && make norm
 
 re: 		fclean all
-			@cd $(LIBFT_PATH) 
 
 .PHONY:	all clean fclean re norm
 .PHONY: SRCS SRCS CC CFLAGS OBJS OBJS_DIR HEADER NORM

@@ -31,7 +31,7 @@ OBJS_DIR =		.obj/
 # прописываем (добавляем) путь для каждого .o файла
 OBJS	 = 		$(addprefix $(OBJS_DIR), $(patsubst %.c, %.o, $(SRCS)))
 
-NORM 	= norminette
+NORM 	= ~/.scripts/colorised_norm.sh
 
 all:		make_lib $(NAME)
 
@@ -40,7 +40,7 @@ make_lib:
 
 $(NAME): 	$(OBJS)
 			@ar rc $(NAME) $?
-			@printf "$(GREEN)$(BOLD)ft_printf –– [Success compiling] $(NO_COLOR)\n"
+			@printf "$(GREEN)$(BOLD)ft_printf –– [Success compiling] $(NO_COLOR)\n\n"
 
 $(OBJS_DIR)%.o:		%.c $(HEADER) $(LIBFT_PATH)/.obj/*
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
@@ -54,7 +54,7 @@ clean:
 
 fclean: 	clean
 			@rm -rf $(NAME)
-			@echo "$(RED)$(UNDER_LINE)$(NAME) deleted.$(NO_COLOR)"
+			@printf "$(UNDER_LINE)$(NAME) $(RED)deleted$(NO_COLOR)\n"
 
 re: 		fclean all
 
@@ -96,7 +96,6 @@ run:		all
 
 norm:		
 			@$(NORM) $(SRCS) $(HEADER)
-			@cd $(LIBFT_PATH) && make norm
 
 .PHONY:
 		run norm norm_lib
