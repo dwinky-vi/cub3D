@@ -6,13 +6,30 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/29 22:03:52 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/30 14:43:11 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 #include <fcntl.h>
 #include "mlx.h"
+
+/*
+**	mlx_init() –– создаёт соединение между программным обеспеченнием и дисплеем
+**   Никаких параметров не требуется, и он вернет идентификатор void *,
+**   используемый для дальнейших вызовов библиотечных процедур.
+**   Если соединение установить не получится, вернёт NULL.
+**
+*/
+
+int		deal_key(int key, void *param)
+{
+	ft_putnbr(key);
+	ft_putchar(' ');
+	param = NULL;
+	// mlx_pixel_put(mlx_ptr, win_ptr, );
+	return (0);
+}
 
 int		main(int argc, char **argv)
 {
@@ -22,19 +39,20 @@ int		main(int argc, char **argv)
 	char	*line;
 	void	*mlx_ptr;
 	void	*win_ptr;
-
 	if (argc != 2)
 		return (-1);
 	fd = open(argv[1], O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
-		ft_printf("%s\n", line);
+		// ft_printf("%s\n", line);
 		free(line);
 	}
-	ft_printf("%s\n", line);
+	// ft_printf("%s\n", line);
 
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "planet");
+	mlx_pixel_put(mlx_ptr, win_ptr, 250, 250, 0xFFFFFF);
+	mlx_key_hook(win_ptr, deal_key, (void *)0);
 	mlx_loop(mlx_ptr);
 	return (0);
 }
