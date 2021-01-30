@@ -12,7 +12,7 @@ HEADER		= ft_cub3d.h
 
 CC		= gcc
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= 
 
 # создаём скрытую директорию, в которой будут .o файлы
 OBJS_DIR =			.obj
