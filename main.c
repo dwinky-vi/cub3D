@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/31 14:53:02 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/31 21:27:09 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,90 +30,130 @@ int		deal_key(int key, void *param)
 	// mlx_pixel_put(mlx_ptr, win_ptr, );
 	return (0);
 }
-char	**ft_convert_lst_to_matrix(t_list *lst)
+
+t_config	ft_get_config(int fd)
+{
+	t_config	config;
+	char		*line;
+	char		*tmp;
+	int			k;
+
+	line = NULL;
+	while (get_next_line(fd, &line))
+	{
+		tmp = line;
+		line = ft_strtrim(line, " ");
+		free(tmp);
+		if (line[0] == 'R')
+			config.r = ft_strtrim(line + 1, " ");
+		else if (line[0] == 'N' && line[1] == 'O')
+			config.no = ft_strtrim(line + 2, " ");
+		else if (line[0] == 'S' && line[1] == 'O')
+			config.so = ft_strtrim(line + 2, " ");
+		else if (line[0] == 'W' && line[1] == 'E')
+			config.we = ft_strtrim(line + 2, " ");
+		else if (line[0] == 'E' && line[1] == 'A')
+			config.ea = ft_strtrim(line + 2, " ");
+		else if (line[0] == 'S')
+			config.s = ft_strtrim(line + 1, " ");
+		else if (line[0] == 'F')
+			config.f = ft_strtrim(line + 1, " ");
+		else if (line[0] == 'C')
+			config.c = ft_strtrim(line + 1, " ");
+		else if (line[0] == '\0')
+		{
+			free(line);
+			continue;
+		}
+		else
+			return (config);
+		ft_putendl_fd(line, 1);
+		free(line);
+	}
+	free(line);
+	return (config);
+}
+
+void		ft_make_list_map(int fd, t_list **list_map)
+{
+	char	*line;
+
+	*list_map = NULL;
+	while (get_next_line(fd, &line))
+	{
+		if (line[0] == 'R' || line[0] == 'S' || line[0] == 'F' || line[0] == 'G' ||
+			(line[0] == 'N' && line[1] == 'O') ||
+			(line[0] == 'S' && line[1] == 'O') ||
+			(line[0] == 'W' && line[1] == 'E') ||
+			(line[0] == 'E' && line[1] == 'A') ||
+			line[0] == '\0')
+			continue ;
+		if  (line[0] != '\0')
+			ft_lstadd_back(list_map, ft_lstnew(line));
+	}
+	ft_lstadd_back(list_map, ft_lstnew(line));
+}
+
+char	**ft_convert_lst_to_matrix(t_list **lst)
 {
 	int		k;
 	int		j;
 	char	**map;
-	char	str;
+	char	*line;
+	t_list	*cur_lst;
+
+	if (!(map = (char **)ft_calloc(ft_lstsize(*lst) + 1, sizeof(char *))))
+		return (NULL);
 	k = 0;
-	// map = (char **)ft_calloc(ft_lstsize(list_map) + 1, sizeof(char *));
-	map = (char **)malloc((ft_lstsize(lst) + 1) * sizeof(char *));
-	if (map == NULL)
-		return (-1);
-	while (lst)
+	while (*lst)
 	{
-		j = 0;
-		str = (char *)(lst->content);
-		lst = lst->next;
-		while (str[j])
-			j++;
-		map[k] = ft_calloc(j + 1, 1);
-		j = 0;
-		while (str[j])
+		line = (char *)((*lst)->content);
+		cur_lst = *lst;
+		*lst = (*lst)->next;
+		map[k] = ft_calloc(ft_strlen(line) + 1, 1);
+		if (map[k] == NULL)
 		{
-			map[k][j] = str[j];
-			j++;
+			while (k-- > 0)
+				free(map[k]);
+			free(map);
+			return (NULL);
 		}
+		j = -1;
+		while (line[++j])
+			map[k][j] = line[j];
 		k++;
+		ft_lstdelone(cur_lst, free);
 	}
+	return (map);
+}
+
+char	**ft_get_map(int fd)
+{
+	char	**map;
+	t_list	*list_map;
+
+	ft_make_list_map(fd, &list_map);
+	map = ft_convert_lst_to_matrix(&list_map);
 	return (map);
 }
 
 int		main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
-	int		fd;
-	char	*line;
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_list	*list;
-	t_list	*list_map;
-	char	**map;
+	// void		*mlx_ptr;
+	// void		*win_ptr;
+	int			fd;
+	t_config	config;
+	char		**map;
 
-	if (argc != 2)
-		return (-1);
 	fd = open(argv[1], O_RDONLY);
-	list = NULL;
-	while (get_next_line(fd, &line))
-	{
-		if  (line[0] != '\0')
-			ft_lstadd_back(&list, ft_lstnew(line));
-		if (!(line[0] == 'R' || line[0] == 'S' || line[0] == 'F' || line[0] == 'G' ||
-			(line[0] == 'N' && line[1] == 'O') ||
-			(line[0] == 'S' && line[1] == 'O') ||
-			(line[0] == 'W' && line[1] == 'E') ||
-			(line[0] == 'E' && line[1] == 'A') ||
-			line[0] == '\0'))
-			break ;
-	}
-	// ft_lstprint_as_str(&list);
-	list_map = NULL;
-	while (get_next_line(fd, &line))
-		if  (line[0] != '\0')
-			ft_lstadd_back(&list_map, ft_lstnew(line));
-	ft_lstadd_back(&list_map, ft_lstnew(line));
-	// ft_lstprint_as_str(&list_map);
+	config = ft_get_config(fd);
+	if (!(map = ft_get_map(fd)))
+		return (-1);
 
-	map = ft_convert_lst_to_matrix(list_map);
-	
-	ft_printf("%s\n", map[0]);
-	int		k;
-	int		j;
-	k = 0;
-	while (map[k])
-	{
-		j = 0;
-		while (map[k][j])
-		{
-			ft_putchar(map[k][j]);
-			j++;
-		}
-		// ft_putstr(map[k]);
-		ft_putchar('\n');
-		k++;
-	}
+	ft_print_map(map);
+	ft_free_map(map);
+	ft_free_config(&config);
+	// while (1);
 /*
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "planet");

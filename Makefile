@@ -1,6 +1,6 @@
 
 SRCS	= \
-		main.c ft_some_utils.c\
+		main.c ft_some_utils.c ft_free.c\
 
 NAME		= cub3D
 
@@ -31,13 +31,13 @@ make_ft_printf:
 			@cd $(FT_PRINTF_PATH) && make 
 
 $(NAME): 	$(OBJS)
-			@$(CC) $(CFLAGS) -L./libft -lft -L./ft_printf -lftprintf ./minilibx_opengl_20191021/libmlx.a -framework OpenGL -framework AppKit $? -o $(NAME)
+			@$(CC) $(CFLAGS) $? -L./libft -lft -L./ft_printf -lftprintf ./minilibx_opengl_20191021/libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(GREEN)$(BOLD)cub3D –– [Success compiling]        $(NO_COLOR)\n"
 
-$(OBJS_DIR)/%.o:	%.c $(HEADER) libft/.obj/* ft_printf/.obj/*
+$(OBJS_DIR)/%.o:	%.c $(HEADER) libft/.obj/*
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(YELLOW)$(UNDER_LINE)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
-					@$(CC) $(CFLAGS) -c $< -o $@
+					@$(CC) $(CFLAGS) -I $(HEADER) -c $< -o $@
 					@printf "$(GREEN)$(BOLD)Compilation $(YELLOW)$(UNDER_LINE)$<$(NO_COLOR)  $(BOLD)–– $(GREEN)[OK]$(NO_COLOR)\n"
 
 clean:
