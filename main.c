@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/30 20:45:45 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/31 13:36:47 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		main(int argc, char **argv)
 	void	*mlx_ptr;
 	void	*win_ptr;
 	t_list	*list;
+	t_list	*list_map;
 
 	if (argc != 2)
 		return (-1);

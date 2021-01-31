@@ -1,9 +1,9 @@
-.obj
-./libft/.obj
-./ft_printf/.obj
+.obj/
+libft/.obj/
+ft_printf/.obj/
 
-./libft/libft.a
-./ft_printf/libftprintf.a
+libft/libft.a
+ft_printf/libftprintf.a
 a.out
 cub3D
 
