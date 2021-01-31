@@ -6,13 +6,13 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/31 13:36:47 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/01/31 14:53:02 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 #include <fcntl.h>
-#include "mlx.h"
+#include "minilibx_opengl_20191021/mlx.h"
 
 /*
 **	mlx_init() –– создаёт соединение между программным обеспеченнием и дисплеем
@@ -30,6 +30,35 @@ int		deal_key(int key, void *param)
 	// mlx_pixel_put(mlx_ptr, win_ptr, );
 	return (0);
 }
+char	**ft_convert_lst_to_matrix(t_list *lst)
+{
+	int		k;
+	int		j;
+	char	**map;
+	char	str;
+	k = 0;
+	// map = (char **)ft_calloc(ft_lstsize(list_map) + 1, sizeof(char *));
+	map = (char **)malloc((ft_lstsize(lst) + 1) * sizeof(char *));
+	if (map == NULL)
+		return (-1);
+	while (lst)
+	{
+		j = 0;
+		str = (char *)(lst->content);
+		lst = lst->next;
+		while (str[j])
+			j++;
+		map[k] = ft_calloc(j + 1, 1);
+		j = 0;
+		while (str[j])
+		{
+			map[k][j] = str[j];
+			j++;
+		}
+		k++;
+	}
+	return (map);
+}
 
 int		main(int argc, char **argv)
 {
@@ -41,19 +70,50 @@ int		main(int argc, char **argv)
 	void	*win_ptr;
 	t_list	*list;
 	t_list	*list_map;
+	char	**map;
 
 	if (argc != 2)
 		return (-1);
 	fd = open(argv[1], O_RDONLY);
 	list = NULL;
 	while (get_next_line(fd, &line))
-		ft_lstadd_back(&list, ft_lstnew(line));
-	while (list)
 	{
-		ft_printf("%s\n", (char *)(list->content));
-		list = list->next;
+		if  (line[0] != '\0')
+			ft_lstadd_back(&list, ft_lstnew(line));
+		if (!(line[0] == 'R' || line[0] == 'S' || line[0] == 'F' || line[0] == 'G' ||
+			(line[0] == 'N' && line[1] == 'O') ||
+			(line[0] == 'S' && line[1] == 'O') ||
+			(line[0] == 'W' && line[1] == 'E') ||
+			(line[0] == 'E' && line[1] == 'A') ||
+			line[0] == '\0'))
+			break ;
 	}
-	// ft_printf("%s\n", line);
+	// ft_lstprint_as_str(&list);
+	list_map = NULL;
+	while (get_next_line(fd, &line))
+		if  (line[0] != '\0')
+			ft_lstadd_back(&list_map, ft_lstnew(line));
+	ft_lstadd_back(&list_map, ft_lstnew(line));
+	// ft_lstprint_as_str(&list_map);
+
+	map = ft_convert_lst_to_matrix(list_map);
+	
+	ft_printf("%s\n", map[0]);
+	int		k;
+	int		j;
+	k = 0;
+	while (map[k])
+	{
+		j = 0;
+		while (map[k][j])
+		{
+			ft_putchar(map[k][j]);
+			j++;
+		}
+		// ft_putstr(map[k]);
+		ft_putchar('\n');
+		k++;
+	}
 /*
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "planet");

@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_some_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/28 14:00:31 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/31 13:51:47 by dwinky           ###   ########.fr       */
+/*   Created: 2021/01/31 14:14:21 by dwinky            #+#    #+#             */
+/*   Updated: 2021/01/31 14:31:25 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_cub3d.h"
 
-void	ft_bzero(void *s, size_t num)
+void	ft_lstprint_as_str(t_list **list)
 {
-	size_t			k;
-	unsigned char	*str;
-
-	str = (unsigned char *)s;
-	k = 0;
-	while (k != num)
-		*(str + k++) = 0;
+	while (*list)
+	{
+		ft_putendl_fd((*list)->content, 1);
+		*list = (*list)->next;
+	}
 }
