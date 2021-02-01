@@ -1,6 +1,6 @@
 
 SRCS	= \
-		main.c ft_some_utils.c ft_free.c\
+		main.c ft_some_utils.c ft_free.c ft_parser.c\
 
 NAME		= cub3D
 

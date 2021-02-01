@@ -27,7 +27,6 @@ void	ft_free_map(char **map)
 
 void	ft_free_config(t_config *conf)
 {
-	free(conf->r);
 	free(conf->no);
 	free(conf->so);
 	free(conf->we);

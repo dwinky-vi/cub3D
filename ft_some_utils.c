@@ -46,7 +46,8 @@ void	ft_print_map(char **map)
 
 void	ft_print_config(t_config config)
 {
-	ft_printf("R = <%s>\n", config.r);
+	ft_printf("R_1 = <%d>\n", config.r.size_x);
+	ft_printf("R_2 = <%d>\n", config.r.size_y);
 	ft_printf("NO = <%s>\n", config.no);
 	ft_printf("SO = <%s>\n", config.so);
 	ft_printf("WE = <%s>\n", config.we);
