@@ -1,8 +1,8 @@
 #include "ft_cub3d.h"
 
-static t_size ft_get_r(char *str)
+static t_window ft_get_r(char *str)
 {
-	t_size	r;
+	t_window	r;
     char    *tmp;
 
     tmp = str;
@@ -16,7 +16,7 @@ static t_size ft_get_r(char *str)
 	return (r);
 }
 
-void    ft_set_config(t_config *config, char *line)
+static void    ft_set_config(t_config *config, char *line)
 {
     if (line[0] == 'R')
         config->r = ft_get_r(ft_strtrim(line + 1, " "));
@@ -38,13 +38,15 @@ void    ft_set_config(t_config *config, char *line)
 
 t_data	ft_get_data(int fd)
 {
-    t_data       data;
+    t_data      data;
 	char		*line;
 	char		*tmp;
 	t_list	    *list_map;
+	int			r;
 
 	line = NULL;
-	while (get_next_line(fd, &line))
+	data.error = NULL;
+	while ((r = get_next_line(fd, &line)) > 0)
 	{
 		tmp = line;
 		line = ft_strtrim(line, " ");
@@ -58,27 +60,51 @@ t_data	ft_get_data(int fd)
 		else
 			break ;
 	}
+	if (r <= 0)
+	{
+		data.error = "Error in GNL";
+		return (data);
+	}
 	free(line);
 	list_map = ft_make_list_map(fd, tmp);
+	if (!list_map)
+	{
+		data.error = "Error in list_map";
+		return (data);
+	}
     data.map = ft_convert_lst_to_matrix(&list_map);
+	if (!(data.map))
+	{
+		data.error = "Error in malloc in map";
+		return (data);
+	}
 	return (data);
 }
 
 t_list		*ft_make_list_map(int fd, char *line)
 {
-    t_list *head;
+    t_list	*head;
+	t_list	*cur;
+	int		r;
 
-    head = ft_lstnew(line);
-	while (get_next_line(fd, &line))
-		ft_lstadd_back(&head, ft_lstnew(line));
-	ft_lstadd_back(&head, ft_lstnew(line));
+	if (!(head = ft_lstnew(line)))
+		return (NULL);
+	while ((r = get_next_line(fd, &line)) > 0)
+	{
+		cur = ft_lstnew(line);
+		if (!cur)
+			return (NULL);
+		ft_lstadd_back(&head, cur);
+	}
+	if (r < 0 || !(cur = ft_lstnew(line)))
+			return (NULL);
+	ft_lstadd_back(&head, cur);
     return (head);
 }
 
 char	**ft_convert_lst_to_matrix(t_list **lst)
 {
 	int		k;
-	int		j;
 	char	**map;
 	char	*line;
 	t_list	*cur_lst;
@@ -88,10 +114,7 @@ char	**ft_convert_lst_to_matrix(t_list **lst)
 	k = 0;
 	while (*lst)
 	{
-		line = (char *)((*lst)->content);
-		cur_lst = *lst;
-		*lst = (*lst)->next;
-		map[k] = ft_calloc(ft_strlen(line) + 1, 1);
+		map[k] = ft_strdup((char *)(*lst)->content);
 		if (map[k] == NULL)
 		{
 			while (k-- > 0)
@@ -99,10 +122,9 @@ char	**ft_convert_lst_to_matrix(t_list **lst)
 			free(map);
 			return (NULL);
 		}
-		j = -1;
-		while (line[++j])
-			map[k][j] = line[j];
 		k++;
+		cur_lst = *lst;
+		*lst = (*lst)->next;
 		ft_lstdelone(cur_lst, free);
 	}
 	return (map);

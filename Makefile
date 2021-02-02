@@ -1,6 +1,7 @@
 
 SRCS	= \
 		main.c ft_some_utils.c ft_free.c ft_parser.c\
+		ft_validator.c
 
 NAME		= cub3D
 
@@ -31,7 +32,7 @@ make_ft_printf:
 			@cd $(FT_PRINTF_PATH) && make 
 
 $(NAME): 	$(OBJS)
-			@$(CC) $(CFLAGS) $? -L./libft -lft -L./ft_printf -lftprintf ./minilibx_opengl_20191021/libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
+			@$(CC) $(CFLAGS) $? -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf ./minilibx_opengl_20191021/libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(GREEN)$(BOLD)cub3D –– [Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) libft/.obj/*

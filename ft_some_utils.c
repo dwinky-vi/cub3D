@@ -12,6 +12,11 @@
 
 #include "ft_cub3d.h"
 
+int		ft_puterror(char *str)
+{
+	ft_putendl_fd(error, 1);
+	return (-1);
+}
 void	ft_lstprint_ass_str(t_list **list)
 {
 	if (list == NULL)

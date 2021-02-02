@@ -11,20 +11,20 @@
 /* ************************************************************************** */
 
 #ifndef FT_CUB3D_H
-# define FT_CUB3D_H
+# define FT_CUB3D_H 
 
 # include "./libft/libft.h"
 # include "./ft_printf/ft_printf.h"
 
-typedef	struct s_size
+typedef	struct s_window
 {
 	int	size_x;
 	int	size_y;
-}				t_size;
+}				t_window;
 
 typedef struct s_config
 {
-	t_size	r;
+	t_window	r;
 	char	*no;
 	char	*so;
 	char	*we;
@@ -38,7 +38,10 @@ typedef struct s_data
 {
 	t_config	config;
 	char		**map;
+	char		*error;
 }				t_data;
+
+int		ft_puterror(char *str);
 
 void	ft_lstprint_ass_str(t_list **list);
 
@@ -56,4 +59,5 @@ t_list	*ft_make_list_map(int fd, char *line);
 
 char	**ft_convert_lst_to_matrix(t_list **lst);
 
+char    *ft_validator(t_data *data);
 #endif
