@@ -30,8 +30,10 @@ typedef struct s_config
 	char	*we;
 	char	*ea;
 	char	*s;
-	char	*f;
-	char	*c;
+	char	*f_str;
+	int		f_int;
+	char	*c_str;
+	int		c_int;
 }				t_config;
 
 typedef struct s_data

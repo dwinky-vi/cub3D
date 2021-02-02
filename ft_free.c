@@ -32,6 +32,6 @@ void	ft_free_config(t_config *conf)
 	free(conf->we);
 	free(conf->ea);
 	free(conf->s);
-	free(conf->f);
-	free(conf->c);
+	free(conf->f_str);
+	free(conf->c_str);
 }

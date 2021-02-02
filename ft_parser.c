@@ -31,9 +31,9 @@ static void    ft_set_config(t_config *config, char *line)
     else if (line[0] == 'S')
         config->s = ft_strtrim(line + 1, " ");
     else if (line[0] == 'F')
-        config->f = ft_strtrim(line + 1, " ");
+        config->f_str = ft_strtrim(line + 1, " ");
     else if (line[0] == 'C')
-        config->c = ft_strtrim(line + 1, " ");
+        config->c_str = ft_strtrim(line + 1, " ");
 }
 
 t_data	ft_get_data(int fd)

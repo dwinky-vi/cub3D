@@ -14,7 +14,7 @@
 
 int		ft_puterror(char *str)
 {
-	ft_putendl_fd(error, 1);
+	ft_putendl_fd(str, 1);
 	return (-1);
 }
 void	ft_lstprint_ass_str(t_list **list)
@@ -58,6 +58,6 @@ void	ft_print_config(t_config config)
 	ft_printf("WE = <%s>\n", config.we);
 	ft_printf("EA = <%s>\n", config.ea);
 	ft_printf("S = <%s>\n", config.s);
-	ft_printf("F = <%s>\n", config.f);
-	ft_printf("C = <%s>\n", config.c);
+	ft_printf("F = <%s>\n", config.f_str);
+	ft_printf("C = <%s>\n", config.c_str);
 }
