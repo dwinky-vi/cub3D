@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
-#include <fcntl.h>
 #include "minilibx_opengl_20191021/mlx.h"
 
 int		deal_key(int key, void *param)

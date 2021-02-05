@@ -60,12 +60,12 @@ t_data	ft_get_data(int fd)
 		else
 			break ;
 	}
+	free(line);
 	if (r <= 0)
 	{
 		data.error = "Error in GNL";
 		return (data);
 	}
-	free(line);
 	list_map = ft_make_list_map(fd, tmp);
 	if (!list_map)
 	{
@@ -93,11 +93,17 @@ t_list		*ft_make_list_map(int fd, char *line)
 	{
 		cur = ft_lstnew(line);
 		if (!cur)
+		{
+			ft_lstclear(&head, free);
 			return (NULL);
+		}
 		ft_lstadd_back(&head, cur);
 	}
 	if (r < 0 || !(cur = ft_lstnew(line)))
-			return (NULL);
+	{
+		ft_lstadd_back(&head, cur);
+		return (NULL);
+	}
 	ft_lstadd_back(&head, cur);
     return (head);
 }
@@ -107,11 +113,12 @@ char	**ft_convert_lst_to_matrix(t_list **lst)
 	int		k;
 	char	**map;
 	char	*line;
-	t_list	*cur_lst;
+	t_list	*head;
 
 	if (!(map = (char **)ft_calloc(ft_lstsize(*lst) + 1, sizeof(char *))))
 		return (NULL);
 	k = 0;
+	head = *lst;
 	while (*lst)
 	{
 		map[k] = ft_strdup((char *)(*lst)->content);
@@ -123,9 +130,8 @@ char	**ft_convert_lst_to_matrix(t_list **lst)
 			return (NULL);
 		}
 		k++;
-		cur_lst = *lst;
 		*lst = (*lst)->next;
-		ft_lstdelone(cur_lst, free);
 	}
+	ft_lstclear(&head, free);
 	return (map);
 }

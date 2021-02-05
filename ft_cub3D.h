@@ -15,6 +15,7 @@
 
 # include "./libft/libft.h"
 # include "./ft_printf/ft_printf.h"
+# include <fcntl.h>
 
 typedef	struct s_window
 {
