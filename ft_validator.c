@@ -14,6 +14,12 @@ int     ft_get_color(int num1, int num2, int num3)
     int color;
 
     color = 0;
+    color = color | num1;
+    color = color << 8;
+    color = color | num2;
+    color = color << 8;
+    color = color | num3;
+    ft_printf("|%d|\n", color);
     return (color);
 }
 
@@ -65,15 +71,15 @@ char    *ft_validator(t_data *data)
         return ("Error in floor color (F)");
     if (ft_check_and_get_color(data->config.c_str, &(data->config.c_int)))
         return ("Error in floor color (C)");
-    if (ft_check_path(data->config.no))
-        return ("Error in path (NO)");
-    if (ft_check_path(data->config.so))
-        return ("Error in path (SO)");
-    if (ft_check_path(data->config.we))
-        return ("Error in path (WE)");
-    if (ft_check_path(data->config.ea))
-        return ("Error in path (EA)");
-    if (ft_check_path(data->config.s))
-        return ("Error in path (S)");
+    // if (ft_check_path(data->config.no))
+    //     return ("Error in path (NO)");
+    // if (ft_check_path(data->config.so))
+    //     return ("Error in path (SO)");
+    // if (ft_check_path(data->config.we))
+    //     return ("Error in path (WE)");
+    // if (ft_check_path(data->config.ea))
+    //     return ("Error in path (EA)");
+    // if (ft_check_path(data->config.s))
+    //     return ("Error in path (S)");
     return (NULL);
 }
