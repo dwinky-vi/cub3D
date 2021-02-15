@@ -13,7 +13,7 @@ HEADER		= ft_cub3d.h
 
 CC		= gcc
 
-CFLAGS	= 
+CFLAGS	=
 
 # создаём скрытую директорию, в которой будут .o файлы
 OBJS_DIR =			.obj
@@ -23,19 +23,23 @@ OBJS	= 			$(addprefix $(OBJS_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 
 NORM 	=			~/.scripts/colorised_norm.sh
 
-all:		make_lib make_ft_printf $(NAME)
+all:		make_lib make_ft_printf make_mlx $(NAME)
 
 make_lib:
-			@cd $(LIBFT_PATH) && make 
+			@${MAKE} -C libft
 
 make_ft_printf:
-			@cd $(FT_PRINTF_PATH) && make 
+			@${MAKE} -C ft_printf
+
+make_mlx:
+			@${MAKE} -C minilibx
 
 $(NAME): 	$(OBJS)
-			@$(CC) $(CFLAGS) $? -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf ./minilibx_opengl_20191021/libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
+			@mv minilibx/libmlx.a . && rm -rf minilibx/libmlx.a
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(GREEN)$(BOLD)cub3D –– [Success compiling]        $(NO_COLOR)\n"
 
-$(OBJS_DIR)/%.o:	%.c $(HEADER) libft/.obj/*
+$(OBJS_DIR)/%.o:	%.c $(HEADER) libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(YELLOW)$(UNDER_LINE)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
 					@$(CC) $(CFLAGS) -I $(HEADER) -c $< -o $@
@@ -53,7 +57,7 @@ fclean: 	clean
 			@cd $(FT_PRINTF_PATH) && make fclean
 			@printf "$(UNDER_LINE)$(NAME) $(RED)deleted$(NO_COLOR)\n"
 
-norm:		
+norm:
 			@$(NORM) $(SRCS) $(HEADER)
 			@cd $(LIBFT_PATH) && make norm
 			@cd $(FT_PRINTF_PATH) && make norm
@@ -62,7 +66,6 @@ re: 		fclean all
 
 .PHONY:	all clean fclean re norm
 .PHONY: SRCS SRCS CC CFLAGS OBJS OBJS_DIR HEADER NORM
-
 
 ################
 ##   COLORS   ##

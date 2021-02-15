@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
-#include "minilibx_opengl_20191021/mlx.h"
+// #include "minilibx_opengl_20191021/mlx.h"
 
 /*
 ** a == 0
@@ -21,20 +21,15 @@
 ** esc = 53
 */
 
-typedef struct  s_vars
-{
-        void    *mlx_ptr;
-        void    *win_ptr;
-}               t_vars;
-
 int		deal_key(int key, t_vars *vars)
 {
 	if (key == 53)
+		// mlx_clear_window(vars->mlx_ptr, vars->win_ptr);
 		mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 	ft_putnbr(key);
 	ft_putchar(' ');
 	// mlx_pixel_put(mlx_ptr, win_ptr, );
-	return (0);
+	return (-1);
 }
 
 typedef struct  s_data2
@@ -61,6 +56,7 @@ int		main(int argc, char **argv)
 	void		*win_ptr;
 	int			fd;
 	t_data		data;
+	t_vars vars;
 	char		*error;
 
 	fd = open(argv[1], O_RDONLY);
@@ -77,28 +73,24 @@ int		main(int argc, char **argv)
 	ft_free_config(&(data.config));
 	close(fd);
 	// while (1);
-	t_vars *vars;
-
-	vars->mlx_ptr = mlx_init();
-	vars->win_ptr = mlx_new_window(mlx_ptr, 1920, 1080, "planet");
 
 
-	// mlx_ptr = mlx_init();
-	if (mlx_ptr == NULL)
+	vars.mlx_ptr = mlx_init();
+	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
-	// win_ptr = mlx_new_window(mlx_ptr, 1920, 1080, "planet");
+	vars.win_ptr = mlx_new_window(vars.mlx_ptr, 1920, 1080, "planet");
 	int k = 0;
-	// while (k < 1550)
-	// {
-	// 	mlx_pixel_put(mlx_ptr, win_ptr, k, 247, data.config.f_int);
-	// 	mlx_pixel_put(mlx_ptr, win_ptr, k, 248, data.config.f_int);
-	// 	mlx_pixel_put(mlx_ptr, win_ptr, k, 249, data.config.f_int);
-	// 	mlx_pixel_put(mlx_ptr, win_ptr, k, 250, data.config.f_int);
-	// 	k++;
-	// }
-	mlx_key_hook(vars->win_ptr, deal_key, vars);
-	// mlx_hook(win_ptr, );
-	mlx_loop(mlx_ptr);
+	while (k < 1350)
+	{
+		mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, 247, data.config.f_int);
+		mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, 248, data.config.f_int);
+		mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, 249, data.config.f_int);
+		mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, 250, data.config.f_int);
+		k++;
+	}
+	mlx_string_put(vars.mlx_ptr, vars.win_ptr, 200, 300, data.config.f_int, "hello");
+	mlx_key_hook(vars.win_ptr, deal_key, &vars);
+	mlx_loop(vars.mlx_ptr);
 
 	// t_data2  img;
 	// img.img = mlx_new_image(mlx_ptr, 1920, 1080);
@@ -107,5 +99,6 @@ int		main(int argc, char **argv)
     // my_mlx_pixel_put(&img, 50, 50, 0x00FF0000);
     // mlx_put_image_to_window(mlx_ptr, win_ptr, img.img, 0, 0);
     // mlx_loop(mlx_ptr);
+
 	return (0);
 }

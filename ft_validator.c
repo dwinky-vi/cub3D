@@ -19,7 +19,6 @@ int     ft_get_color(int num1, int num2, int num3)
     color = color | num2;
     color = color << 8;
     color = color | num3;
-    ft_printf("|%d|\n", color);
     return (color);
 }
 

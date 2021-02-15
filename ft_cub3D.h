@@ -15,15 +15,22 @@
 
 # include "./libft/libft.h"
 # include "./ft_printf/ft_printf.h"
+# include "./minilibx/mlx.h"
 # include <fcntl.h>
 
-typedef	struct s_window
+typedef struct  s_vars
 {
-	int	size_x;
-	int	size_y;
+        void    *mlx_ptr;
+        void    *win_ptr;
+}               t_vars;
+
+typedef	struct	s_window
+{
+				int	size_x;
+				int	size_y;
 }				t_window;
 
-typedef struct s_config
+typedef struct	s_config
 {
 	t_window	r;
 	char	*no;
