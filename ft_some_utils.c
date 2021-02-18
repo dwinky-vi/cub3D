@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 14:14:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/31 20:58:22 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/02/18 12:49:40 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,22 @@ void	ft_print_map(char **map)
 {
 	int		k;
 
-	k = -1;
 	if (map == NULL)
 	{
 		ft_printf("Error in map\n");
 		return ;
 	}
-	while (map[++k])
+	k = 0;
+	while (map[k] != NULL)
 	{
-		ft_putstr(map[k]);
-		if (map[k + 1] != NULL)
-			ft_putchar('\n');
+		int j = 0;
+		while (map[k][j])
+		{
+			ft_putchar(map[k][j]);
+			j++;
+		}
+		ft_putchar('\n');
+		k++;
 	}
 }
 

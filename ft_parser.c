@@ -112,7 +112,6 @@ char	**ft_convert_lst_to_matrix(t_list **lst)
 {
 	int		k;
 	char	**map;
-	char	*line;
 	t_list	*head;
 
 	if (!(map = (char **)ft_calloc(ft_lstsize(*lst) + 1, sizeof(char *))))
