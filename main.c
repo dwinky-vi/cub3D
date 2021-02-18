@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/02/18 20:12:18 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/02/18 21:26:28 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,29 @@ int		deal_key(int key, t_vars *vars)
 		mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 		exit(0);
 	}
-	// if (key == 126)
-	// {
-		
-	// }
+	if (key == 13)
+	{
+		vars->person.x -= 1;
+		ft_display_map(*vars);
+	}
+	if (key == 1)
+	{
+		vars->person.x += 1;
+		ft_display_map(*vars);
+	}
+	if (key == 0)
+	{
+		vars->person.y -= 1;
+		ft_display_map(*vars);
+	}
+	if (key == 2)
+	{
+		vars->person.y += 1;
+		ft_display_map(*vars);
+	}
 	return (0);
 }
 
-typedef struct  s_data2
-{
-    void        *img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-}               t_data2;
 
 void            my_mlx_pixel_put(t_data2 *data, int x, int y, int color)
 {
@@ -52,30 +60,8 @@ void            my_mlx_pixel_put(t_data2 *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-void	ft_display_person(int x, int y, int color, t_data2 img)
-{
-	int 	scale;
-	t_point start;
-	t_point	end;
 
-	scale = 15;
-	start.x = x;
-	start.y = y;
-	end.x = (x + 1) * scale;
-	end.y = (y + 1) * scale;
-	// while (start.x < end.x)
-	// {
-	// 	start.y = y;
-	// 	while (start.y < end.y)
-	// 	{
-	// 		my_mlx_pixel_put(&img, start.y, start.x, color);
-	// 		start.y++;
-	// 	}
-	// 	start.x++;
-	// }
-}
-
-void	ft_display_map(char **map, t_config config, t_vars vars, t_data2 img)
+void	ft_display_map(t_vars vars)
 {
 	int 	k;
 	int		j;
@@ -83,39 +69,50 @@ void	ft_display_map(char **map, t_config config, t_vars vars, t_data2 img)
 	t_point start;
 	t_point	end;
 
+    vars.img.img = mlx_new_image(vars.mlx_ptr, 1920, 1080);
+    vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel, &vars.img.line_length, &vars.img.endian);
 	k = 0;
 	scale = 18;
-	while (map[k])
+	while (vars.data.map[k])
 	{
 		j = 0;
-		while (map[k][j])
+		while (vars.data.map[k][j])
 		{
 			start.x = k * scale;
 			start.y = j * scale;
 			end.x = (k + 1) * scale;
 			end.y = (j + 1) * scale;
-			if (map[k][j] == '1')
+			if (vars.data.map[k][j] == '1')
 			{
 				while (start.x < end.x)
 				{
 					start.y = j * scale;
 					while (start.y < end.y)
 					{
-						my_mlx_pixel_put(&img, start.y, start.x, config.c_int);
+						my_mlx_pixel_put(&vars.img, start.y, start.x, vars.data.config.c_int);
 						start.y++;
 					}
 					start.x++;
 				}
 			}
-			if (map[k][j] == 'N' || map[k][j] == 'S' || map[k][j] == 'E' || map[k][j] == 'W')
-			{
-				ft_display_person(start.x, start.y, config.f_int, img);
-			}			
 			j++;
 		}
 		k++;
 	}
-	mlx_put_image_to_window(vars.mlx_ptr, vars.win_ptr, img.img, 0, 0);
+	start.x = vars.person.x * scale;
+	end.x = (vars.person.x + 1) * scale;
+	end.y = (vars.person.y + 1) * scale;
+	while (start.x < end.x)
+	{
+		start.y = vars.person.y * scale;
+		while (start.y < end.y)
+		{
+			my_mlx_pixel_put(&vars.img, start.y, start.x, vars.data.config.f_int);
+			start.y++;
+		}
+		start.x++;
+	}
+	mlx_put_image_to_window(vars.mlx_ptr, vars.win_ptr, vars.img.img, 0, 0);
 }
 
 int		main(int argc, char **argv)
@@ -124,19 +121,19 @@ int		main(int argc, char **argv)
 	void		*mlx_ptr;
 	void		*win_ptr;
 	int			fd;
-	t_data		data;
-	t_vars vars;
+	// t_data		data;
+	t_vars 		vars;
 	char		*error;
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (ft_puterror("Error in fd"));
-	data = ft_get_data(fd);
-	if (data.error != NULL)
-		return (ft_puterror(data.error));
-	ft_print_config(data.config);
-	ft_print_map(data.map);
-	if ((error = ft_validator(&data)))
+	vars.data = ft_get_data(fd);
+	if (vars.data.error != NULL)
+		return (ft_puterror(vars.data.error));
+	ft_print_config(vars.data.config);
+	ft_print_map(vars.data.map);
+	if ((error = ft_validator(&vars.data)))
 		return (ft_puterror(error));
 	// ft_free_map(data.map);
 	// ft_free_config(&(data.config));
@@ -146,11 +143,25 @@ int		main(int argc, char **argv)
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, 1920, 1080, "planet");
-	t_data2  img;
 
-    img.img = mlx_new_image(vars.mlx_ptr, 1920, 1080);
-    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	ft_display_map(data.map, data.config, vars, img);
+	
+	int k = 0;
+	while (vars.data.map[k])
+	{
+		int j = 0;
+		while (vars.data.map[k][j])
+		{
+			if (vars.data.map[k][j] == 'N' || vars.data.map[k][j] == 'S' || vars.data.map[k][j] == 'E' || vars.data.map[k][j] == 'W')
+			{
+				vars.person.x = k;
+				vars.person.y = j;
+			}
+			j++;
+		}
+		k++;
+	}
+	
+	ft_display_map(vars);
 	
 	mlx_key_hook(vars.win_ptr, deal_key, &vars);
     mlx_loop(vars.mlx_ptr);

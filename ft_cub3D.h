@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/02/18 17:03:27 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/02/18 20:46:14 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "./ft_printf/ft_printf.h"
 # include "./minilibx/mlx.h"
 # include <fcntl.h>
+
+void	ft_display_map(t_vars vars);
 
 int		ft_puterror(char *str);
 
