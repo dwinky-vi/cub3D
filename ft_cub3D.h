@@ -6,50 +6,18 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/31 21:01:01 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/02/18 17:03:27 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_CUB3D_H
 # define FT_CUB3D_H 
 
+# include "t_structures.h"
 # include "./libft/libft.h"
 # include "./ft_printf/ft_printf.h"
 # include "./minilibx/mlx.h"
 # include <fcntl.h>
-
-typedef struct  s_vars
-{
-        void    *mlx_ptr;
-        void    *win_ptr;
-}               t_vars;
-
-typedef	struct	s_window
-{
-				int	size_x;
-				int	size_y;
-}				t_window;
-
-typedef struct	s_config
-{
-	t_window	r;
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	char	*s;
-	char	*f_str;
-	int		f_int;
-	char	*c_str;
-	int		c_int;
-}				t_config;
-
-typedef struct s_data
-{
-	t_config	config;
-	char		**map;
-	char		*error;
-}				t_data;
 
 int		ft_puterror(char *str);
 

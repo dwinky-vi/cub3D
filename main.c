@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/02/18 13:46:46 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/02/18 17:08:40 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,49 @@
 int		deal_key(int key, t_vars *vars)
 {
 	if (key == 53)
-		// mlx_clear_window(vars->mlx_ptr, vars->win_ptr);
+	{
 		mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
-	ft_putnbr(key);
-	ft_putchar(' ');
-	// mlx_pixel_put(mlx_ptr, win_ptr, );
-	return (-1);
+		exit(0);
+	}
+	return (0);
 }
 
-typedef struct  s_data2
+void	ft_display_map(char **map, t_config config, t_vars vars)
 {
-    void        *img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-}               t_data2;
+	int 	k;
+	int		j;
+	int 	scale;
+	t_point start;
+	t_point	end;
 
-void            my_mlx_pixel_put(t_data2 *data, int x, int y, int color)
-{
-    char    *dst;
-
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
+	k = 0;
+	scale = 18;
+	while (map[k])
+	{
+		j = 0;
+		while (map[k][j])
+		{
+			if (map[k][j] == '1')
+			{
+				start.x = k * scale;
+				start.y = j * scale;
+				end.x = (k + 1) * scale;
+				end.y = (j + 1) * scale;
+				while (start.x < end.x)
+				{
+					start.y = j * scale;
+					while (start.y < end.y)
+					{
+						mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, start.y, start.x, config.c_int);
+						start.y++;
+					}
+					start.x++;
+				}
+			}
+			j++;
+		}
+		k++;
+	}
 }
 
 int		main(int argc, char **argv)
@@ -77,32 +97,8 @@ int		main(int argc, char **argv)
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, 1920, 1080, "planet");
-	// int k = 0;
-	// while ((data.map)[k])
-	// {
-	// 	int j = 0;
-	// 	while ((data.map)[k][j])
-	// 	{
-	// 		if (data.map[k][j] == '1')
-	// 		{
-	// 			mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, j, data.config.c_int);
-	// 			// mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, j + 1, data.config.c_int);
-	// 			// mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, j + 2, data.config.c_int);
-	// 			// mlx_pixel_put(vars.mlx_ptr, vars.win_ptr, k, j + 3, data.config.c_int);
-	// 		}
-	// 		j++;
-	// 	}
-	// 	k++;
-	// }
-	// mlx_key_hook(vars.win_ptr, deal_key, &vars);
-	// mlx_loop(vars.mlx_ptr);
-
-	t_data2  img;
-	img.img = mlx_new_image(vars.mlx_ptr, 1920, 1080);
-    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    my_mlx_pixel_put(&img, 500, 500, 0x00FF0000);
-    mlx_put_image_to_window(vars.mlx_ptr, vars.win_ptr, img.img, 0, 1231);
-    mlx_loop(vars.mlx_ptr);
-
+	ft_display_map(data.map, data.config, vars);
+	mlx_key_hook(vars.win_ptr, deal_key, &vars);
+	mlx_loop(vars.mlx_ptr);
 	return (0);
 }
