@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
-// #include "minilibx_opengl_20191021/mlx.h"
 
 /*
 ** a == 0
@@ -21,36 +20,11 @@
 ** esc = 53
 */
 
-int		deal_key(int key, t_vars *vars)
+int		closee(int keycode, t_vars *vars)
 {
-	if (key == 53)
-	{
-		mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
-		exit(0);
-	}
-	if (key == 13)
-	{
-		vars->person.x -= 1;
-		ft_display_map(*vars);
-	}
-	if (key == 1)
-	{
-		vars->person.x += 1;
-		ft_display_map(*vars);
-	}
-	if (key == 0)
-	{
-		vars->person.y -= 1;
-		ft_display_map(*vars);
-	}
-	if (key == 2)
-	{
-		vars->person.y += 1;
-		ft_display_map(*vars);
-	}
+	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 	return (0);
 }
-
 
 void            my_mlx_pixel_put(t_data2 *data, int x, int y, int color)
 {
@@ -60,68 +34,10 @@ void            my_mlx_pixel_put(t_data2 *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-
-void	ft_display_map(t_vars vars)
-{
-	int 	k;
-	int		j;
-	int 	scale;
-	t_point start;
-	t_point	end;
-
-    vars.img.img = mlx_new_image(vars.mlx_ptr, 1920, 1080);
-    vars.img.addr = mlx_get_data_addr(vars.img.img, &vars.img.bits_per_pixel, &vars.img.line_length, &vars.img.endian);
-	k = 0;
-	scale = 18;
-	while (vars.data.map[k])
-	{
-		j = 0;
-		while (vars.data.map[k][j])
-		{
-			start.x = k * scale;
-			start.y = j * scale;
-			end.x = (k + 1) * scale;
-			end.y = (j + 1) * scale;
-			if (vars.data.map[k][j] == '1')
-			{
-				while (start.x < end.x)
-				{
-					start.y = j * scale;
-					while (start.y < end.y)
-					{
-						my_mlx_pixel_put(&vars.img, start.y, start.x, vars.data.config.c_int);
-						start.y++;
-					}
-					start.x++;
-				}
-			}
-			j++;
-		}
-		k++;
-	}
-	start.x = vars.person.x * scale;
-	end.x = (vars.person.x + 1) * scale;
-	end.y = (vars.person.y + 1) * scale;
-	while (start.x < end.x)
-	{
-		start.y = vars.person.y * scale;
-		while (start.y < end.y)
-		{
-			my_mlx_pixel_put(&vars.img, start.y, start.x, vars.data.config.f_int);
-			start.y++;
-		}
-		start.x++;
-	}
-	mlx_put_image_to_window(vars.mlx_ptr, vars.win_ptr, vars.img.img, 0, 0);
-}
-
 int		main(int argc, char **argv)
 {
 	(void)argc;
-	void		*mlx_ptr;
-	void		*win_ptr;
 	int			fd;
-	// t_data		data;
 	t_vars 		vars;
 	char		*error;
 
@@ -142,7 +58,7 @@ int		main(int argc, char **argv)
 	vars.mlx_ptr = mlx_init();
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
-	vars.win_ptr = mlx_new_window(vars.mlx_ptr, 1920, 1080, "planet");
+	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.size_x, vars.data.config.r.size_y, "planet");
 
 	
 	int k = 0;
@@ -161,9 +77,11 @@ int		main(int argc, char **argv)
 		k++;
 	}
 	
-	ft_display_map(vars);
+	ft_display_map(&vars);
 	
-	mlx_key_hook(vars.win_ptr, deal_key, &vars);
+	// mlx_key_hook(vars.win_ptr, deal_key, &vars);
+	mlx_hook(vars.win_ptr, 2, 1L<<0, deal_key, &vars);
+	mlx_hook(vars.win_ptr, 4, 1L<<2, closee, &vars);
     mlx_loop(vars.mlx_ptr);
 	return (0);
 }

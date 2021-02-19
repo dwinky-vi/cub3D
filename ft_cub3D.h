@@ -19,9 +19,13 @@
 # include "./minilibx/mlx.h"
 # include <fcntl.h>
 
-void	ft_display_map(t_vars vars);
+void	ft_display_map(t_vars *vars);
 
-int		ft_puterror(char *str);
+int		deal_key(int key, t_vars *vars);
+
+void    my_mlx_pixel_put(t_data2 *data, int x, int y, int color);
+
+int	    ft_puterror(char *str);
 
 void	ft_lstprint_ass_str(t_list **list);
 
