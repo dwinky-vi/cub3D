@@ -26,12 +26,12 @@ CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
 
 # создаём скрытую директорию, в которой будут .o файлы
-OBJS_DIR =		.obj/
+OBJS_DIR	=		.obj/
 
 # прописываем (добавляем) путь для каждого .o файла
-OBJS	 = 		$(addprefix $(OBJS_DIR), $(patsubst %.c, %.o, $(SRCS)))
+OBJS	 	= 		$(addprefix $(OBJS_DIR), $(patsubst %.c, %.o, $(SRCS)))
 
-NORM 	= ~/.scripts/colorised_norm.sh
+NORM		= ~/.scripts/colorised_norm.sh
 
 all:		make_lib $(NAME)
 
@@ -40,7 +40,7 @@ make_lib:
 
 $(NAME): 	$(OBJS)
 			@ar rc $(NAME) $?
-			@printf "$(GREEN)$(BOLD)ft_printf –– [Success compiling] $(NO_COLOR)\n\n"
+			@printf "$(LIGHT_PURPLE)$(BOLD)ft_printf –– [Success compiling] $(NO_COLOR)\n\n"
 
 $(OBJS_DIR)%.o:		%.c $(HEADER) $(LIBFT_PATH)/.obj/*
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
@@ -54,12 +54,17 @@ clean:
 
 fclean: 	clean
 			@rm -rf $(NAME)
-			@printf "$(UNDER_LINE)$(NAME)$(NO_COLOR) $(RED)deleted$(NO_COLOR)\n"
+			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
 
 re: 		fclean all
 
 norm:		
 			@$(NORM) $(SRCS) $(HEADER)
+
+run:		all
+			@echo "$(YELLOW)gcc -Wall -Werror -Wextra -L. -lftprintf main.c && ./a.out$(NO_COLOR)"
+			@gcc $(CFLAGS) -L. -lftprintf main.c && ./a.out
+			@rm a.out
 
 ################
 ##   COLORS   ##
@@ -67,25 +72,13 @@ norm:
 
 UNDER_LINE	= \033[4m
 BOLD	 	= \033[1m
-CLEAR		= \033[0;0m
-
 NO_COLOR 	= \033[0m
-BLACK	 	= \033[0;30m
 RED 	 	= \033[0;31m
 GREEN 	 	= \033[0;32m
-BLUE 		= \033[0;34m
-PURPLE 	 	= \033[0;35m
-
-DARK_GRAY	= \033[1;30m
 LIGHT_RED	= \033[1;31m
-LIGHT_GREEN	= \033[1;32m
+LIGHT_PURPLE= \033[1;35m
 YELLOW 		= \033[1;33m
 
-run:		all
-			@echo "$(YELLOW)gcc -Wall -Werror -Wextra -L. -lftprintf main.c && ./a.out$(NO_COLOR)"
-			@gcc $(CFLAGS) -L. -lftprintf main.c && ./a.out
-			@rm a.out
-
-.PHONY: run norm norm_lib
-.PHONY: $(NAME)	all bonus clean fclean re
-.PHONY: SRCS BONUS_SRCS LIBS LIBFT_PATH CC CFLAGS OBJS BONUS_OBJS OBJS_DIR CRT HEADER NORM
+.PHONY: all bonus clean fclean re norm run
+.PHONY: SRCS NAME BONUS_SRCS LIBS LIBFT_PATH CC CFLAGS OBJS BONUS_OBJS OBJS_DIR CRT HEADER NORM
+.PHONY: UNDER_LINE BOLD NO_COLOR RED GREEN LIGHT_RED LIGHT_PURPLE YELLOW

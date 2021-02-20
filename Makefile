@@ -40,7 +40,7 @@ make_mlx:
 
 $(NAME): 	$(OBJS)
 			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf $(MINILIBX_PATH)/libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
-			@printf "$(GREEN)$(BOLD)cub3D $(NO_COLOR)–– $(GREEN)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
+			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
@@ -60,7 +60,7 @@ fclean: 	clean
 			@cd $(LIBFT_PATH) && make fclean
 			@cd $(FT_PRINTF_PATH) && make fclean
 			@cd $(MINILIBX_PATH) && make fclean
-			@printf "$(UNDER_LINE)$(BOLD)$(LIGHT_CYAN)$(NAME)$(NO_COLOR) $(RED)deleted$(NO_COLOR)\n"
+			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
 
 re: 		fclean all
 
