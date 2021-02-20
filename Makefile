@@ -39,7 +39,8 @@ make_mlx:
 			@${MAKE} -C minilibx
 
 $(NAME): 	$(OBJS)
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf $(MINILIBX_PATH)/libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
+			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) libft/libft.a
@@ -57,6 +58,7 @@ clean:
 
 fclean: 	clean
 			@rm -rf $(NAME)
+			@rm -rf libmlx.dylib
 			@cd $(LIBFT_PATH) && make fclean
 			@cd $(FT_PRINTF_PATH) && make fclean
 			@cd $(MINILIBX_PATH) && make fclean
