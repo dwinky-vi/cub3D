@@ -60,6 +60,38 @@ int     ft_check_path(char *path)
     return (0);
 }
 
+int     ft_checking_map(char **map)
+{
+    // int k;
+    // int j;
+
+    // j = 0;
+    // while (map[0][j])
+    // {
+    //     if (map[0][j] == '0')
+    //         return (1);
+    // }
+    // k = 0;
+    // while (map[k])
+    // {
+    //     j = 0;
+    //     if (map[k][0] == '0')
+    //         return (1);
+    //     j = ft_strlen(map[k]) - 1;
+    //     if (j > map[k][--j] == '0')
+    //         return (1);
+    //     k++;
+    // }
+    // j = 0;
+    // k--;
+    // while (map[k][j])
+    // {
+    //     if (map[0][j] == '0')
+    //         return (1);
+    // }
+    return (0);
+}
+
 char    *ft_validator(t_data *data)
 {
     char *error;
@@ -80,5 +112,7 @@ char    *ft_validator(t_data *data)
     //     return ("Error in path (EA)");
     // if (ft_check_path(data->config.s))
     //     return ("Error in path (S)");
+    // if (ft_checking_map(data->map))
+    //     return ("Error \nInvalid map");
     return (NULL);
 }

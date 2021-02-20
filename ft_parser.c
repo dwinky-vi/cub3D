@@ -50,9 +50,11 @@ t_data	ft_get_data(int fd)
 	{
 		tmp = line;
 		line = ft_strtrim(line, " ");
-        if (ft_strchr("RNOSOWEEASFC", line[0]))
+		// написать отдельную функцию для проверки этого
+		if (ft_strchr("RSFC", line[0]) && ft_strchr(" ", line[1]) || ft_strchr("NSWE", line[0]) && ft_strchr("OEA", line[1]))
+        // if (ft_strchr("RNOSOWEEASFC", line[0]))
         {
-            ft_set_config(&(data.config), line);
+            ft_set_config(&data.config, line);
             free(tmp);
             free(line);
             continue;

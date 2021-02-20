@@ -44,4 +44,5 @@ t_list	*ft_make_list_map(int fd, char *line);
 char	**ft_convert_lst_to_matrix(t_list **lst);
 
 char    *ft_validator(t_data *data);
+
 #endif

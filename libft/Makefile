@@ -54,16 +54,12 @@ clean:
 
 fclean: 	clean
 			@rm -rf $(NAME)
-			@printf "$(UNDER_LINE)$(NAME) $(RED)deleted$(NO_COLOR)\n"
-
-norm:		
-			@$(NORM) $(SRCS) $(HEADER)
+			@printf "$(UNDER_LINE)$(NAME)$(NO_COLOR) $(RED)deleted$(NO_COLOR)\n"
 
 re: 		fclean all
 
-.PHONY:	all clean fclean re norm
-.PHONY: SRCS SRCS CC CFLAGS OBJS OBJS_DIR HEADER NORM
-
+norm:		
+			@$(NORM) $(SRCS) $(HEADER)
 
 ################
 ##   COLORS   ##
@@ -90,3 +86,7 @@ LIGHT_BLUE	= \033[1;34m
 LIGHT_PURPLE= \033[1;35m
 LIGHT_CYAN	= \033[1;36m
 WHITE 		= \033[1;37m
+
+.PHONY:	all clean fclean re norm
+.PHONY: SRCS NAME HEADER CC CFLAGS OBJS_DIR OBJS NORM
+.PHONY: UNDER_LINE BOLD NO_COLOR BLACK RED GREEN BROWN BLUE PURPLE CYAN LIGHT_GRAY DARK_GRAY LIGHT_RED LIGHT_GREEN YELLOW LIGTH_BLUE LIGHT_PURPLE LIGHT_CYAN WHITE
