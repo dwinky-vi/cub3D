@@ -13,19 +13,20 @@
 #ifndef FT_CUB3D_H
 # define FT_CUB3D_H 
 
-# include "t_structures.h"
+# include "head_structs.h"
 # include "./libft/libft.h"
 # include "./ft_printf/ft_printf.h"
 # include "./minilibx/mlx.h"
 # include <fcntl.h>
+# include <math.h>
 
 void	ft_display_map(t_vars *vars);
 
 int		deal_key(int key, t_vars *vars);
 
-void    my_mlx_pixel_put(t_data2 *data, int x, int y, int color);
+void    my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
-int	    ft_puterror(char *str);
+// int	    ft_puterror(char *str);
 
 void	ft_lstprint_ass_str(t_list **list);
 
@@ -37,11 +38,7 @@ void	ft_free_map(char **map);
 
 void	ft_free_config(t_config *conf);
 
-t_data	ft_get_data(int fd);
-
-t_list	*ft_make_list_map(int fd, char *line);
-
-char	**ft_convert_lst_to_matrix(t_list **lst);
+t_vars	ft_parse_data(int fd);
 
 char    *ft_validator(t_data *data);
 

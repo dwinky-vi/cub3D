@@ -12,43 +12,13 @@
 
 #include "ft_cub3d.h"
 
-int		closee(int keycode, t_vars *vars)
+static int		ft_puterror(char *str)
 {
-	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
-	ft_putnbr(keycode);
-	exit(0);
+	ft_putendl_fd(str, 1);
+	return (-1);
 }
 
-void			ft_find_person(t_vars *vars)
-{
-	int k;
-	int j;
-	int	f;
-
-	f = FALSE;
-	k = 0;
-	while (vars->data.map[k])
-	{
-		j = 0;
-		while (vars->data.map[k][j])
-		{
-			if (vars->data.map[k][j] == 'N' || vars->data.map[k][j] == 'S' || vars->data.map[k][j] == 'E' || vars->data.map[k][j] == 'W')
-			{
-				vars->person.x = k;
-				vars->person.y = j;
-				if (f == TRUE)
-				{
-					vars->data.error = "Error\nFound mane players";
-					return ;
-				}
-				f = TRUE;
-			}
-			j++;
-		}
-		k++;
-	}
-}
-void            my_mlx_pixel_put(t_data2 *data, int x, int y, int color)
+void            my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
     char    *dst;
 
@@ -66,11 +36,11 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (ft_puterror("Error in fd"));
-	vars.data = ft_get_data(fd);
+	vars = ft_parse_data(fd);
 	if (vars.data.error != NULL)
 		return (ft_puterror(vars.data.error));
-	ft_print_config(vars.data.config);
-	ft_print_map(vars.data.map);
+	// ft_print_config(vars.data.config);
+	// ft_print_map(vars.data.map);
 	if ((error = ft_validator(&vars.data)))
 		return (ft_puterror(error));
 	close(fd);
@@ -78,9 +48,6 @@ int		main(int argc, char **argv)
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.size_x, vars.data.config.r.size_y, "planet");
-	ft_find_person(&vars);
-	if (vars.data.error)
-		return (ft_puterror(vars.data.error));
 	ft_display_map(&vars);
 	
 	// mlx_key_hook(vars.win_ptr, deal_key, &vars);

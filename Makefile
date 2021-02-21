@@ -1,8 +1,9 @@
 
 
 SRCS	= \
-		main.c ft_some_utils.c ft_free.c ft_parser.c\
-		ft_validator.c ft_2d.c
+		main.c ft_free.c ft_parser1.c ft_parser2.c\
+		ft_validator.c ft_2d.c \
+#		ft_some_utils.c 
 
 NAME		= cub3D
 
@@ -26,7 +27,7 @@ OBJS	= 			$(addprefix $(OBJS_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 
 NORM 	=			~/.scripts/colorised_norm.sh
 
-all:		make_lib make_printf make_mlx $(NAME)
+all:		make_lib make_printf $(NAME)
 
 make_lib:
 			@${MAKE} -C libft
@@ -38,14 +39,14 @@ make_mlx:
 			@${MAKE} -C minilibx
 
 $(NAME): 	$(OBJS)
-			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
+#			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
 			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
-$(OBJS_DIR)/%.o:	%.c $(HEADER) libft/libft.a
+$(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
-					@$(CC) $(CFLAGS) -I $(HEADER) -c $< -o $@
+					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -c $< -o $@
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(GREEN)[OK]$(NO_COLOR)\n"
 
 clean:
@@ -53,14 +54,14 @@ clean:
 			@/bin/rm -rf $(OBJS_DIR)
 			@cd $(LIBFT_PATH) && make clean
 			@cd $(FT_PRINTF_PATH) && make clean
-			@cd $(MINILIBX_PATH) && make clean
+#			@cd $(MINILIBX_PATH) && make clean
 
 fclean: 	clean
 			@rm -rf $(NAME)
-			@rm -rf libmlx.dylib
-			@cd $(LIBFT_PATH) && make fclean
-			@cd $(FT_PRINTF_PATH) && make fclean
-			@cd $(MINILIBX_PATH) && make fclean
+#			@rm -rf libmlx.dylib
+#			@cd $(LIBFT_PATH) && make fclean
+#			@cd $(FT_PRINTF_PATH) && make fclean
+#			@cd $(MINILIBX_PATH) && make fclean
 			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
 
 re: 		fclean all

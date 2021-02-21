@@ -49,22 +49,22 @@ $(OBJS_DIR)%.o:		%.c $(HEADER) $(LIBFT_PATH)/.obj/*
 					@printf "$(GREEN)$(BOLD)Compilation $(YELLOW)$(UNDER_LINE)$<$(NO_COLOR)  $(BOLD)–– $(GREEN)[OK]$(NO_COLOR)\n"
 
 clean:
-			@rm -rf $(OBJS) $(BONUS_OBJS)
-			@/bin/rm -rf $(OBJS_DIR)
+		@rm -rf $(OBJS) $(BONUS_OBJS)
+		@/bin/rm -rf $(OBJS_DIR)
 
-fclean: 	clean
-			@rm -rf $(NAME)
-			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
+fclean: clean
+		@rm -rf $(NAME)
+		@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
 
-re: 		fclean all
+re: 	fclean all
 
 norm:		
-			@$(NORM) $(SRCS) $(HEADER)
+		@$(NORM) $(SRCS) $(HEADER)
 
-run:		all
-			@echo "$(YELLOW)gcc -Wall -Werror -Wextra -L. -lftprintf main.c && ./a.out$(NO_COLOR)"
-			@gcc $(CFLAGS) -L. -lftprintf main.c && ./a.out
-			@rm a.out
+run:	all
+		@echo "$(YELLOW)gcc -Wall -Werror -Wextra -L. -lftprintf main.c && ./a.out$(NO_COLOR)"
+		@${CC} $(CFLAGS) -L. -lftprintf main.c && ./a.out
+		@rm a.out
 
 ################
 ##   COLORS   ##

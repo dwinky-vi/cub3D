@@ -17,6 +17,7 @@ int		ft_puterror(char *str)
 	ft_putendl_fd(str, 1);
 	return (-1);
 }
+
 void	ft_lstprint_ass_str(t_list **list)
 {
 	if (list == NULL)
