@@ -1,5 +1,7 @@
 #include "ft_cub3d.h"
 #define SCALE 18
+#include <stdio.h>
+
 /*
 ** a == 0
 ** s == 1
@@ -17,30 +19,73 @@ int		deal_key(int key, t_vars *vars)
 	{
 		// if (vars->data.map[(int)vars->person.x - 1][(int)vars->person.y] != '1')
 		// 	vars->person.x -= 1;
-		vars->person.y += sin(vars->person.dir) * 1;
-		vars->person.x += cos(vars->person.dir) * 1;
+		vars->person.y += sin(vars->person.dir) * 0.1;
+		vars->person.x += cos(vars->person.dir) * 0.1;
 	}
 	if (key == 1)
 	{
 		// if (vars->data.map[(int)vars->person.x + 1][(int)vars->person.y] != '1')
 		// 	vars->person.x += 1;
-		vars->person.y -= sin(vars->person.dir) * 1;
-		vars->person.x -= cos(vars->person.dir) * 1;
+		vars->person.y -= sin(vars->person.dir) * 0.1;
+		vars->person.x -= cos(vars->person.dir) * 0.1;
 	}
 	if (key == 0)
 	{
 		// if (vars->data.map[(int)vars->person.x][(int)vars->person.y - 1] != '1')
 		// 	vars->person.y -= 1;
-		vars->person.dir -= 0.1;
+		vars->person.dir += 0.1;
 	}
 	if (key == 2)
 	{
 		// if (vars->data.map[(int)vars->person.x][(int)vars->person.y + 1] != '1')
 		// 	vars->person.y += 1;
-		vars->person.dir += 0.1;
+		vars->person.dir -= 0.1;
 	}
 	ft_display_map(vars);
 	return (0);
+}
+
+void	ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
+{
+	int tmp;
+
+	tmp = start.y;
+	while (start.x < end.x)
+	{
+		start.y = tmp;
+		while (start.y < end.y)
+		{
+			my_mlx_pixel_put(&vars->img, start.y, start.x, color);
+			start.y++;
+		}
+		start.x++;
+	}
+}
+
+void	ft_cast_rays(t_vars *vars)
+{
+	t_person	ray		= vars->person; // задаем координаты и направление луча равные координатам игрока
+	float		start	= ray.dir - M_PI_4; // начало веера лучей
+	float		end		= ray.dir + M_PI_4; // край веера лучей
+	
+	printf("%f,  %f    %f\n", start, end, ray.dir);
+	printf("%f,  (%f)    \n", ray.start, ray.end);
+	printf("%f,  (%f)    \n", vars->person.start, vars->person.end);
+	ray.start = start;
+	ray.end = end;
+	while (ray.start <= ray.end)
+	{
+		// ft_putchar(66);
+		ray.x = vars->person.x; // каждый раз возвращаемся в точку начала
+		ray.y = vars->person.y;
+		while (vars->data.map[(int)(ray.x)][(int)(ray.y)] != '1')
+		{
+			ray.x += cos(ray.start);
+			ray.y += sin(ray.start);
+			my_mlx_pixel_put(&vars->img, ray.y * SCALE, ray.x * SCALE, 0x990099);
+		}
+		ray.start += M_PI_2 / 640;
+	}
 }
 
 void	ft_draw_player(t_vars *vars, t_person *pl)
@@ -51,33 +96,37 @@ void	ft_draw_player(t_vars *vars, t_person *pl)
 
 	// person.start = person.dir - M_PI_4;
 	// person.end =  person.dir + M_PI_4;
-//	while (person.start < person.end)
-//	{
-		//person.x = pl->x;
-		//person.y = pl->y;
-		while (vars->data.map[(int)(person.y / SCALE)][(int)(person.x / SCALE)] != '1')
-		{
-			person.x += cos(person.dir);
-			person.y += sin(person.dir);
-			// my_mlx_pixel_put(&vars->img, person.x, person.y, 0x990099);
-		}
-		//plr.start += M_PI_2 7.640;
-//	}
+	// while (person.start < person.end)
+	// {
+	// 	person.x = pl->x;
+	// 	person.y = pl->y;
+	// 	// ft_putstr("person.x = ");
+	// 	// ft_putnbr((int)person.x);
+	// 	// ft_putchar('\n');
+	// 	// ft_putstr("person.y = ");
+	// 	// ft_putnbr((int)person.y);
+	// 	// ft_putchar('\n');
+	// 	// start.x = person.x;
+	// 	// start.y = person.y;
+	// 	while (vars->data.map[(int)(person.x)][(int)(person.y)] != '1')
+	// 	{
+	// 		person.x += cos(person.start);
+	// 		person.y += sin(person.start);
+	// 		// end.x = person.x;
+	// 		// end.y = person.y;
+	// 		// ft_draw_pixel(vars, start, end, 0x990099);
+	// 		my_mlx_pixel_put(&vars->img, person.y * SCALE, person.x * SCALE, 0x990099);
+	// 	}
+	// 	person.start += M_PI_2 / 640; // кол-во лучей
+	// }
+	// ft_cast_ray(vars);
+	ft_cast_rays(vars);
 	start.x = vars->person.x * SCALE;
+	start.y = vars->person.y * SCALE;
 	end.x = vars->person.x * SCALE + 10;
 	end.y = vars->person.y * SCALE + 10;
-	while (start.x < end.x)
-	{
-		start.y = vars->person.y * SCALE;
-		while (start.y < end.y)
-		{
-			my_mlx_pixel_put(&vars->img, start.y, start.x, vars->data.config.f_int);
-			start.y++;
-		}
-		start.x++;
-	}
+	ft_draw_pixel(vars, start, end, vars->data.config.f_int);
 }
-
 
 void	ft_display_map(t_vars *vars)
 {
@@ -95,50 +144,15 @@ void	ft_display_map(t_vars *vars)
 		while (vars->data.map[k][j])
 		{
 			start.x = k * SCALE;
+			start.y = j * SCALE;
 			end.x = (k + 1) * SCALE;
 			end.y = (j + 1) * SCALE;
 			if (vars->data.map[k][j] == '1')
-			{
-				while (start.x < end.x)
-				{
-					start.y = j * SCALE;
-					while (start.y < end.y)
-					{
-						my_mlx_pixel_put(&vars->img, start.y, start.x, vars->data.config.c_int);
-						start.y++;
-					}
-					start.x++;
-				}
-			}
+				ft_draw_pixel(vars, start, end, vars->data.config.c_int);
 			j++;
 		}
 		k++;
 	}
-	// start.x = vars->person.x * SCALE;
-	// end.x = vars->person.x * SCALE + 10;
-	// end.y = vars->person.y * SCALE + 10;
-	// while (start.x < end.x)
-	// {
-	// 	start.y = vars->person.y * SCALE;
-	// 	while (start.y < end.y)
-	// 	{
-	// 		my_mlx_pixel_put(&vars->img, start.y, start.x, vars->data.config.f_int);
-	// 		start.y++;
-	// 	}
-	// 	start.x++;
-	// }
-	ft_draw_player(vars, NULL);
+	ft_draw_player(vars, &vars->person);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 }
-
-// void	ft_cast_ray(t_vars *vars)
-// {
-// 	t_person	ray = vars->person; // задаем координаты луча равные координатам игрока
-// 	while (vars->data.map[(int)(ray.y)][(int)(ray.x)] != '1')
-// 	{
-// 		ray.x += cos(ray.dir);
-// 		ray.y += sin(ray.dir);
-// 		my_mlx_pixel_put(&vars->img, person.x, person.y, vars->data.config.f_int);
-// 		// mlx_pixel_put(vars->mlx_ptr, vars->win_ptr, ray.x, ray.y, vars->data.config.f_int);
-// 	}
-// }
