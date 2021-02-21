@@ -1,5 +1,5 @@
-#ifndef T_STRUCTURES_H
-# define T_STRUCTURES_H
+#ifndef HEAD_STRUCTS_H
+# define HEAD_STRUCTS_H
 
 typedef struct	s_point
 {
