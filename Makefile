@@ -1,6 +1,5 @@
 
 
-
 SRCS	= \
 		main.c ft_some_utils.c ft_free.c ft_parser.c\
 		ft_validator.c ft_2d.c
