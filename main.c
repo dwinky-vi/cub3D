@@ -52,7 +52,7 @@ int		main(int argc, char **argv)
 	
 	// mlx_key_hook(vars.win_ptr, deal_key, &vars);
 	mlx_hook(vars.win_ptr, 2, 1L << 0, deal_key, &vars);
-	mlx_hook(vars.win_ptr, 2, 1L << 0, deal_key2, &vars);
+	// mlx_hook(vars.win_ptr, 2, 1L << 0, deal_key2, &vars);
 	// mlx_hook(vars.win_ptr, 4, 1L<<8, closee, &vars);
     mlx_loop(vars.mlx_ptr);
 	return (0);

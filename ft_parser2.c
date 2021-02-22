@@ -18,6 +18,53 @@ t_window ft_get_r(char *str)
 
 void    ft_set_config(t_config *config, char *line)
 {
+	if (line[0] == 'R' && config->r.size_x != 0)
+	{
+		config->r.size_x = 0;
+		return ;
+	}
+    else if (line[0] == 'N' && line[1] == 'O' && config->no)
+	{
+		free(config->no);
+		config->no = NULL;
+		return ;
+	}
+    else if (line[0] == 'S' && line[1] == 'O' && config->so)
+	{
+		free(config->so);
+		config->so = NULL;
+		return ;
+	}
+    else if (line[0] == 'W' && line[1] == 'E' && config->we)
+	{
+		free(config->we);
+		config->we = NULL;
+		return ;
+	}
+    else if (line[0] == 'E' && line[1] == 'A' && config->ea)
+	{
+		free(config->ea);
+		config->ea = NULL;
+		return ;
+	}
+    else if (line[0] == 'S' && config->s)
+	{
+		free(config->s);
+		config->s = NULL;
+		return ;
+	}
+    else if (line[0] == 'F' && config->f_str)
+	{
+		free(config->f_str);
+		config->f_str = NULL;
+		return ;
+	}
+    else if (line[0] == 'C' && config->c_str)
+	{
+		free(config->c_str);
+		config->c_str = NULL;
+		return ;
+	}
     if (line[0] == 'R')
         config->r = ft_get_r(ft_strtrim(line + 1, " "));
     else if (line[0] == 'N' && line[1] == 'O')
