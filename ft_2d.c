@@ -73,18 +73,35 @@ void	ft_cast_rays(t_vars *vars)
 	printf("%f,  (%f)    \n", vars->person.start, vars->person.end);
 	ray.start = start;
 	ray.end = end;
-	while (ray.start <= ray.end)
+	float c = 0;
+	while (start < end)
 	{
-		// ft_putchar(66);
-		ray.x = vars->person.x; // каждый раз возвращаемся в точку начала
-		ray.y = vars->person.y;
-		while (vars->data.map[(int)(ray.x)][(int)(ray.y)] != '1')
+		while (c < 20)
 		{
-			ray.x += cos(ray.start);
-			ray.y += sin(ray.start);
-			my_mlx_pixel_put(&vars->img, ray.y * SCALE, ray.x * SCALE, 0x990099);
+				// float cx = vars->person.x + c * cos(start);
+				// float cy = vars->person.y + c * sin(start);
+				float cx = vars->person.x - cos(start);
+				float cy = vars->person.y - sin(start);
+				// if (map[int(cx) + int(cy) * map_w] != ' ')
+				// 	break;
+				// size_t pix_x = cx * rect_w;
+				// size_t pix_y = cy * rect_h;
+					my_mlx_pixel_put(&vars->img, cy * SCALE, cx * SCALE, 0x990099);
+				// framebuffer[pix_x + pix_y*win_w] = pack_color(255, 255, 255);
+			
+			c += 0.5;
+			ft_putchar(66);
+			// ray.x = vars->person.x; // каждый раз возвращаемся в точку начала
+			// ray.y = vars->person.y;
+			// while (vars->data.map[(int)(ray.x)][(int)(ray.y)] != '1')
+			// {
+			// 	ray.x += cos(ray.start);
+			// 	ray.y += sin(ray.start);
+			// 	my_mlx_pixel_put(&vars->img, ray.y * SCALE, ray.x * SCALE, 0x990099);
+			// }
+			// ray.start += M_PI_2 / 640;
 		}
-		ray.start += M_PI_2 / 640;
+		start += M_PI_4 / 40;
 	}
 }
 

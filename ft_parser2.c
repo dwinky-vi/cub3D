@@ -157,15 +157,15 @@ void			ft_find_person(t_vars *vars)
 				vars->person.start = 0;
 				vars->person.end = 0;
 				vars->person.dir = M_PI;
-				ft_putstr("k = ");
-				ft_putnbr((int)vars->person.x);
-				ft_putchar('\n');
-				ft_putstr("j = ");
-				ft_putnbr((int)vars->person.y);
-				ft_putchar('\n');
-				ft_putstr("dir = ");
-				ft_putnbr((int)vars->person.dir);
-				ft_putchar('\n');
+				// ft_putstr("k = ");
+				// ft_putnbr((int)vars->person.x);
+				// ft_putchar('\n');
+				// ft_putstr("j = ");
+				// ft_putnbr((int)vars->person.y);
+				// ft_putchar('\n');
+				// ft_putstr("dir = ");
+				// ft_putnbr((int)vars->person.dir);
+				// ft_putchar('\n');
 				if (f == TRUE)
 				{
 					vars->data.error = "Error\nFound many players";
