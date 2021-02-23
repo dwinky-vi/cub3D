@@ -64,33 +64,33 @@ void	ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
 
 void	ft_cast_rays(t_vars *vars)
 {
-	t_person	ray		= vars->person; // задаем координаты и направление луча равные координатам игрока
-	float		start	= ray.dir - M_PI_4; // начало веера лучей
-	float		end		= ray.dir + M_PI_4; // край веера лучей
+	// t_person	ray		= vars->person; // задаем координаты и направление луча равные координатам игрока
+	float		start	= vars->person.dir - M_PI_4; // начало веера лучей
+	float		end		= vars->person.dir + M_PI_4; // край веера лучей
 	
-	printf("%f,  %f    %f\n", start, end, ray.dir);
-	printf("%f,  (%f)    \n", ray.start, ray.end);
-	printf("%f,  (%f)    \n", vars->person.start, vars->person.end);
-	ray.start = start;
-	ray.end = end;
+	// printf("%f,  %f    %f\n", start, end, ray.dir);
+	// printf("%f,  (%f)    \n", ray.start, ray.end);
+	// printf("%f,  (%f)    \n", vars->person.start, vars->person.end);
+	// ray.start = start;
+	// ray.end = end;
 	float c = 0;
 	while (start < end)
 	{
+		c = 0;
 		while (c < 20)
 		{
 				// float cx = vars->person.x + c * cos(start);
 				// float cy = vars->person.y + c * sin(start);
-				float cx = vars->person.x - cos(start);
-				float cy = vars->person.y - sin(start);
-				// if (map[int(cx) + int(cy) * map_w] != ' ')
-				// 	break;
+				float cx = vars->person.x + c * cos(start);
+				float cy = vars->person.y + c * sin(start);
+				if (vars->data.map[(int)cx][(int)cy] != '0')
+					break;
 				// size_t pix_x = cx * rect_w;
 				// size_t pix_y = cy * rect_h;
-					my_mlx_pixel_put(&vars->img, cy * SCALE, cx * SCALE, 0x990099);
+					my_mlx_pixel_put(&vars->img, cy * SCALE, cx * SCALE < 0 ? 0 : cx * SCALE, 0x990099);
 				// framebuffer[pix_x + pix_y*win_w] = pack_color(255, 255, 255);
 			
-			c += 0.5;
-			ft_putchar(66);
+			c += 0.05;
 			// ray.x = vars->person.x; // каждый раз возвращаемся в точку начала
 			// ray.y = vars->person.y;
 			// while (vars->data.map[(int)(ray.x)][(int)(ray.y)] != '1')
