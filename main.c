@@ -57,3 +57,11 @@ int		main(int argc, char **argv)
     mlx_loop(vars.mlx_ptr);
 	return (0);
 }
+
+
+
+
+/*
+нажатие на крестик
+одновременное нажатие на клавишт
+*/
