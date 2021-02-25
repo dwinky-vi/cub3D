@@ -9,8 +9,8 @@ typedef struct	s_point
 
 typedef	struct	s_window
 {
-				int	size_x;
-				int	size_y;
+	int			size_x;
+	int			size_y;
 }				t_window;
 
 typedef struct	s_config
@@ -59,6 +59,10 @@ typedef struct  s_vars
 	t_person	person;
 	t_data		data;
 	t_img		img;
+	char		k_0;
+	char		k_1;
+	char		k_2;
+	char		k_13;
 }               t_vars;
 
 #endif

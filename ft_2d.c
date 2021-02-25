@@ -10,44 +10,71 @@
 ** esc = 53
 */
 
-int		deal_key(int key, t_vars *vars)
+int		key_press_hook(int key, t_vars *vars)
 {
 	mlx_clear_window(vars->mlx_ptr, vars->win_ptr);
 	if (key == 53)
 		exit(0);
 	if (key == 13)
-	{
-		// if (vars->data.map[(int)vars->person.x - 1][(int)vars->person.y] != '1')
-		// 	vars->person.x -= 1;
-		// if (vars->data.map[(int)vars->person.x - 1][(int)vars->person.y - 1] != '1')
-		{
-			vars->person.y += sin(vars->person.dir) * 0.1;
-			vars->person.x += cos(vars->person.dir) * 0.1;
-		}
-	}
+		vars->k_13 = TRUE;
 	if (key == 1)
-	{
-		// if (vars->data.map[(int)vars->person.x + 1][(int)vars->person.y] != '1')
-		// 	vars->person.x += 1;
-		// if (vars->data.map[(int)vars->person.x + 1][(int)vars->person.y + 1] != '1')
-		{
-			vars->person.y -= sin(vars->person.dir) * 0.1;
-			vars->person.x -= cos(vars->person.dir) * 0.1;
-		}
-	}
+		vars->k_1 = TRUE;
 	if (key == 0)
+		vars->k_0 = TRUE;
+	if (key == 2)
+		vars->k_2 = TRUE;
+	if (vars->k_13)
 	{
-		// if (vars->data.map[(int)vars->person.x][(int)vars->person.y - 1] != '1')
-		// 	vars->person.y -= 1;
+		if (vars->k_0)
+			vars->person.dir += 0.1;
+		else if (vars->k_2)
+			vars->person.dir -= 0.1;
+		vars->person.x += cos(vars->person.dir) * 0.1;
+		vars->person.y += sin(vars->person.dir) * 0.1;
+	}
+	if (vars->k_1)
+	{
+		if (vars->k_0)
+			vars->person.dir += 0.1;
+		else if (vars->k_2)
+			vars->person.dir -= 0.1;
+		vars->person.x -= cos(vars->person.dir) * 0.1;
+		vars->person.y -= sin(vars->person.dir) * 0.1;
+	}
+	if (vars->k_0)
+	{
 		vars->person.dir += 0.1;
 	}
-	if (key == 2)
+	if (vars->k_2)
 	{
-		// if (vars->data.map[(int)vars->person.x][(int)vars->person.y + 1] != '1')
-		// 	vars->person.y += 1;
 		vars->person.dir -= 0.1;
 	}
 	ft_display_map(vars);
+	return (0);
+}
+
+int		key_release_hook(int key, t_vars *vars)
+{
+	if (key == 13)
+	{
+		vars->k_13 = FALSE;
+		ft_putstr("13\n");
+	}
+	if (key == 1)
+	{
+		vars->k_1 = FALSE;
+		ft_putstr("1\n");
+	}
+	if (key == 0)
+	{
+		vars->k_0 = FALSE;
+		ft_putstr("0\n");
+	}
+	if (key == 2)
+	{
+		vars->k_2 = FALSE;
+		ft_putstr("2\n");
+	}
 	return (0);
 }
 
@@ -75,23 +102,16 @@ void	ft_cast_rays(t_vars *vars)
 	float		end		= vars->person.dir + M_PI_4; // край веера лучей
 	float		c;
 
-	// printf("%f,  %f    %f\n", start, end, ray.dir);
-	// printf("%f,  (%f)    \n", ray.start, ray.end);
-	// printf("%f,  (%f)    \n", vars->person.start, vars->person.end);
-	// ray.start = start;
-	// ray.end = end;
 	while (start < end)
 	{
 		c = 0;
 		while (c < 20)
 		{
-				float cx = vars->person.x + c * cos(start);
-				float cy = vars->person.y + c * sin(start);
-				if (vars->data.map[(int)cx][(int)cy] == '1')
-					break;
-				// size_t pix_x = cx * rect_w;
-				// size_t pix_y = cy * rect_h;
-					my_mlx_pixel_put(&vars->img, cy * SCALE, cx * SCALE < 0 ? 0 : cx * SCALE, 0x990099);
+			float cx = vars->person.x + c * cos(start);
+			float cy = vars->person.y + c * sin(start);
+			if (vars->data.map[(int)cx][(int)cy] == '1')
+				break;
+			my_mlx_pixel_put(&vars->img, cy * SCALE, cx * SCALE < 0 ? 0 : cx * SCALE, 0x990099);
 			
 			c += 0.05;
 			// ray.x = vars->person.x; // каждый раз возвращаемся в точку начала
@@ -104,7 +124,7 @@ void	ft_cast_rays(t_vars *vars)
 			// }
 			// ray.start += M_PI_2 / 640;
 		}
-		start += M_PI_4 / 40;
+		start += M_PI_4 / 100;
 	}
 }
 

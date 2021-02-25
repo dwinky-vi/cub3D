@@ -12,6 +12,49 @@
 
 #include "ft_cub3d.h"
 
+static int	mouse_press_hook(int key, void *vars)
+{
+	ft_putchar(key);
+	ft_putchar('1');
+	return (0);
+}
+
+static int	motion_hook(int key, void *vars)
+{
+	ft_putnbr(key);
+	ft_putchar('2');
+	return (0);
+}
+
+static int	expose_hook(int key, void *vars)
+{
+	ft_putnbr(key);
+	ft_putchar('\n');
+	return (0);
+}
+
+static int	exit_hook(int key, void *vars)
+{
+	ft_putstr("Exit");
+	exit(0);
+}
+
+void	 set_hooks(t_vars *vars)
+{
+	vars->k_0 = FALSE;
+	vars->k_1 = FALSE;
+	vars->k_2 = FALSE;
+	vars->k_13 = FALSE;
+	// mlx_do_key_autorepeatoff(vars->mlx_ptr);
+	mlx_hook(vars->win_ptr, 2, 0, key_press_hook, vars);
+	mlx_hook(vars->win_ptr, 3, 0, key_release_hook, vars);
+	mlx_hook(vars->win_ptr, 4, 0, mouse_press_hook, vars);
+	// mlx_hook(vars->win_ptr, 5, 0, mouse_release_hook, v);
+	// mlx_hook(vars->win_ptr, 6, 0, motion_hook, vars);
+	// mlx_hook(vars->win_ptr, 12, 0, expose_hook, vars);
+	mlx_hook(vars->win_ptr, 17, 0, exit_hook, vars);
+}
+
 static int		ft_puterror(char *str)
 {
 	ft_putendl_fd(str, 1);
@@ -51,17 +94,16 @@ int		main(int argc, char **argv)
 	ft_display_map(&vars);
 	
 	// mlx_key_hook(vars.win_ptr, deal_key, &vars);
-	mlx_hook(vars.win_ptr, 2, 1L << 0, deal_key, &vars);
-	// mlx_hook(vars.win_ptr, 2, 1L << 0, deal_key2, &vars);
-	// mlx_hook(vars.win_ptr, 4, 1L<<8, closee, &vars);
+	// mlx_hook(vars.win_ptr, 2, 1L << 0, deal_key, &vars);
+	// mlx_hook(vars.win_ptr, 4, 1L << 1, ft_close, &vars);
+	set_hooks(&vars);
+	
     mlx_loop(vars.mlx_ptr);
 	return (0);
 }
 
 
-
-
 /*
-нажатие на крестик
-одновременное нажатие на клавишт
+одновременное нажатие на клавиш
+упор в стену
 */

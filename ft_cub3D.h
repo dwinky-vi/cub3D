@@ -22,7 +22,11 @@
 
 void	ft_display_map(t_vars *vars);
 
-int		deal_key(int key, t_vars *vars);
+int		key_press_hook(int key, t_vars *vars);
+
+int		key_release_hook(int key, t_vars *vars);
+
+int		deal_key2(int key, t_vars *vars);
 
 void    my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
