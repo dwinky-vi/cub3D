@@ -14,19 +14,12 @@
 # define FT_CUB3D_H 
 
 # include "head_structs.h"
+# include "head_2d.h"
 # include "./libft/libft.h"
 # include "./ft_printf/ft_printf.h"
 # include "./minilibx/mlx.h"
 # include <fcntl.h>
 # include <math.h>
-
-void	ft_display_map(t_vars *vars);
-
-int		key_press_hook(int key, t_vars *vars);
-
-int		key_release_hook(int key, t_vars *vars);
-
-void	ft_step(t_vars *vars);
 
 void    my_mlx_pixel_put(t_img *data, int x, int y, int color);
 

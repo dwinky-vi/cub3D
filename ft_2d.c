@@ -3,18 +3,39 @@
 #include <stdio.h>
 
 /*
-** a == 0
-** s == 1
-** d == 2
-** w == 13
+** a = 0
+** s = 1
+** d = 2
+** w = 13
 ** esc = 53
 */
 
+static int	exit_hook(int key, void *vars)
+{
+	ft_putstr("Exit");
+	exit(0);
+}
+
+void	 set_hooks(t_vars *vars)
+{
+	vars->k_0 = FALSE;
+	vars->k_1 = FALSE;
+	vars->k_2 = FALSE;
+	vars->k_13 = FALSE;
+	mlx_hook(vars->win_ptr, 2, 0, key_press_hook, vars);
+	mlx_hook(vars->win_ptr, 3, 0, key_release_hook, vars);
+	mlx_hook(vars->win_ptr, 17, 0, exit_hook, vars);
+}
+
+int		ft_func(t_vars *vars)
+{
+	ft_step(vars);
+	ft_display_map(vars);
+	return (0);
+}
+
 int		key_press_hook(int key, t_vars *vars)
 {
-	mlx_clear_window(vars->mlx_ptr, vars->win_ptr);
-	if (key == 53)
-		exit(0);
 	if (key == 13)
 		vars->k_13 = TRUE;
 	if (key == 1)
@@ -23,7 +44,21 @@ int		key_press_hook(int key, t_vars *vars)
 		vars->k_0 = TRUE;
 	if (key == 2)
 		vars->k_2 = TRUE;
-	ft_display_map(vars);
+	return (0);
+}
+
+int		key_release_hook(int key, t_vars *vars)
+{
+	if (key == 53)
+		exit(0);
+	if (key == 13)
+		vars->k_13 = FALSE;
+	if (key == 1)
+		vars->k_1 = FALSE;
+	if (key == 0)
+		vars->k_0 = FALSE;
+	if (key == 2)
+		vars->k_2 = FALSE;
 	return (0);
 }
 
@@ -51,19 +86,6 @@ void		ft_step(t_vars *vars)
 		vars->person.dir += 0.03;
 	if (vars->k_2)
 		vars->person.dir -= 0.03;
-}
-
-int		key_release_hook(int key, t_vars *vars)
-{
-	if (key == 13)
-		vars->k_13 = FALSE;
-	if (key == 1)
-		vars->k_1 = FALSE;
-	if (key == 0)
-		vars->k_0 = FALSE;
-	if (key == 2)
-		vars->k_2 = FALSE;
-	return (0);
 }
 
 void	ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
