@@ -23,58 +23,46 @@ int		key_press_hook(int key, t_vars *vars)
 		vars->k_0 = TRUE;
 	if (key == 2)
 		vars->k_2 = TRUE;
+	ft_display_map(vars);
+	return (0);
+}
+
+void		ft_step(t_vars *vars)
+{
 	if (vars->k_13)
 	{
 		if (vars->k_0)
-			vars->person.dir += 0.1;
+			vars->person.dir += 0.03;
 		else if (vars->k_2)
-			vars->person.dir -= 0.1;
-		vars->person.x += cos(vars->person.dir) * 0.1;
-		vars->person.y += sin(vars->person.dir) * 0.1;
+			vars->person.dir -= 0.03;
+		vars->person.x += cos(vars->person.dir) * 0.03;
+		vars->person.y += sin(vars->person.dir) * 0.03;
 	}
 	if (vars->k_1)
 	{
 		if (vars->k_0)
-			vars->person.dir += 0.1;
+			vars->person.dir += 0.03;
 		else if (vars->k_2)
-			vars->person.dir -= 0.1;
-		vars->person.x -= cos(vars->person.dir) * 0.1;
-		vars->person.y -= sin(vars->person.dir) * 0.1;
+			vars->person.dir -= 0.03;
+		vars->person.x -= cos(vars->person.dir) * 0.03;
+		vars->person.y -= sin(vars->person.dir) * 0.03;
 	}
 	if (vars->k_0)
-	{
-		vars->person.dir += 0.1;
-	}
+		vars->person.dir += 0.03;
 	if (vars->k_2)
-	{
-		vars->person.dir -= 0.1;
-	}
-	ft_display_map(vars);
-	return (0);
+		vars->person.dir -= 0.03;
 }
 
 int		key_release_hook(int key, t_vars *vars)
 {
 	if (key == 13)
-	{
 		vars->k_13 = FALSE;
-		ft_putstr("13\n");
-	}
 	if (key == 1)
-	{
 		vars->k_1 = FALSE;
-		ft_putstr("1\n");
-	}
 	if (key == 0)
-	{
 		vars->k_0 = FALSE;
-		ft_putstr("0\n");
-	}
 	if (key == 2)
-	{
 		vars->k_2 = FALSE;
-		ft_putstr("2\n");
-	}
 	return (0);
 }
 
@@ -97,7 +85,6 @@ void	ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
 
 void	ft_cast_rays(t_vars *vars)
 {
-	// t_person	ray		= vars->person; // задаем координаты и направление луча равные координатам игрока
 	float		start	= vars->person.dir - M_PI_4; // начало веера лучей
 	float		end		= vars->person.dir + M_PI_4; // край веера лучей
 	float		c;
@@ -110,25 +97,15 @@ void	ft_cast_rays(t_vars *vars)
 			float cx = vars->person.x + c * cos(start);
 			float cy = vars->person.y + c * sin(start);
 			if (vars->data.map[(int)cx][(int)cy] == '1')
-				break;
+				break ;
 			my_mlx_pixel_put(&vars->img, cy * SCALE, cx * SCALE < 0 ? 0 : cx * SCALE, 0x990099);
-			
 			c += 0.05;
-			// ray.x = vars->person.x; // каждый раз возвращаемся в точку начала
-			// ray.y = vars->person.y;
-			// while (vars->data.map[(int)(ray.x)][(int)(ray.y)] != '1')
-			// {
-			// 	ray.x += cos(ray.start);
-			// 	ray.y += sin(ray.start);
-			// 	my_mlx_pixel_put(&vars->img, ray.y * SCALE, ray.x * SCALE, 0x990099);
-			// }
-			// ray.start += M_PI_2 / 640;
 		}
 		start += M_PI_4 / 100;
 	}
 }
 
-void	ft_draw_player(t_vars *vars, t_person *pl)
+void	ft_draw_player(t_vars *vars)
 {
 	t_person person = vars->person;
 	t_point start;
@@ -167,6 +144,6 @@ void	ft_display_map(t_vars *vars)
 		}
 		k++;
 	}
-	ft_draw_player(vars, &vars->person);
+	ft_draw_player(vars);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 }

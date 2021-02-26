@@ -69,6 +69,13 @@ void            my_mlx_pixel_put(t_img *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
+int		ft_func(t_vars *vars)
+{
+	ft_step(vars);
+	ft_display_map(vars);
+	return (0);
+}
+
 int		main(int argc, char **argv)
 {
 	(void)argc;
@@ -92,18 +99,8 @@ int		main(int argc, char **argv)
 		return (ft_puterror("Error in mlx_init()"));
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.size_x, vars.data.config.r.size_y, "planet");
 	ft_display_map(&vars);
-	
-	// mlx_key_hook(vars.win_ptr, deal_key, &vars);
-	// mlx_hook(vars.win_ptr, 2, 1L << 0, deal_key, &vars);
-	// mlx_hook(vars.win_ptr, 4, 1L << 1, ft_close, &vars);
 	set_hooks(&vars);
-	
+	mlx_loop_hook(vars.mlx_ptr, ft_func, &vars);
     mlx_loop(vars.mlx_ptr);
 	return (0);
 }
-
-
-/*
-одновременное нажатие на клавиш
-упор в стену
-*/
