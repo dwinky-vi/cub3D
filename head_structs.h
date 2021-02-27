@@ -50,6 +50,14 @@ typedef struct	s_person
 	float		dir;
 	float		start;
 	float		end;
+	double posX;
+	double posY;  //x and y start position
+  	double dirX;
+	double dirY; //initial direction vector
+  	double planeX;
+	double planeY;
+	double moveSpeed; //the constant value is in squares/second
+    double rotSpeed;
 }				t_person;
 
 typedef struct  s_vars

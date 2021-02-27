@@ -46,7 +46,7 @@ $(NAME): 	$(OBJS)
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
-					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -c $< -o $@
+					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -c $< -o $@
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(GREEN)[OK]$(NO_COLOR)\n"
 
 clean:
