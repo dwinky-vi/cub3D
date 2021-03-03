@@ -152,8 +152,8 @@ void			ft_find_person(t_vars *vars)
 		{
 			if (ft_strchr("NSEW", vars->data.map[k][j]))
 			{
-				vars->person.x = k;
-				vars->person.y = j;
+				vars->person.x = k + 0.5;
+				vars->person.y = j + 0.5;
 				vars->person.start = 0;
 				vars->person.end = 0;
 				vars->person.dir = M_PI;

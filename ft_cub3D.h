@@ -21,6 +21,8 @@
 # include <fcntl.h>
 # include <math.h>
 
+int ft_raycast(t_vars *vars);
+
 void    my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
 // int	    ft_puterror(char *str);
