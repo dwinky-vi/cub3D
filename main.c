@@ -72,7 +72,7 @@ int			main(int argc, char **argv)
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.size_x, vars.data.config.r.size_y, "planet");
 /**********************************************/
   	// double dirX = -1, dirY = 0; //initial direction vector
-
+// обнулить key_code
 	vars.person.moveSpeed = 0.05; // скорость ходьбы
 	vars.person.rotSpeed = 0.03; // скорость поворотов
 
