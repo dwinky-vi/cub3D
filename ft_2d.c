@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_2d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/03 17:29:31 by dwinky            #+#    #+#             */
+/*   Updated: 2021/03/03 17:30:53 by dwinky           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_cub3d.h"
 #define SCALE 18
 #include <stdio.h>
@@ -16,7 +28,7 @@ static int	exit_hook(int key, void *vars)
 	exit(0);
 }
 
-void	 set_hooks_2(t_vars *vars)
+void	 	set_hooks_2(t_vars *vars)
 {
 	vars->k_0 = FALSE;
 	vars->k_1 = FALSE;
@@ -27,14 +39,14 @@ void	 set_hooks_2(t_vars *vars)
 	mlx_hook(vars->win_ptr, 17, 0, exit_hook, vars);
 }
 
-int		ft_func(t_vars *vars)
+int			ft_func(t_vars *vars)
 {
 	ft_step(vars);
 	ft_display_map(vars);
 	return (0);
 }
 
-int		key_press_hook_2(int key, t_vars *vars)
+int			key_press_hook_2(int key, t_vars *vars)
 {
 	if (key == 13)
 		vars->k_13 = TRUE;
@@ -47,7 +59,7 @@ int		key_press_hook_2(int key, t_vars *vars)
 	return (0);
 }
 
-int		key_release_hook_2(int key, t_vars *vars)
+int			key_release_hook_2(int key, t_vars *vars)
 {
 	if (key == 53)
 		exit(0);
@@ -88,7 +100,7 @@ void		ft_step(t_vars *vars)
 		vars->person.dir -= 0.03;
 }
 
-void	ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
+void		ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
 {
 	int tmp;
 
@@ -105,7 +117,7 @@ void	ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
 	}
 }
 
-void	ft_cast_rays(t_vars *vars)
+void		ft_cast_rays(t_vars *vars)
 {
 	float		start	= vars->person.dir - M_PI_4; // начало веера лучей
 	float		end		= vars->person.dir + M_PI_4; // край веера лучей
@@ -127,7 +139,7 @@ void	ft_cast_rays(t_vars *vars)
 	}
 }
 
-void	ft_draw_player(t_vars *vars)
+void		ft_draw_player(t_vars *vars)
 {
 	t_person person = vars->person;
 	t_point start;
@@ -141,7 +153,7 @@ void	ft_draw_player(t_vars *vars)
 	ft_draw_pixel(vars, start, end, vars->data.config.f_int);
 }
 
-void	ft_display_map(t_vars *vars)
+void		ft_display_map(t_vars *vars)
 {
 	int 	k;
 	int		j;

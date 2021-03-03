@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/02/18 21:26:28 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 18:17:24 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,86 +34,32 @@ static int	expose_hook(int key, void *vars)
 	return (0);
 }
 
-static int	exit_hook(int key, void *vars)
-{
-	ft_putstr("Exit");
-	exit(0);
-}
 
-int		key_press_hook(int key, t_vars *vars)
-{
-	if (key == 53)
-		exit(0);
-	//move forward if no wall in front of you
-	if (key == 13)
-	{
-		printf("%f,    %f\n", vars->person.posX, vars->person.dirX * vars->person.moveSpeed);
-		ft_putstr("13\n");
-		if(vars->data.map[(int)(vars->person.posX + vars->person.dirX * vars->person.moveSpeed)][(int)vars->person.posY] == FALSE)
-			vars->person.posX += vars->person.dirX * vars->person.moveSpeed;
-		if(vars->data.map[(int)(vars->person.posX)][(int)(vars->person.posY + vars->person.dirY * vars->person.moveSpeed)] == FALSE)
-			vars->person.posY += vars->person.dirY * vars->person.moveSpeed;
-	}
-	//move backwards if no wall behind you
-	if (key == 1)
-	{
-		printf("%f,  %f,    %f\n", vars->person.posX, vars->person.posY, vars->person.dirX);
-		ft_putstr("1\n");
-		if (vars->data.map[(int)(vars->person.posX - vars->person.dirX * vars->person.moveSpeed)][(int)vars->person.posY] == FALSE)
-			vars->person.posX -= vars->person.dirX * vars->person.moveSpeed;
-      	if (vars->data.map[(int)vars->person.posX][(int)(vars->person.posY - vars->person.dirY * vars->person.moveSpeed)] == FALSE)
-			vars->person.posY -= vars->person.dirY * vars->person.moveSpeed;
-	}
-	//rotate to the left
-	if (key == 0)
-	{
-		ft_putstr("0\n");
-		//both camera direction and camera plane must be rotated
-      	double oldDirX = vars->person.dirX;
-      	vars->person.dirX = vars->person.dirX * cos(vars->person.rotSpeed) - vars->person.dirY * sin(vars->person.rotSpeed);
-      	vars->person.dirY = oldDirX * sin(vars->person.rotSpeed) + vars->person.dirY * cos(vars->person.rotSpeed);
-      	double oldPlaneX = vars->person.planeX;
-      	vars->person.planeX = vars->person.planeX * cos(vars->person.rotSpeed) - vars->person.planeY * sin(vars->person.rotSpeed);
-      	vars->person.planeY = oldPlaneX * sin(vars->person.rotSpeed) + vars->person.planeY * cos(vars->person.rotSpeed);
-	}
-	//rotate to the right
-	if (key == 2)
-	{
-		ft_putstr("2\n");
-		//both camera direction and camera plane must be rotated
-    	double oldDirX = vars->person.dirX;
-    	vars->person.dirX = vars->person.dirX * cos(-vars->person.rotSpeed) - vars->person.dirY * sin(-vars->person.rotSpeed);
-    	vars->person.dirY = oldDirX * sin(-vars->person.rotSpeed) + vars->person.dirY * cos(-vars->person.rotSpeed);
-    	double oldPlaneX = vars->person.planeX;
-    	vars->person.planeX = vars->person.planeX * cos(-vars->person.rotSpeed) - vars->person.planeY * sin(-vars->person.rotSpeed);
-    	vars->person.planeY = oldPlaneX * sin(-vars->person.rotSpeed) + vars->person.planeY * cos(-vars->person.rotSpeed);
-	}
-	return (0);
-}
 
-void	 set_hooks(t_vars *vars)
-{
-	vars->k_0 = FALSE;
-	vars->k_1 = FALSE;
-	vars->k_2 = FALSE;
-	vars->k_13 = FALSE;
-	// mlx_do_key_autorepeatoff(vars->mlx_ptr);
-	mlx_hook(vars->win_ptr, 2, 0, key_press_hook, vars);
-	// mlx_hook(vars->win_ptr, 3, 0, key_release_hook, vars);
-	// mlx_hook(vars->win_ptr, 4, 0, mouse_press_hook, vars);
-	// mlx_hook(vars->win_ptr, 5, 0, mouse_release_hook, v);
-	// mlx_hook(vars->win_ptr, 6, 0, motion_hook, vars);
-	// mlx_hook(vars->win_ptr, 12, 0, expose_hook, vars);
-	mlx_hook(vars->win_ptr, 17, 0, exit_hook, vars);
-}
 
-static int		ft_puterror(char *str)
+// void	 	set_hooks(t_vars *vars)
+// {
+// 	vars->k_0 = FALSE;
+// 	vars->k_1 = FALSE;
+// 	vars->k_2 = FALSE;
+// 	vars->k_13 = FALSE;
+// 	// mlx_do_key_autorepeatoff(vars->mlx_ptr);
+// 	mlx_hook(vars->win_ptr, 2, 0, key_press_hook, vars);
+// 	mlx_hook(vars->win_ptr, 3, 0, key_release_hook, vars);
+// 	// mlx_hook(vars->win_ptr, 4, 0, mouse_press_hook, vars);
+// 	// mlx_hook(vars->win_ptr, 5, 0, mouse_release_hook, v);
+// 	// mlx_hook(vars->win_ptr, 6, 0, motion_hook, vars);
+// 	// mlx_hook(vars->win_ptr, 12, 0, expose_hook, vars);
+// 	mlx_hook(vars->win_ptr, 17, 0, exit_hook, vars);
+// }
+
+static int	ft_puterror(char *str)
 {
 	ft_putendl_fd(str, 1);
 	return (-1);
 }
 
-void            my_mlx_pixel_put(t_img *data, int x, int y, int color)
+void		my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
     char    *dst;
 
@@ -121,7 +67,7 @@ void            my_mlx_pixel_put(t_img *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	(void)argc;
 	int			fd;
@@ -153,9 +99,9 @@ int		main(int argc, char **argv)
 	vars.person.dirY = dirY;
 	vars.person.planeX = planeX;
 	vars.person.planeY = planeY;
-	vars.person.moveSpeed = 0.2; // скорость ходьбы
-	vars.person.rotSpeed = 0.1; // скорость поворотов
-	set_hooks(&vars);
+	vars.person.moveSpeed = 0.02; // скорость ходьбы
+	vars.person.rotSpeed = 0.04; // скорость поворотов
+	// set_hooks(&vars);
 	
 /**********************************************/
 	mlx_loop_hook(vars.mlx_ptr, ft_raycast, &vars);

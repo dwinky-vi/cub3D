@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parser2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
+/*   Updated: 2021/03/03 18:07:20 by dwinky           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_cub3d.h"
+#include "head_parser.h"
 
 t_window ft_get_r(char *str)
 {
 	t_window	r;
-    char    *tmp;
+    char    	*tmp;
 
     tmp = str;
 	r.size_x = ft_atoi(str);
@@ -157,6 +170,7 @@ void			ft_find_person(t_vars *vars)
 				vars->person.start = 0;
 				vars->person.end = 0;
 				vars->person.dir = M_PI;
+				vars->data.map[k][j] = '0';
 				// ft_putstr("k = ");
 				// ft_putnbr((int)vars->person.x);
 				// ft_putchar('\n');

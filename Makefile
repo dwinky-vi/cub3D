@@ -2,7 +2,7 @@
 
 SRCS	= \
 		main.c ft_free.c ft_parser1.c ft_parser2.c\
-		ft_validator.c ft_2d.c ft_raycast.c\
+		ft_validator.c ft_raycast.c\
 #		ft_some_utils.c 
 
 NAME		= cub3D
@@ -27,7 +27,7 @@ OBJS	= 			$(addprefix $(OBJS_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 
 NORM 	=			~/.scripts/colorised_norm.sh
 
-all:		make_lib make_printf $(NAME)
+all:		make_mlx make_lib make_printf $(NAME)
 
 make_lib:
 			@${MAKE} -C libft
@@ -39,7 +39,7 @@ make_mlx:
 			@${MAKE} -C minilibx
 
 $(NAME): 	$(OBJS)
-#			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
+			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
 			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
@@ -54,7 +54,7 @@ clean:
 			@/bin/rm -rf $(OBJS_DIR)
 			@cd $(LIBFT_PATH) && make clean
 			@cd $(FT_PRINTF_PATH) && make clean
-#			@cd $(MINILIBX_PATH) && make clean
+			@cd $(MINILIBX_PATH) && make clean
 
 fclean: 	clean
 			@rm -rf $(NAME)
