@@ -36,7 +36,7 @@ make_printf:
 			@${MAKE} -C ft_printf
 
 make_mlx:
-			@${MAKE} -C minilibx
+			@${MAKE} -C minilibx2
 
 $(NAME): 	$(OBJS)
 			@mv $(MINILIBX_PATH)/libmlx.a . && rm -rf $(MINILIBX_PATH)/libmlx.a

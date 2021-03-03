@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 17:29:59 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 22:54:27 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,21 @@ typedef struct  s_img
 
 typedef struct	s_person
 {
-	float		x;
-	float		y;
 	float		dir;
 	float		start;
 	float		end;
+	// координаты игрока
 	double posX;
-	double posY;  //x and y start position
-  	double dirX;
-	double dirY; //initial direction vector
+	double posY;
+  	// направление персонажа, куда смотрю
+	double dirX;
+	double dirY;
+	// угол обзора . плоскость которую видим
   	double planeX;
 	double planeY;
-	double moveSpeed; //the constant value is in squares/second
+	// скорость персонажа
+	double moveSpeed;
+	// скорость поворота камеры
     double rotSpeed;
 }				t_person;
 
@@ -79,10 +82,13 @@ typedef struct  s_vars
 	t_person	person;
 	t_data		data;
 	t_img		img;
-	char		k_0;
-	char		k_1;
-	char		k_2;
 	char		k_13;
+	char		k_1;
+	char		k_0;
+	char		k_2;
+	char		k_123;
+	char		k_124;
+	char		k_257;
 }               t_vars;
 
 #endif

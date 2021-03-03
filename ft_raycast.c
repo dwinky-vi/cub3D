@@ -6,51 +6,97 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 19:08:55 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 23:13:56 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 #include <math.h>
 
+void		make_step_forward(char **map, t_person *person, int speed)
+{
+	if (map[(int)(person->posX + person->dirX * person->moveSpeed * speed)][(int)person->posY] == '0')
+			person->posX += person->dirX * person->moveSpeed * speed;
+	if (map[(int)(person->posX)][(int)(person->posY + person->dirY * person->moveSpeed * speed)] == '0')
+		person->posY += person->dirY * person->moveSpeed * speed;
+}
+
+void		make_step_back(char **map, t_person *person)
+{
+	if (map[(int)(person->posX - person->dirX * person->moveSpeed)][(int)person->posY] == '0')
+			person->posX -= person->dirX * person->moveSpeed;
+	if (map[(int)person->posX][(int)(person->posY - person->dirY * person->moveSpeed)] == '0')
+		person->posY -= person->dirY * person->moveSpeed;
+}
+
+void		make_step_left(char **map, t_person *person)
+{
+	if (map[(int)(person->posX - person->planeX * person->moveSpeed)][(int)person->posY] == '0')
+			person->posX -= person->planeX * person->moveSpeed;
+	if (map[(int)(person->posX)][(int)(person->posY - person->planeY * person->moveSpeed)] == '0')
+			person->posY -= person->planeY * person->moveSpeed;
+}
+
+void		make_step_right(char **map, t_person *person)
+{
+	if (map[(int)(person->posX + person->planeX * person->moveSpeed)][(int)person->posY] == '0')
+			person->posX += person->planeX * person->moveSpeed;
+	if (map[(int)(person->posX)][(int)(person->posY + person->planeY * person->moveSpeed)] == '0')
+		person->posY += person->planeY * person->moveSpeed;
+}
+
+void		make_rotation_left(char **map, t_person *person)
+{
+	double oldDirX;
+	double oldPlaneX;
+
+	oldDirX = person->dirX;
+	oldPlaneX = person->planeX;
+	person->dirX = person->dirX * cos(person->rotSpeed) - person->dirY * sin(person->rotSpeed);
+	person->dirY = oldDirX * sin(person->rotSpeed) + person->dirY * cos(person->rotSpeed);
+	person->planeX = person->planeX * cos(person->rotSpeed) - person->planeY * sin(person->rotSpeed);
+	person->planeY = oldPlaneX * sin(person->rotSpeed) + person->planeY * cos(person->rotSpeed);
+}
+
+void		make_rotation_right(char **map, t_person *person)
+{
+	double oldDirX;
+	double oldPlaneX;
+
+	oldDirX = person->dirX;
+	oldPlaneX = person->planeX;
+	person->dirX = person->dirX * cos(-person->rotSpeed) - person->dirY * sin(-person->rotSpeed);
+	person->dirY = oldDirX * sin(-person->rotSpeed) + person->dirY * cos(-person->rotSpeed);
+	person->planeX = person->planeX * cos(-person->rotSpeed) - person->planeY * sin(-person->rotSpeed);
+	person->planeY = oldPlaneX * sin(-person->rotSpeed) + person->planeY * cos(-person->rotSpeed);
+}
+
 int			make_step(t_vars *vars)
 {
 	if (vars->k_13)
 	{
-		ft_putstr("13\n");
-		if (vars->data.map[(int)(vars->person.posX + vars->person.dirX * vars->person.moveSpeed)][(int)vars->person.posY] == '0')
-			vars->person.posX += vars->person.dirX * vars->person.moveSpeed;
-		if (vars->data.map[(int)(vars->person.posX)][(int)(vars->person.posY + vars->person.dirY * vars->person.moveSpeed)] == '0')
-			vars->person.posY += vars->person.dirY * vars->person.moveSpeed;
+		if (vars->k_123)
+			make_rotation_left(vars->data.map, &vars->person);
+		if (vars->k_124)
+			make_rotation_right(vars->data.map, &vars->person);
+		make_step_forward(vars->data.map, &vars->person, vars->k_257 ? 2 : 1);
 	}
 	if (vars->k_1)
 	{
-		ft_putstr("1\n");
-		if (vars->data.map[(int)(vars->person.posX - vars->person.dirX * vars->person.moveSpeed)][(int)vars->person.posY] == '0')
-			vars->person.posX -= vars->person.dirX * vars->person.moveSpeed;
-      	if (vars->data.map[(int)vars->person.posX][(int)(vars->person.posY - vars->person.dirY * vars->person.moveSpeed)] == '0')
-			vars->person.posY -= vars->person.dirY * vars->person.moveSpeed;
+		if (vars->k_123)
+			make_rotation_left(vars->data.map, &vars->person);
+		if (vars->k_124)
+			make_rotation_right(vars->data.map, &vars->person);
+		make_step_back(vars->data.map, &vars->person);
 	}
 	if (vars->k_0)
-	{
-		ft_putstr("0\n");
-		double oldDirX = vars->person.dirX;
-		vars->person.dirX = vars->person.dirX * cos(vars->person.rotSpeed) - vars->person.dirY * sin(vars->person.rotSpeed);
-      	vars->person.dirY = oldDirX * sin(vars->person.rotSpeed) + vars->person.dirY * cos(vars->person.rotSpeed);
-      	double oldPlaneX = vars->person.planeX;
-      	vars->person.planeX = vars->person.planeX * cos(vars->person.rotSpeed) - vars->person.planeY * sin(vars->person.rotSpeed);
-      	vars->person.planeY = oldPlaneX * sin(vars->person.rotSpeed) + vars->person.planeY * cos(vars->person.rotSpeed);
-	}
+		make_step_left(vars->data.map, &vars->person);
 	if (vars->k_2)
-	{
-		ft_putstr("2\n");
-    	double oldDirX = vars->person.dirX;
-    	vars->person.dirX = vars->person.dirX * cos(-vars->person.rotSpeed) - vars->person.dirY * sin(-vars->person.rotSpeed);
-    	vars->person.dirY = oldDirX * sin(-vars->person.rotSpeed) + vars->person.dirY * cos(-vars->person.rotSpeed);
-    	double oldPlaneX = vars->person.planeX;
-    	vars->person.planeX = vars->person.planeX * cos(-vars->person.rotSpeed) - vars->person.planeY * sin(-vars->person.rotSpeed);
-    	vars->person.planeY = oldPlaneX * sin(-vars->person.rotSpeed) + vars->person.planeY * cos(-vars->person.rotSpeed);
-	}
+		make_step_right(vars->data.map, &vars->person);
+	if (vars->k_123)
+		make_rotation_left(vars->data.map, &vars->person);
+	if (vars->k_124)
+		make_rotation_right(vars->data.map, &vars->person);
 	return (0);
 }
 
@@ -66,7 +112,7 @@ int ft_raycast(t_vars *vars)
 	make_step(vars);
     for (int x = 0; x < w; x++)
     {
-		//calculate ray position and direction
+		// cameraX [-1, 1] приведение значения ширины экрана к этим величинам 
 		double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
 		double rayDirX = vars->person.dirX + vars->person.planeX * cameraX;
 		double rayDirY = vars->person.dirY + vars->person.planeY * cameraX;
@@ -80,8 +126,6 @@ int ft_raycast(t_vars *vars)
 		double sideDistY;
 
 		//length of ray from one x or y-side to next x or y-side
-		//   double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-		//   double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
 		double deltaDistX = fabs(1 / rayDirX);
 		double deltaDistY = fabs(1 / rayDirY);
 		double perpWallDist;
@@ -91,7 +135,7 @@ int ft_raycast(t_vars *vars)
 		int stepY;
 
 		int hit = FALSE; //was there a wall hit?
-		int side; //was a NS or a EW wall hit?
+		int side; // вертикальная или горизонтальная стена на карте
 
 		//calculate step and initial sideDist
 		if (rayDirX < 0)
@@ -129,7 +173,7 @@ int ft_raycast(t_vars *vars)
 			{
 				sideDistY += deltaDistY;
 				mapY += stepY;
-				side = 1;
+				side = 1; // вертикаль
 			}
 			//Check if ray has hit a wall
 			// hit это удар луча об стену
@@ -137,11 +181,32 @@ int ft_raycast(t_vars *vars)
 				hit = TRUE;
 		}
 
+		int color;
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
-		if (side == 0)
+		if (side == 0) //вертикаль
+		{
 			perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
-		else
+			if (stepX == -1)
+			{
+				color = 0x0000CD; // синий
+			}
+			else if (stepX == 1)
+			{
+				color = 0x8A2BE2; // фиолетовый
+			}
+		}
+		else // горизанталь
+		{
 			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+			if (stepY == -1)
+			{
+				color = 0x00FF7F;
+			}
+			else if (stepY == 1)
+			{
+				color = 0xFFD700; // жёлтый
+			}
+		}
 
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(h / perpWallDist);
@@ -168,7 +233,7 @@ int ft_raycast(t_vars *vars)
 			}
 			else // стена
 			{
-				my_mlx_pixel_put(&vars->img, x, y, 0xDEB887);
+				my_mlx_pixel_put(&vars->img, x, y, color);
 			}
 			y++;
 		}

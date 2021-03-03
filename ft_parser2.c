@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 18:07:20 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 22:00:05 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,21 +165,39 @@ void			ft_find_person(t_vars *vars)
 		{
 			if (ft_strchr("NSEW", vars->data.map[k][j]))
 			{
-				vars->person.x = k + 0.5;
-				vars->person.y = j + 0.5;
+				vars->person.posX = k + 0.5;
+				vars->person.posY = j + 0.5;
 				vars->person.start = 0;
 				vars->person.end = 0;
-				vars->person.dir = M_PI;
+				if (vars->data.map[k][j] == 'N')
+				{
+					vars->person.dirX = -1;
+					vars->person.dirY = 0;
+					vars->person.planeX = 0;
+					vars->person.planeY = 0.66;
+				}
+				else if (vars->data.map[k][j] == 'S')
+				{
+					vars->person.dirX = 1;
+					vars->person.dirY = 0;
+					vars->person.planeX = 0;
+					vars->person.planeY = -0.66;
+				}
+				else if (vars->data.map[k][j] == 'E')
+				{
+					vars->person.dirX = 0;
+					vars->person.dirY = 1;
+					vars->person.planeX = 0.66;
+					vars->person.planeY = 0;
+				}
+				else if (vars->data.map[k][j] == 'W')
+				{
+					vars->person.dirX = 0;
+					vars->person.dirY = -1;
+					vars->person.planeX = -0.66;
+					vars->person.planeY = 0;
+				}
 				vars->data.map[k][j] = '0';
-				// ft_putstr("k = ");
-				// ft_putnbr((int)vars->person.x);
-				// ft_putchar('\n');
-				// ft_putstr("j = ");
-				// ft_putnbr((int)vars->person.y);
-				// ft_putchar('\n');
-				// ft_putstr("dir = ");
-				// ft_putnbr((int)vars->person.dir);
-				// ft_putchar('\n');
 				if (f == TRUE)
 				{
 					vars->data.error = "Error\nFound many players";

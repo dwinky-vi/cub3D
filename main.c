@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 18:55:33 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 22:19:26 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,12 @@ int			main(int argc, char **argv)
 		return (ft_puterror("Error in mlx_init()"));
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.size_x, vars.data.config.r.size_y, "planet");
 /**********************************************/
-  	double dirX = -1, dirY = 0; //initial direction vector
-  	double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
+  	// double dirX = -1, dirY = 0; //initial direction vector
 
-	vars.person.posX = vars.person.x;
-	vars.person.posY = vars.person.y;
-	vars.person.dirX = dirX;
-	vars.person.dirY = dirY;
-	vars.person.planeX = planeX;
-	vars.person.planeY = planeY;
-	vars.person.moveSpeed = 0.02; // скорость ходьбы
-	vars.person.rotSpeed = 0.04; // скорость поворотов
-	// set_hooks(&vars);
+	vars.person.moveSpeed = 0.05; // скорость ходьбы
+	vars.person.rotSpeed = 0.03; // скорость поворотов
+
 /**********************************************/
-	printf("\n\n%d %d %d %d\n\n", vars.k_0, vars.k_1, vars.k_2, vars.k_13);
 	mlx_hook(vars.win_ptr, 2, 0, key_press_hook, &vars);
 	mlx_hook(vars.win_ptr, 3, 0, key_release_hook, &vars);
 	mlx_hook(vars.win_ptr, 17, 0, exit_hook, &vars);
