@@ -2,7 +2,7 @@
 
 SRCS	= \
 		main.c ft_free.c ft_parser1.c ft_parser2.c\
-		ft_validator.c ft_raycast.c\
+		ft_validator.c ft_raycast.c ft_hooks.c \
 #		ft_some_utils.c 
 
 NAME		= cub3D
@@ -11,7 +11,7 @@ LIBFT_PATH		= ./libft
 
 FT_PRINTF_PATH	= ./ft_printf
 
-MINILIBX_PATH	= ./minilibx
+MINILIBX_PATH	= ./minilibx2
 
 HEADER		= ft_cub3d.h
 
@@ -39,8 +39,8 @@ make_mlx:
 			@${MAKE} -C minilibx
 
 $(NAME): 	$(OBJS)
-			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
+			@mv $(MINILIBX_PATH)/libmlx.a . && rm -rf $(MINILIBX_PATH)/libmlx.a
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h libft/libft.a

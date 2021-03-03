@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 18:07:28 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 19:08:55 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,14 @@ int			make_step(t_vars *vars)
 {
 	if (vars->k_13)
 	{
-		printf("%f,    %f\n", vars->person.posX, vars->person.posY);
 		ft_putstr("13\n");
 		if (vars->data.map[(int)(vars->person.posX + vars->person.dirX * vars->person.moveSpeed)][(int)vars->person.posY] == '0')
 			vars->person.posX += vars->person.dirX * vars->person.moveSpeed;
 		if (vars->data.map[(int)(vars->person.posX)][(int)(vars->person.posY + vars->person.dirY * vars->person.moveSpeed)] == '0')
 			vars->person.posY += vars->person.dirY * vars->person.moveSpeed;
-		printf("%f,    %f\n", vars->person.posX, vars->person.posY);
 	}
 	if (vars->k_1)
 	{
-		printf("%f,  %f,    %f\n", vars->person.posX, vars->person.posY, vars->person.dirX);
 		ft_putstr("1\n");
 		if (vars->data.map[(int)(vars->person.posX - vars->person.dirX * vars->person.moveSpeed)][(int)vars->person.posY] == '0')
 			vars->person.posX -= vars->person.dirX * vars->person.moveSpeed;
@@ -37,7 +34,6 @@ int			make_step(t_vars *vars)
 	if (vars->k_0)
 	{
 		ft_putstr("0\n");
-		//both camera direction and camera plane must be rotated
 		double oldDirX = vars->person.dirX;
 		vars->person.dirX = vars->person.dirX * cos(vars->person.rotSpeed) - vars->person.dirY * sin(vars->person.rotSpeed);
       	vars->person.dirY = oldDirX * sin(vars->person.rotSpeed) + vars->person.dirY * cos(vars->person.rotSpeed);
@@ -48,7 +44,6 @@ int			make_step(t_vars *vars)
 	if (vars->k_2)
 	{
 		ft_putstr("2\n");
-		//both camera direction and camera plane must be rotated
     	double oldDirX = vars->person.dirX;
     	vars->person.dirX = vars->person.dirX * cos(-vars->person.rotSpeed) - vars->person.dirY * sin(-vars->person.rotSpeed);
     	vars->person.dirY = oldDirX * sin(-vars->person.rotSpeed) + vars->person.dirY * cos(-vars->person.rotSpeed);
@@ -59,41 +54,6 @@ int			make_step(t_vars *vars)
 	return (0);
 }
 
-int			key_press_hook(int key, t_vars *vars)
-{
-	if (key == 13)
-		vars->k_13 = TRUE;
-	if (key == 1)
-		vars->k_1 = TRUE;
-	if (key == 0)
-		vars->k_0 = TRUE;
-	if (key == 2)
-		vars->k_2 = TRUE;
-	return (0);
-}
-
-int			key_release_hook(int key, t_vars *vars)
-{
-	if (key == 53)
-		exit(0);
-	if (key == 13)
-		vars->k_13 = FALSE;
-	if (key == 1)
-		vars->k_1 = FALSE;
-	if (key == 0)
-		vars->k_0 = FALSE;
-	if (key == 2)
-		vars->k_2 = FALSE;
-	return (0);
-}
-
-static int	exit_hook(int key, void *vars)
-{
-	ft_putstr("Exit");
-	exit(0);
-}
-
-//WALL CASTING
 int ft_raycast(t_vars *vars)
 {
 	int w = vars->data.config.r.size_x;
@@ -104,7 +64,6 @@ int ft_raycast(t_vars *vars)
 	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.r.size_x, vars->data.config.r.size_y);
     vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
 	make_step(vars);
-	//start the main loop
     for (int x = 0; x < w; x++)
     {
 		//calculate ray position and direction
@@ -173,7 +132,7 @@ int ft_raycast(t_vars *vars)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			// hit удар луча об стену
+			// hit это удар луча об стену
 			if (vars->data.map[mapX][mapY] == '1')
 				hit = TRUE;
 		}
@@ -209,16 +168,12 @@ int ft_raycast(t_vars *vars)
 			}
 			else // стена
 			{
-				my_mlx_pixel_put(&vars->img, x, y, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x, y, 0xDEB887);
 			}
 			y++;
 		}
 	}
-	// vars->person.posX = posX;
-	// vars->person.posY = posY;
-	mlx_hook(vars->win_ptr, 2, 0, key_press_hook, vars);
-	mlx_hook(vars->win_ptr, 3, 0, key_release_hook, vars);
-	mlx_hook(vars->win_ptr, 17, 0, exit_hook, vars);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
+	mlx_destroy_image(vars->mlx_ptr,vars->img.img);
 	return (0);
 }

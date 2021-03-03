@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 17:48:33 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 18:50:52 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include "./minilibx/mlx.h"
 # include <fcntl.h>
 # include <math.h>
+
+int			key_press_hook(int key, t_vars *vars);
+
+int			key_release_hook(int key, t_vars *vars);
+
+int			exit_hook(int key, void *vars);
 
 int 	ft_raycast(t_vars *vars);
 

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 18:17:24 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/03 18:55:33 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,6 @@ static int	expose_hook(int key, void *vars)
 	ft_putchar('\n');
 	return (0);
 }
-
-
-
-
-// void	 	set_hooks(t_vars *vars)
-// {
-// 	vars->k_0 = FALSE;
-// 	vars->k_1 = FALSE;
-// 	vars->k_2 = FALSE;
-// 	vars->k_13 = FALSE;
-// 	// mlx_do_key_autorepeatoff(vars->mlx_ptr);
-// 	mlx_hook(vars->win_ptr, 2, 0, key_press_hook, vars);
-// 	mlx_hook(vars->win_ptr, 3, 0, key_release_hook, vars);
-// 	// mlx_hook(vars->win_ptr, 4, 0, mouse_press_hook, vars);
-// 	// mlx_hook(vars->win_ptr, 5, 0, mouse_release_hook, v);
-// 	// mlx_hook(vars->win_ptr, 6, 0, motion_hook, vars);
-// 	// mlx_hook(vars->win_ptr, 12, 0, expose_hook, vars);
-// 	mlx_hook(vars->win_ptr, 17, 0, exit_hook, vars);
-// }
 
 static int	ft_puterror(char *str)
 {
@@ -102,8 +83,11 @@ int			main(int argc, char **argv)
 	vars.person.moveSpeed = 0.02; // скорость ходьбы
 	vars.person.rotSpeed = 0.04; // скорость поворотов
 	// set_hooks(&vars);
-	
 /**********************************************/
+	printf("\n\n%d %d %d %d\n\n", vars.k_0, vars.k_1, vars.k_2, vars.k_13);
+	mlx_hook(vars.win_ptr, 2, 0, key_press_hook, &vars);
+	mlx_hook(vars.win_ptr, 3, 0, key_release_hook, &vars);
+	mlx_hook(vars.win_ptr, 17, 0, exit_hook, &vars);
 	mlx_loop_hook(vars.mlx_ptr, ft_raycast, &vars);
     mlx_loop(vars.mlx_ptr);
 	return (0);
