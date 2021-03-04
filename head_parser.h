@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:56 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 18:50:41 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 20:31:21 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@ t_list		*ft_make_list_map(int fd, char *line);
 char		**ft_convert_lst_to_matrix(t_list **lst);
 
 void		ft_find_person(t_vars *vars);
+
+void		ft_count_sprites(t_vars *vars);
 
 #endif

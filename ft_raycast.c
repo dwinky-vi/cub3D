@@ -6,11 +6,30 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 19:03:30 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 21:10:18 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
+
+//sort algorithm
+//sort the sprites based on distance
+// void sortSprites(int* order, double* dist, int amount)
+// {
+// 	// std::vector<std::pair<double, int>> sprites(amount);
+// 	for(int i = 0; i < amount; i++)
+// 	{
+// 		sprites[i].first = dist[i];
+// 		sprites[i].second = order[i];
+// 	}
+// 	std::sort(sprites.begin(), sprites.end());
+// 	// restore in reverse order to go from farthest to nearest
+// 	for(int i = 0; i < amount; i++)
+// 	{
+// 		dist[i] = sprites[amount - i - 1].first;
+// 		order[i] = sprites[amount - i - 1].second;
+// 	}
+// }
 
 unsigned int	ft_get_color_2(t_texture *data, int x, int y)
 {
@@ -20,6 +39,9 @@ unsigned int	ft_get_color_2(t_texture *data, int x, int y)
 	return (*(unsigned int *)dst);
 }
 
+//function used to sort the sprites
+void sortSprites(int *order, double *dist, int amount);
+
 int ft_raycast(t_vars *vars)
 {
 	int		w = vars->data.config.width;
@@ -28,6 +50,7 @@ int ft_raycast(t_vars *vars)
 	double	posY = vars->person.posY;
 	int		texWidth = 64;
 	int 	texHeight = 64;
+	double	ZBuffer[vars->data.config.width];
 
 	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.width, vars->data.config.height);
     vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
@@ -219,7 +242,90 @@ int ft_raycast(t_vars *vars)
 			}
 			y++;
 		}
+		//SET THE ZBUFFER FOR THE SPRITE CASTING
+    	ZBuffer[x] = perpWallDist; //perpendicular distance is used
 		x++;
+	}
+	//SPRITE CASTING
+	//sort sprites from far to close
+	int numSprites = vars->count_sprites;
+	t_sprite sprite[numSprites];
+	int k = 0;
+	int j;
+	int i = 0;
+
+	while (vars->data.map[k])
+	{
+		j = 0;
+		while (vars->data.map[k][j])
+		{
+			if (vars->data.map[k][j] == '2')
+			{
+				sprite[i].x = k + 0.5;
+				sprite[i].y = j + 0.5;
+				sprite[i].distance = ((posX - sprite[i].x) * (posX - sprite[i].x) + (posY - sprite[i].y) * (posY - sprite[i].y)); //sqrt not taken, unneeded
+				i++;
+			}
+			j++;
+		}
+		k++;
+	}
+	// sortSprites(spriteOrder, spriteDistance, numSprites);
+
+	//after sorting the sprites, do the projection and draw them
+	for (int i = 0; i < numSprites; i++)
+	{
+		//translate sprite position to relative to camera
+		double spriteX = sprite[i].x - posX;
+		double spriteY = sprite[i].y - posY;
+		double invDet = 1.0 / (vars->person.planeX * vars->person.dirY - vars->person.dirX * vars->person.planeY); //required for correct matrix multiplication
+
+		double transformX = invDet * (vars->person.dirY * spriteX - vars->person.dirX * spriteY);
+		double transformY = invDet * (-vars->person.planeY * spriteX + vars->person.planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+		int spriteScreenX = (int)((w / 2) * (1 + transformX / transformY));
+
+		//calculate height of the sprite on screen
+		int spriteHeight = fabs((double)(h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStartY = -spriteHeight / 2 + h / 2;
+		if (drawStartY < 0)
+			drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + h / 2;
+		if (drawEndY >= h)
+			drawEndY = h - 1;
+
+		//calculate width of the sprite
+		int spriteWidth = fabs((double)(h / (transformY)));
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if (drawStartX < 0)
+			drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if (drawEndX >= w)
+			drawEndX = w - 1;
+
+		texHeight = vars->texture[4].height;
+		texWidth = vars->texture[4].width;
+		//loop through every vertical stripe of the sprite on screen
+		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+			//the conditions in the if are:
+			//1) it's in front of camera plane so you don't see things behind you
+			//2) it's on the screen (left)
+			//3) it's on the screen (right)
+			//4) ZBuffer, with perpendicular distance
+			if (transformY > 0 && stripe > 0 && stripe < w && transformY < ZBuffer[stripe])
+				for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+				{
+					int d = (y) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int texY = ((d * texHeight) / spriteHeight) / 256;
+					int color = ft_get_color_2(&vars->texture[4], texX, texY); //get current color from the texture
+					if ((color & 0x00FFFFFF) != 0)
+						my_mlx_pixel_put(&vars->img, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
+					
+				}
+		}
 	}
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 	mlx_destroy_image(vars->mlx_ptr,vars->img.img);

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 18:50:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 20:32:54 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,28 @@ t_vars	ft_parse_data(int fd)
 		return (vars);
 	}
 	ft_find_person(&vars);
+	ft_count_sprites(&vars);
 	return (vars);
 }
 
+void	ft_count_sprites(t_vars *vars)
+{
+	int count;
+	int	k;
+	int j;
+
+	k = 0;
+	count = 0;
+	while (vars->data.map[k])
+	{
+		j = 0;
+		while (vars->data.map[k][j])
+		{
+			if (vars->data.map[k][j] == '2')
+				count++;
+			j++;
+		}
+		k++;
+	}
+	vars->count_sprites = count;
+}

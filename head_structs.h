@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 18:49:41 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 20:36:29 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ typedef struct	s_person
     double rotSpeed;
 }				t_person;
 
+typedef struct s_sprite
+{
+	double		x;
+	double		y;
+	double		distance;
+}				t_sprite;
+
 typedef struct  s_vars
 {
     void    	*mlx_ptr;
@@ -86,6 +93,7 @@ typedef struct  s_vars
 	t_data		data;
 	t_img		img;
 	t_texture	texture[5];
+	int			count_sprites;
 	char		k_13;
 	char		k_1;
 	char		k_0;
