@@ -6,13 +6,21 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 12:31:50 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 15:55:32 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
-#define texWidth 64
-#define texHeight 64
+// #define texWidth 64
+// #define texHeight 64
+
+unsigned int	ft_get_color_2(t_texture *data, int x, int y)
+{
+    char    *dst;
+
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
+}
 
 int ft_raycast(t_vars *vars)
 {
@@ -20,7 +28,8 @@ int ft_raycast(t_vars *vars)
 	int h = vars->data.config.r.height;
 	double posX = vars->person.posX;
 	double posY = vars->person.posY;
-
+	int		texWidth = 64;
+	int 	texHeight = 64;
 	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.r.width, vars->data.config.r.height);
     vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
 	make_step(vars);
@@ -119,11 +128,15 @@ int ft_raycast(t_vars *vars)
 			perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
 			if (stepX == -1)
 			{
-				color = 0x0000CD; // синий
+				// color = 0x0000CD; // синий
+				texHeight = vars->texture[0].height;
+				texWidth = vars->texture[0].width;
 			}
 			else if (stepX == 1)
 			{
-				color = 0x8A2BE2; // фиолетовый
+				// color = 0x8A2BE2; // фиолетовый
+				texHeight = vars->texture[1].height;
+				texWidth = vars->texture[1].width;
 			}
 		}
 		else // горизанталь
@@ -131,11 +144,15 @@ int ft_raycast(t_vars *vars)
 			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
 			if (stepY == -1)
 			{
-				color = 0x00FF7F;
+				// color = 0x00FF7F;
+				texHeight = vars->texture[2].height;
+				texWidth = vars->texture[2].width;
 			}
 			else if (stepY == 1)
 			{
-				color = 0xFFD700; // жёлтый
+				// color = 0xFFD700; // жёлтый
+				texHeight = vars->texture[3].height;
+				texWidth = vars->texture[3].width;
 			}
 		}
 
@@ -174,30 +191,33 @@ int ft_raycast(t_vars *vars)
 		double step = 1.0 * texHeight / lineHeight;
 		// Starting texture coordinate
 		double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
-		for (int y = drawStart; y < drawEnd; y++)
-		{
-			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-			int texY = (int)texPos & (texHeight - 1);
-			texPos += step;
-			int color = texture[texNum][texHeight * texY + texX];
-			// //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-			// if (side == 1)
-			// 	color = (color >> 1) & 8355711;
-			// buffer[y][x] = color;
-		}
-	/********/	
+	/********/
 		while (y < vars->data.config.r.height)
 		{
+
 			if (y < drawStart) // потолок
-			{
 				my_mlx_pixel_put(&vars->img, x, y, vars->data.config.c_int);
-			}
 			else if (y > drawEnd) // пол
-			{
 				my_mlx_pixel_put(&vars->img, x, y, vars->data.config.f_int);
-			}
 			else // стена
 			{
+				int texY = (int)texPos & (texHeight - 1);
+				texPos += step;
+				if (side == 0) //вертикаль
+				{
+
+					if (stepX == -1)
+						 color = ft_get_color_2(&vars->texture[0], texX, texY);
+					else if (stepX == 1)
+						 color = ft_get_color_2(&vars->texture[1], texX, texY);
+				}
+				else // горизанталь
+				{
+					if (stepY == -1)
+						 color = ft_get_color_2(&vars->texture[2], texX, texY);
+					else if (stepY == 1)
+						 color = ft_get_color_2(&vars->texture[3], texX, texY);
+				}
 				my_mlx_pixel_put(&vars->img, x, y, color);
 			}
 			if (cameraX == 0 && y == h / 2)

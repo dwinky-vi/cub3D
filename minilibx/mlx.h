@@ -101,7 +101,7 @@ int	mlx_loop (void *mlx_ptr);
 **
 **   expose_hook(void *param);
 **   key_hook(int keycode, void *param);
-**   mouse_hook(int button, int x,int y, void *param);
+**   mouse_hook(int button, rint x,int y, void *param);
 **   loop_hook(void *param);
 **
 */

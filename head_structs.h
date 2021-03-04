@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 11:12:57 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 14:31:15 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ typedef struct  s_img
     int         endian;
 }               t_img;
 
+typedef struct  s_texture
+{
+    void        *img;
+    char        *addr;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+	int			height;
+	int			width;
+}               t_texture;
+
 typedef struct	s_person
 {
 	// координаты игрока
@@ -79,6 +90,7 @@ typedef struct  s_vars
 	t_person	person;
 	t_data		data;
 	t_img		img;
+	t_texture	texture[5];
 	char		k_13;
 	char		k_1;
 	char		k_0;

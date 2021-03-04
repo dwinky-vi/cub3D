@@ -1,9 +1,9 @@
 R  1280  1024
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
-S ./path_to_the_sprite_texture
+NO ./texture/mossy.xpm
+SO ./texture/purplestone.xpm
+WE ./texture/greystone.xpm
+EA ./texture/bluestone.xpm
+S ./texture/barrel.xpm
 F 255, 163, 137
 C 0, 255, 255
 
