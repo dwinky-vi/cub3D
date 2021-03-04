@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 09:44:52 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 11:12:57 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,13 @@ typedef struct  s_img
 
 typedef struct	s_person
 {
-	float		dir;
-	float		start;
-	float		end;
 	// координаты игрока
 	double posX;
 	double posY;
   	// направление персонажа, куда смотрю
 	double dirX;
 	double dirY;
-	// угол обзора . плоскость которую видим
+	// угол обзора. плоскость которую видим
   	double planeX;
 	double planeY;
 	// скорость персонажа

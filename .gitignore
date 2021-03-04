@@ -9,6 +9,7 @@ cub3D
 minilibx/*.o
 minilibx/*.swiftdoc
 minilibx/*.swiftmodule
+minilibx2/*.o
 **/libmlx.dylib
 
 # **- Два соседних символа звездочки соответствуют любому файлу или нуля или более каталогов.

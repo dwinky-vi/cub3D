@@ -6,11 +6,13 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 12:31:50 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
+#define texWidth 64
+#define texHeight 64
 
 int ft_raycast(t_vars *vars)
 {
@@ -22,6 +24,25 @@ int ft_raycast(t_vars *vars)
 	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.r.width, vars->data.config.r.height);
     vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
 	make_step(vars);
+	//generate some textures
+	int buffer[vars->data.config.r.height][vars->data.config.r.width];
+	int texture[8][texWidth * texHeight];
+	for (int x = 0; x < texWidth; x++)
+		for (int y = 0; y < texHeight; y++)
+		{
+			int xorcolor = (x * 256 / texWidth) ^ (y * 256 / texHeight);
+			//int xcolor = x * 256 / texWidth;
+			int ycolor = y * 256 / texHeight;
+			int xycolor = y * 128 / texHeight + x * 128 / texWidth;
+			texture[0][texWidth * y + x] = 65536 * 254 * (x != y && x != texWidth - y); //flat red texture with black cross
+			texture[1][texWidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
+			texture[2][texWidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
+			texture[3][texWidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
+			texture[4][texWidth * y + x] = 256 * xorcolor; //xor green
+			texture[5][texWidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
+			texture[6][texWidth * y + x] = 65536 * ycolor; //red gradient
+			texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
+		}
 	int x = 0;
 	while (x < w)
     {
@@ -71,8 +92,7 @@ int ft_raycast(t_vars *vars)
 			stepY = 1;
 			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
 		}
-		//perform DDA
-		while (hit == 0)
+		while (hit == FALSE)
 		{
 			//jump to next map square, OR in x-direction, OR in y-direction
 			if (sideDistX < sideDistY)
@@ -132,6 +152,40 @@ int ft_raycast(t_vars *vars)
 		if (drawEnd >= h)
 			drawEnd = h - 1;
 		int y = 0;
+	/********/
+			//texturing calculations
+		int texNum = vars->data.map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+
+		// это y-координата стены, если side == 1
+		double wallX; 
+		if (side == 0)
+			wallX = posY + perpWallDist * rayDirY;
+		else
+			wallX = posX + perpWallDist * rayDirX;
+		wallX -= floor((wallX));
+
+		// texX –– x-координата текстуры
+		int texX = (int)(wallX * (double)texWidth);
+		if (side == 0 && rayDirX > 0)
+			texX = texWidth - texX - 1;
+		if (side == 1 && rayDirY < 0)
+			texX = texWidth - texX - 1;
+			// How much to increase the texture coordinate per screen pixel
+		double step = 1.0 * texHeight / lineHeight;
+		// Starting texture coordinate
+		double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
+		for (int y = drawStart; y < drawEnd; y++)
+		{
+			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+			int texY = (int)texPos & (texHeight - 1);
+			texPos += step;
+			int color = texture[texNum][texHeight * texY + texX];
+			// //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+			// if (side == 1)
+			// 	color = (color >> 1) & 8355711;
+			// buffer[y][x] = color;
+		}
+	/********/	
 		while (y < vars->data.config.r.height)
 		{
 			if (y < drawStart) // потолок
@@ -145,6 +199,18 @@ int ft_raycast(t_vars *vars)
 			else // стена
 			{
 				my_mlx_pixel_put(&vars->img, x, y, color);
+			}
+			if (cameraX == 0 && y == h / 2)
+			{
+				my_mlx_pixel_put(&vars->img, x, y, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x, y + 1, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x, y + 2, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x + 1, y, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x + 1, y + 1, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x + 1, y + 2, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x + 2, y, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x + 2, y + 1, 0xFFFFFF);
+				my_mlx_pixel_put(&vars->img, x + 2, y + 2, 0xFFFFFF);
 			}
 			y++;
 		}
