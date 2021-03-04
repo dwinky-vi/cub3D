@@ -6,11 +6,11 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 14:14:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/02/18 12:49:40 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "head_cub3d.h"
 
 int		ft_puterror(char *str)
 {

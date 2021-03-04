@@ -6,17 +6,17 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 17:29:51 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "head_cub3d.h"
 
 int     ft_check_r(t_window r)
 {
-    if (!(0 < r.size_x && r.size_x <= 1920))
+    if (!(0 < r.width && r.width <= 1920))
         return (1);
-    if (!(0 < r.size_y && r.size_y <= 1080))
+    if (!(0 < r.height && r.height <= 1080))
         return (1);
     return (0);
 }

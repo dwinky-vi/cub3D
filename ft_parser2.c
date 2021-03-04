@@ -6,11 +6,11 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 22:00:05 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "head_cub3d.h"
 #include "head_parser.h"
 
 t_window ft_get_r(char *str)
@@ -19,21 +19,21 @@ t_window ft_get_r(char *str)
     char    	*tmp;
 
     tmp = str;
-	r.size_x = ft_atoi(str);
+	r.width = ft_atoi(str);
 	while (ft_isdigit(*str))
 		str++;
 	while (!ft_isdigit(*str))
 		str++;
-	r.size_y = ft_atoi(str);
+	r.height = ft_atoi(str);
     free(tmp);
 	return (r);
 }
 
 void    ft_set_config(t_config *config, char *line)
 {
-	if (line[0] == 'R' && config->r.size_x != 0)
+	if (line[0] == 'R' && config->r.width != 0)
 	{
-		config->r.size_x = 0;
+		config->r.width = 0;
 		return ;
 	}
     else if (line[0] == 'N' && line[1] == 'O' && config->no)

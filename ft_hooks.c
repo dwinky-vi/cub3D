@@ -6,11 +6,11 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:49:29 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 22:44:29 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "head_cub3d.h"
 
 int			key_press_hook(int key, t_vars *vars)
 {

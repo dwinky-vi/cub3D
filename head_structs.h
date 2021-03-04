@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 22:54:27 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 09:44:52 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef struct	s_point
 
 typedef	struct	s_window
 {
-	int			size_x;
-	int			size_y;
+	int			width; // ширина
+	int			height;// высота
 }				t_window;
 
 typedef struct	s_config

@@ -6,11 +6,11 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 20:53:53 by dwinky            #+#    #+#             */
-/*   Updated: 2021/01/31 21:00:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "head_cub3d.h"
 
 void	ft_free_map(char **map)
 {

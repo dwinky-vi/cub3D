@@ -6,11 +6,11 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 22:19:26 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:52 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "head_cub3d.h"
 #include <stdio.h>
 
 static int	mouse_press_hook(int key, void *vars)
@@ -34,7 +34,7 @@ static int	expose_hook(int key, void *vars)
 	return (0);
 }
 
-static int	ft_puterror(char *str)
+int			ft_puterror(char *str)
 {
 	ft_putendl_fd(str, 1);
 	return (-1);
@@ -69,7 +69,7 @@ int			main(int argc, char **argv)
 	vars.mlx_ptr = mlx_init();
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
-	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.size_x, vars.data.config.r.size_y, "planet");
+	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.width, vars.data.config.r.height, "planet");
 /**********************************************/
   	// double dirX = -1, dirY = 0; //initial direction vector
 // обнулить key_code

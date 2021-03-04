@@ -2,8 +2,7 @@
 
 SRCS	= \
 		main.c ft_free.c ft_parser1.c ft_parser2.c\
-		ft_validator.c ft_raycast.c ft_hooks.c \
-#		ft_some_utils.c 
+		ft_validator.c ft_raycast.c ft_hooks.c ft_steps.c\
 
 NAME		= cub3D
 
@@ -13,7 +12,7 @@ FT_PRINTF_PATH	= ./ft_printf
 
 MINILIBX_PATH	= ./minilibx2
 
-HEADER		= ft_cub3d.h
+HEADER		= head_cub3d.h
 
 CC		= gcc
 

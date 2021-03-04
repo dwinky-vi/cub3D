@@ -6,111 +6,24 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 23:13:56 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
-#include <math.h>
-
-void		make_step_forward(char **map, t_person *person, int speed)
-{
-	if (map[(int)(person->posX + person->dirX * person->moveSpeed * speed)][(int)person->posY] == '0')
-			person->posX += person->dirX * person->moveSpeed * speed;
-	if (map[(int)(person->posX)][(int)(person->posY + person->dirY * person->moveSpeed * speed)] == '0')
-		person->posY += person->dirY * person->moveSpeed * speed;
-}
-
-void		make_step_back(char **map, t_person *person)
-{
-	if (map[(int)(person->posX - person->dirX * person->moveSpeed)][(int)person->posY] == '0')
-			person->posX -= person->dirX * person->moveSpeed;
-	if (map[(int)person->posX][(int)(person->posY - person->dirY * person->moveSpeed)] == '0')
-		person->posY -= person->dirY * person->moveSpeed;
-}
-
-void		make_step_left(char **map, t_person *person)
-{
-	if (map[(int)(person->posX - person->planeX * person->moveSpeed)][(int)person->posY] == '0')
-			person->posX -= person->planeX * person->moveSpeed;
-	if (map[(int)(person->posX)][(int)(person->posY - person->planeY * person->moveSpeed)] == '0')
-			person->posY -= person->planeY * person->moveSpeed;
-}
-
-void		make_step_right(char **map, t_person *person)
-{
-	if (map[(int)(person->posX + person->planeX * person->moveSpeed)][(int)person->posY] == '0')
-			person->posX += person->planeX * person->moveSpeed;
-	if (map[(int)(person->posX)][(int)(person->posY + person->planeY * person->moveSpeed)] == '0')
-		person->posY += person->planeY * person->moveSpeed;
-}
-
-void		make_rotation_left(char **map, t_person *person)
-{
-	double oldDirX;
-	double oldPlaneX;
-
-	oldDirX = person->dirX;
-	oldPlaneX = person->planeX;
-	person->dirX = person->dirX * cos(person->rotSpeed) - person->dirY * sin(person->rotSpeed);
-	person->dirY = oldDirX * sin(person->rotSpeed) + person->dirY * cos(person->rotSpeed);
-	person->planeX = person->planeX * cos(person->rotSpeed) - person->planeY * sin(person->rotSpeed);
-	person->planeY = oldPlaneX * sin(person->rotSpeed) + person->planeY * cos(person->rotSpeed);
-}
-
-void		make_rotation_right(char **map, t_person *person)
-{
-	double oldDirX;
-	double oldPlaneX;
-
-	oldDirX = person->dirX;
-	oldPlaneX = person->planeX;
-	person->dirX = person->dirX * cos(-person->rotSpeed) - person->dirY * sin(-person->rotSpeed);
-	person->dirY = oldDirX * sin(-person->rotSpeed) + person->dirY * cos(-person->rotSpeed);
-	person->planeX = person->planeX * cos(-person->rotSpeed) - person->planeY * sin(-person->rotSpeed);
-	person->planeY = oldPlaneX * sin(-person->rotSpeed) + person->planeY * cos(-person->rotSpeed);
-}
-
-int			make_step(t_vars *vars)
-{
-	if (vars->k_13)
-	{
-		if (vars->k_123)
-			make_rotation_left(vars->data.map, &vars->person);
-		if (vars->k_124)
-			make_rotation_right(vars->data.map, &vars->person);
-		make_step_forward(vars->data.map, &vars->person, vars->k_257 ? 2 : 1);
-	}
-	if (vars->k_1)
-	{
-		if (vars->k_123)
-			make_rotation_left(vars->data.map, &vars->person);
-		if (vars->k_124)
-			make_rotation_right(vars->data.map, &vars->person);
-		make_step_back(vars->data.map, &vars->person);
-	}
-	if (vars->k_0)
-		make_step_left(vars->data.map, &vars->person);
-	if (vars->k_2)
-		make_step_right(vars->data.map, &vars->person);
-	if (vars->k_123)
-		make_rotation_left(vars->data.map, &vars->person);
-	if (vars->k_124)
-		make_rotation_right(vars->data.map, &vars->person);
-	return (0);
-}
+#include "head_cub3d.h"
 
 int ft_raycast(t_vars *vars)
 {
-	int w = vars->data.config.r.size_x;
-	int h = vars->data.config.r.size_y;
+	int w = vars->data.config.r.width;
+	int h = vars->data.config.r.height;
 	double posX = vars->person.posX;
 	double posY = vars->person.posY;
 
-	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.r.size_x, vars->data.config.r.size_y);
+	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.r.width, vars->data.config.r.height);
     vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
 	make_step(vars);
-    for (int x = 0; x < w; x++)
+	int x = 0;
+	while (x < w)
     {
 		// cameraX [-1, 1] приведение значения ширины экрана к этим величинам 
 		double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
@@ -158,7 +71,6 @@ int ft_raycast(t_vars *vars)
 			stepY = 1;
 			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
 		}
-
 		//perform DDA
 		while (hit == 0)
 		{
@@ -180,7 +92,6 @@ int ft_raycast(t_vars *vars)
 			if (vars->data.map[mapX][mapY] == '1')
 				hit = TRUE;
 		}
-
 		int color;
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
 		if (side == 0) //вертикаль
@@ -221,7 +132,7 @@ int ft_raycast(t_vars *vars)
 		if (drawEnd >= h)
 			drawEnd = h - 1;
 		int y = 0;
-		while (y < vars->data.config.r.size_y)
+		while (y < vars->data.config.r.height)
 		{
 			if (y < drawStart) // потолок
 			{
@@ -237,6 +148,7 @@ int ft_raycast(t_vars *vars)
 			}
 			y++;
 		}
+		x++;
 	}
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 	mlx_destroy_image(vars->mlx_ptr,vars->img.img);

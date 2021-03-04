@@ -6,11 +6,11 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 17:29:24 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "head_cub3d.h"
 #include "head_parser.h"
 
 static int	ft_is_identifier(char *str)
@@ -85,7 +85,7 @@ t_vars	ft_parse_data(int fd)
 	}
 	free(line);
 	if (!vars.data.config.so || !vars.data.config.we || !vars.data.config.no ||
-		!vars.data.config.ea || !vars.data.config.r.size_x || !vars.data.config.s || !vars.data.config.f_str || !vars.data.config.c_str)
+		!vars.data.config.ea || !vars.data.config.r.width || !vars.data.config.s || !vars.data.config.f_str || !vars.data.config.c_str)
 	{
 		vars.data.error = "Error\nIn identifier";
 		return (vars);
