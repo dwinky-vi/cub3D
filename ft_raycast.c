@@ -6,13 +6,11 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 15:55:32 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 19:03:30 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
-// #define texWidth 64
-// #define texHeight 64
 
 unsigned int	ft_get_color_2(t_texture *data, int x, int y)
 {
@@ -24,23 +22,23 @@ unsigned int	ft_get_color_2(t_texture *data, int x, int y)
 
 int ft_raycast(t_vars *vars)
 {
-	int w = vars->data.config.r.width;
-	int h = vars->data.config.r.height;
-	double posX = vars->person.posX;
-	double posY = vars->person.posY;
+	int		w = vars->data.config.width;
+	int		h = vars->data.config.height;
+	double	posX = vars->person.posX;
+	double	posY = vars->person.posY;
 	int		texWidth = 64;
 	int 	texHeight = 64;
-	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.r.width, vars->data.config.r.height);
+
+	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.width, vars->data.config.height);
     vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
 	make_step(vars);
+
 	//generate some textures
-	int buffer[vars->data.config.r.height][vars->data.config.r.width];
 	int texture[8][texWidth * texHeight];
 	for (int x = 0; x < texWidth; x++)
 		for (int y = 0; y < texHeight; y++)
 		{
 			int xorcolor = (x * 256 / texWidth) ^ (y * 256 / texHeight);
-			//int xcolor = x * 256 / texWidth;
 			int ycolor = y * 256 / texHeight;
 			int xycolor = y * 128 / texHeight + x * 128 / texWidth;
 			texture[0][texWidth * y + x] = 65536 * 254 * (x != y && x != texWidth - y); //flat red texture with black cross
@@ -76,11 +74,8 @@ int ft_raycast(t_vars *vars)
 		//what direction to step in x or y-direction (either +1 or -1)
 		int stepX;
 		int stepY;
-
 		int hit = FALSE; //was there a wall hit?
 		int side; // вертикальная или горизонтальная стена на карте
-
-		//calculate step and initial sideDist
 		if (rayDirX < 0)
 		{
 			stepX = -1;
@@ -103,7 +98,6 @@ int ft_raycast(t_vars *vars)
 		}
 		while (hit == FALSE)
 		{
-			//jump to next map square, OR in x-direction, OR in y-direction
 			if (sideDistX < sideDistY)
 			{
 				sideDistX += deltaDistX;
@@ -116,8 +110,6 @@ int ft_raycast(t_vars *vars)
 				mapY += stepY;
 				side = 1; // вертикаль
 			}
-			//Check if ray has hit a wall
-			// hit это удар луча об стену
 			if (vars->data.map[mapX][mapY] == '1')
 				hit = TRUE;
 		}
@@ -128,13 +120,11 @@ int ft_raycast(t_vars *vars)
 			perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
 			if (stepX == -1)
 			{
-				// color = 0x0000CD; // синий
 				texHeight = vars->texture[0].height;
 				texWidth = vars->texture[0].width;
 			}
 			else if (stepX == 1)
 			{
-				// color = 0x8A2BE2; // фиолетовый
 				texHeight = vars->texture[1].height;
 				texWidth = vars->texture[1].width;
 			}
@@ -144,22 +134,17 @@ int ft_raycast(t_vars *vars)
 			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
 			if (stepY == -1)
 			{
-				// color = 0x00FF7F;
 				texHeight = vars->texture[2].height;
 				texWidth = vars->texture[2].width;
 			}
 			else if (stepY == 1)
 			{
-				// color = 0xFFD700; // жёлтый
 				texHeight = vars->texture[3].height;
 				texWidth = vars->texture[3].width;
 			}
 		}
-
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(h / perpWallDist);
-
-		//calculate lowest and highest pixel to fill in current stripe
 		// drawStart начало стены
 		// drawEnd конец стены
 		int drawStart = -lineHeight / 2 + h / 2;
@@ -192,7 +177,7 @@ int ft_raycast(t_vars *vars)
 		// Starting texture coordinate
 		double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
 	/********/
-		while (y < vars->data.config.r.height)
+		while (y < vars->data.config.height)
 		{
 
 			if (y < drawStart) // потолок

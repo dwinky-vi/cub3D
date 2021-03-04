@@ -6,18 +6,18 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 19:00:34 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 
-int     ft_check_r(t_window r)
+int     ft_check_resolution(int width, int height)
 {
-    if (!(0 < r.width && r.width <= 1920))
-        return (1);
-    if (!(0 < r.height && r.height <= 1080))
-        return (1);
+    // if (!(0 < width && width <= 1920))
+    //     return (1);
+    // if (!(0 < height && height <= 1080))
+    //     return (1);
     return (0);
 }
 
@@ -108,23 +108,23 @@ char    *ft_validator(t_data *data)
 {
     char *error;
 
-    if (ft_check_r(data->config.r))
+    if (ft_check_resolution(data->config.width, data->config.height))
         return ("Error in window resolution (R)");
     if (ft_check_and_get_color(data->config.f_str, &(data->config.f_int)))
         return ("Error in floor color (F)");
     if (ft_check_and_get_color(data->config.c_str, &(data->config.c_int)))
         return ("Error in floor color (C)");
-    // if (ft_check_path(data->config.no))
-    //     return ("Error in path (NO)");
-    // if (ft_check_path(data->config.so))
-    //     return ("Error in path (SO)");
-    // if (ft_check_path(data->config.we))
-    //     return ("Error in path (WE)");
-    // if (ft_check_path(data->config.ea))
-    //     return ("Error in path (EA)");
-    // if (ft_check_path(data->config.s))
-    //     return ("Error in path (S)");
-    // if (ft_checking_map(data->map))
-    //     return ("Error \nInvalid map");
+    if (ft_check_path(data->config.no))
+        return ("Error in path (NO)");
+    if (ft_check_path(data->config.so))
+        return ("Error in path (SO)");
+    if (ft_check_path(data->config.we))
+        return ("Error in path (WE)");
+    if (ft_check_path(data->config.ea))
+        return ("Error in path (EA)");
+    if (ft_check_path(data->config.s))
+        return ("Error in path (S)");
+    if (ft_checking_map(data->map))
+        return ("Error \nInvalid map");
     return (NULL);
 }

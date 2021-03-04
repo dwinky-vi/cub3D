@@ -6,34 +6,46 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 17:23:24 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 18:43:52 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 #include "head_parser.h"
 
-t_window ft_get_r(char *str)
+static int ft_get_width(char *str)
 {
-	t_window	r;
-    char    	*tmp;
+    char    *tmp;
+	int		width;
 
     tmp = str;
-	r.width = ft_atoi(str);
+	width = ft_atoi(str);
+	while (ft_isdigit(*str))
+		str++;
+    free(tmp);
+	return (width);
+}
+
+static int ft_get_height(char *str)
+{
+    char    *tmp;
+	int		height;
+
+    tmp = str;
 	while (ft_isdigit(*str))
 		str++;
 	while (!ft_isdigit(*str))
 		str++;
-	r.height = ft_atoi(str);
+	height = ft_atoi(str);
     free(tmp);
-	return (r);
+	return (height);
 }
 
 void    ft_set_config(t_config *config, char *line)
 {
-	if (line[0] == 'R' && config->r.width != 0)
+	if (line[0] == 'R' && config->width != 0)
 	{
-		config->r.width = 0;
+		config->width = 0;
 		return ;
 	}
     else if (line[0] == 'N' && line[1] == 'O' && config->no)
@@ -79,7 +91,10 @@ void    ft_set_config(t_config *config, char *line)
 		return ;
 	}
     if (line[0] == 'R')
-        config->r = ft_get_r(ft_strtrim(line + 1, " "));
+	{
+        config->width = ft_get_width(ft_strtrim(line + 1, " "));
+		config->height = ft_get_height(ft_strtrim(line + 1, " "));
+	}
     else if (line[0] == 'N' && line[1] == 'O')
         config->no = ft_strtrim(line + 2, " ");
     else if (line[0] == 'S' && line[1] == 'O')

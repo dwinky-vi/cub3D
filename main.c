@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 17:23:28 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 19:02:29 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int			main(int argc, char **argv)
 	vars.mlx_ptr = mlx_init();
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
-	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.width, vars.data.config.r.height, "planet");
+	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.width, vars.data.config.height, "planet");
+	
 	if (ft_get_textures(&vars) == -1)
 		return (ft_puterror("Error\ntextures"));
 	mlx_hook(vars.win_ptr, 2, 0, key_press_hook, &vars);

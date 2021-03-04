@@ -6,14 +6,12 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:56 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/03 17:29:57 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 18:50:41 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEAD_PARSER_H
 # define HEAD_PARSER_H
-
-t_window	ft_get_r(char *str);
 
 void		ft_set_config(t_config *config, char *line);
 
