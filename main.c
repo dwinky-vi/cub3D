@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 17:14:05 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 17:23:28 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ int			main(int argc, char **argv)
 	vars = ft_parse_data(fd);
 	if (vars.data.error != NULL)
 		return (ft_puterror(vars.data.error));
-	// ft_print_config(vars.data.config);
-	// ft_print_map(vars.data.map);
 	if ((error = ft_validator(&vars.data)))
 		return (ft_puterror(error));
 	close(fd);
@@ -99,13 +97,6 @@ int			main(int argc, char **argv)
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.r.width, vars.data.config.r.height, "planet");
-/**********************************************/
-
-// обнулить key_code
-	vars.person.moveSpeed = 0.05; // скорость ходьбы
-	vars.person.rotSpeed = 0.03; // скорость поворотов
-
-/**********************************************/
 	if (ft_get_textures(&vars) == -1)
 		return (ft_puterror("Error\ntextures"));
 	mlx_hook(vars.win_ptr, 2, 0, key_press_hook, &vars);

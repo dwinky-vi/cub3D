@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 09:58:22 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/04 17:26:51 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #define KEY_A k_0
 #define KEY_D k_2
 
-void		make_step_forward(char **map, t_person *person, int speed)
+void		make_step_forward(char **map, t_person *person, float speed)
 {
 	if (map[(int)(person->posX + person->dirX * person->moveSpeed * speed)][(int)person->posY] == '0')
 			person->posX += person->dirX * person->moveSpeed * speed;
@@ -77,21 +77,9 @@ void		make_rotation_right(char **map, t_person *person)
 int			make_step(t_vars *vars)
 {
 	if (vars->KEY_W)
-	{
-		// if (vars->k_123)
-		// 	make_rotation_left(vars->data.map, &vars->person);
-		// if (vars->k_124)
-		// 	make_rotation_right(vars->data.map, &vars->person);
-		make_step_forward(vars->data.map, &vars->person, vars->k_257 ? 2 : 1);
-	}
+		make_step_forward(vars->data.map, &vars->person, vars->k_257 ? 2.8 : 1);
 	if (vars->KEY_S)
-	{
-		// if (vars->k_123)
-		// 	make_rotation_left(vars->data.map, &vars->person);
-		// if (vars->k_124)
-		// 	make_rotation_right(vars->data.map, &vars->person);
 		make_step_back(vars->data.map, &vars->person);
-	}
 	if (vars->KEY_A)
 		make_step_left(vars->data.map, &vars->person);
 	if (vars->KEY_D)

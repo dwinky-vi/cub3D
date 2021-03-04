@@ -58,7 +58,7 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 **движения и повороты
 */
 
-void	make_step_forward(char **map, t_person *person, int speed);
+void	make_step_forward(char **map, t_person *person, float speed);
 
 void	make_step_back(char **map, t_person *person);
 
