@@ -42,7 +42,8 @@ void	ft_free_config(t_config *conf);
 
 int		ft_raycast(t_vars *vars);
 
- unsigned int	ft_get_color_2(t_texture *data, int x, int y);
+unsigned int	ft_get_color_2(t_texture *data, int x, int y);
+
 /*
 ** parser
 */
