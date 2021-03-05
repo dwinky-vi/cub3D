@@ -12,35 +12,29 @@
 
 #include "head_cub3d.h"
 
-//sort algorithm
-//sort the sprites based on distance
-// void sortSprites(int* order, double* dist, int amount)
-// {
-// 	// std::vector<std::pair<double, int>> sprites(amount);
-// 	for(int i = 0; i < amount; i++)
-// 	{
-// 		sprites[i].first = dist[i];
-// 		sprites[i].second = order[i];
-// 	}
-// 	std::sort(sprites.begin(), sprites.end());
-// 	// restore in reverse order to go from farthest to nearest
-// 	for(int i = 0; i < amount; i++)
-// 	{
-// 		dist[i] = sprites[amount - i - 1].first;
-// 		order[i] = sprites[amount - i - 1].second;
-// 	}
-// }
-
-unsigned int	ft_get_color_2(t_texture *data, int x, int y)
+void sortSprites(t_sprite *sprite, int count)
 {
-    char    *dst;
+	int k;
+	int j;
+	t_sprite buf;
 
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	return (*(unsigned int *)dst);
+	k = 0;
+	while (k < count)
+	{
+		j = 0;
+		while (j < count)
+		{
+			if (sprite[k].distance > sprite[j].distance)
+			{
+				buf = sprite[j];
+				sprite[j] = sprite[k];
+				sprite[k] = buf;
+			}
+			j++;
+		}
+		k++;
+	}
 }
-
-//function used to sort the sprites
-void sortSprites(int *order, double *dist, int amount);
 
 int ft_raycast(t_vars *vars)
 {
@@ -215,30 +209,18 @@ int ft_raycast(t_vars *vars)
 				{
 
 					if (stepX == -1)
-						 color = ft_get_color_2(&vars->texture[0], texX, texY);
+						 color = ft_mlx_get_color(&vars->texture[0], texX, texY);
 					else if (stepX == 1)
-						 color = ft_get_color_2(&vars->texture[1], texX, texY);
+						 color = ft_mlx_get_color(&vars->texture[1], texX, texY);
 				}
 				else // горизанталь
 				{
 					if (stepY == -1)
-						 color = ft_get_color_2(&vars->texture[2], texX, texY);
+						 color = ft_mlx_get_color(&vars->texture[2], texX, texY);
 					else if (stepY == 1)
-						 color = ft_get_color_2(&vars->texture[3], texX, texY);
+						 color = ft_mlx_get_color(&vars->texture[3], texX, texY);
 				}
 				my_mlx_pixel_put(&vars->img, x, y, color);
-			}
-			if (cameraX == 0 && y == h / 2)
-			{
-				my_mlx_pixel_put(&vars->img, x, y, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x, y + 1, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x, y + 2, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x + 1, y, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x + 1, y + 1, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x + 1, y + 2, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x + 2, y, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x + 2, y + 1, 0xFFFFFF);
-				my_mlx_pixel_put(&vars->img, x + 2, y + 2, 0xFFFFFF);
 			}
 			y++;
 		}
@@ -247,30 +229,11 @@ int ft_raycast(t_vars *vars)
 		x++;
 	}
 	//SPRITE CASTING
-	//sort sprites from far to close
 	int numSprites = vars->count_sprites;
-	t_sprite sprite[numSprites];
-	int k = 0;
-	int j;
-	int i = 0;
 
-	while (vars->data.map[k])
-	{
-		j = 0;
-		while (vars->data.map[k][j])
-		{
-			if (vars->data.map[k][j] == '2')
-			{
-				sprite[i].x = k + 0.5;
-				sprite[i].y = j + 0.5;
-				sprite[i].distance = ((posX - sprite[i].x) * (posX - sprite[i].x) + (posY - sprite[i].y) * (posY - sprite[i].y)); //sqrt not taken, unneeded
-				i++;
-			}
-			j++;
-		}
-		k++;
-	}
-	// sortSprites(spriteOrder, spriteDistance, numSprites);
+	t_sprite sprite[numSprites];
+	ft_calculate_distance(sprite, numSprites, vars->data.map, posX, posY);
+	sortSprites(sprite, numSprites);
 
 	//after sorting the sprites, do the projection and draw them
 	for (int i = 0; i < numSprites; i++)
@@ -320,14 +283,39 @@ int ft_raycast(t_vars *vars)
 				{
 					int d = (y) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * texHeight) / spriteHeight) / 256;
-					int color = ft_get_color_2(&vars->texture[4], texX, texY); //get current color from the texture
+					int color = ft_mlx_get_color(&vars->texture[4], texX, texY); //get current color from the texture
 					if ((color & 0x00FFFFFF) != 0)
 						my_mlx_pixel_put(&vars->img, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
-					
 				}
 		}
 	}
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 	mlx_destroy_image(vars->mlx_ptr,vars->img.img);
 	return (0);
+}
+
+void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double posX, double posY)
+{
+	int k;
+	int j;
+	int i;
+
+	i = 0;
+	k = 0;
+	while (map[k])
+	{
+		j = 0;
+		while (map[k][j])
+		{
+			if (map[k][j] == '2')
+			{
+				sprite[i].x = k + 0.5;
+				sprite[i].y = j + 0.5;
+				sprite[i].distance = ((posX - sprite[i].x) * (posX - sprite[i].x) + (posY - sprite[i].y) * (posY - sprite[i].y));
+				i++;
+			}
+			j++;
+		}
+		k++;
+	}
 }

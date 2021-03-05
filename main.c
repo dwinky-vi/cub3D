@@ -13,39 +13,10 @@
 #include "head_cub3d.h"
 #include <stdio.h>
 
-static int	mouse_press_hook(int key, void *vars)
-{
-	ft_putchar(key);
-	ft_putchar('1');
-	return (0);
-}
-
-static int	motion_hook(int key, void *vars)
-{
-	ft_putnbr(key);
-	ft_putchar('2');
-	return (0);
-}
-
-static int	expose_hook(int key, void *vars)
-{
-	ft_putnbr(key);
-	ft_putchar('\n');
-	return (0);
-}
-
 int			ft_puterror(char *str)
 {
 	ft_putendl_fd(str, 1);
 	return (-1);
-}
-
-void		my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-    char    *dst;
-
-    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
 }
 
 int			ft_get_textures(t_vars *vars)

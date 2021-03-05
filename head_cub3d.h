@@ -42,7 +42,8 @@ void	ft_free_config(t_config *conf);
 
 int		ft_raycast(t_vars *vars);
 
-unsigned int	ft_get_color_2(t_texture *data, int x, int y);
+void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double posX, double posY);
+
 
 /*
 ** parser
@@ -52,7 +53,9 @@ t_vars	ft_parse_data(int fd);
 
 char	*ft_validator(t_data *data);
 
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+unsigned int	ft_mlx_get_color(t_texture *data, int x, int y);
 
 /*
 **движения и повороты
