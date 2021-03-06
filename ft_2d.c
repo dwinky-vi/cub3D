@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:31 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 19:11:18 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	exit_hook(int key, void *vars)
 	exit(0);
 }
 
-void	 	set_hooks_2(t_vars *vars)
+void		set_hooks_2(t_vars *vars)
 {
 	vars->k_0 = FALSE;
 	vars->k_1 = FALSE;
@@ -119,20 +119,25 @@ void		ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color)
 
 void		ft_cast_rays(t_vars *vars)
 {
-	float		start	= vars->person.dir - M_PI_4; // начало веера лучей
-	float		end		= vars->person.dir + M_PI_4; // край веера лучей
-	float		c;
+	float	start;
+	float	end;
+	float	c;
+	float	cx;
+	float	cx;
 
+	start = vars->person.dir - M_PI_4;
+	end = vars->person.dir + M_PI_4;
 	while (start < end)
 	{
 		c = 0;
 		while (c < 20)
 		{
-			float cx = vars->person.x + c * cos(start);
-			float cy = vars->person.y + c * sin(start);
+			cx = vars->person.x + c * cos(start);
+			cy = vars->person.y + c * sin(start);
 			if (vars->data.map[(int)cx][(int)cy] == '1')
 				break ;
-			my_mlx_pixel_put(&vars->img, cy * SCALE, cx * SCALE < 0 ? 0 : cx * SCALE, 0x990099);
+			my_mlx_pixel_put(&vars->img, cy * SCALE, cx < 0 ? 0 : cx * SCALE,
+								0x990099);
 			c += 0.05;
 		}
 		start += M_PI_4 / 100;
@@ -141,10 +146,11 @@ void		ft_cast_rays(t_vars *vars)
 
 void		ft_draw_player(t_vars *vars)
 {
-	t_person person = vars->person;
-	t_point start;
-	t_point	end;
+	t_person	person;
+	t_point		start;
+	t_point		end;
 
+	person = vars->person;
 	ft_cast_rays(vars);
 	start.x = vars->person.x * SCALE;
 	start.y = vars->person.y * SCALE;
@@ -153,15 +159,27 @@ void		ft_draw_player(t_vars *vars)
 	ft_draw_pixel(vars, start, end, vars->data.config.f_int);
 }
 
+int			ft_init_img(t_img *img)
+{
+	img->img = mlx_new_image(vars->mlx_ptr, vars->data.config.width,
+							vars->data.config.height);
+	if (img->img == NULL)
+		return (1);
+	img->addr = mlx_get_data_addr(vars->img.img,
+								&vars->img.bits_per_pixel,
+								&vars->img.line_length,
+								&vars->img.endian);
+}
+
 void		ft_display_map(t_vars *vars)
 {
-	int 	k;
+	int		k;
 	int		j;
 	t_point start;
 	t_point	end;
 
-    vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.r.size_x, vars->data.config.r.size_y);
-    vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
+	if (ft_init_img(&vars->img))
+		return ;
 	k = 0;
 	while (vars->data.map[k])
 	{

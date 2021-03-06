@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 19:00:34 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 19:29:08 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,33 +78,21 @@ int     ft_check_path(char *path)
 
 int     ft_checking_map(char **map)
 {
-    // int k;
-    // int j;
+    int k;
+    int j;
 
-    // j = 0;
-    // while (map[0][j])
-    // {
-    //     if (map[0][j] == '0')
-    //         return (1);
-    // }
-    // k = 0;
-    // while (map[k])
-    // {
-    //     j = 0;
-    //     if (map[k][0] == '0')
-    //         return (1);
-    //     j = ft_strlen(map[k]) - 1;
-    //     if (j > map[k][--j] == '0')
-    //         return (1);
-    //     k++;
-    // }
-    // j = 0;
-    // k--;
-    // while (map[k][j])
-    // {
-    //     if (map[0][j] == '0')
-    //         return (1);
-    // }
+    k = 0;
+	while (map[k])
+	{
+		j = 0;
+		while (map[k][j])
+		{
+			if (!(ft_strchr("012 \nNSWE", map[k][j])))
+				return (1);
+			j++;
+		}
+		k++;
+	}
     return (0);
 }
 

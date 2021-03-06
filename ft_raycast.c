@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 21:10:18 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 18:25:15 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int ft_raycast(t_vars *vars)
 		double deltaDistX = fabs(1 / rayDirX);
 		double deltaDistY = fabs(1 / rayDirY);
 		double perpWallDist;
- 
+
 		//what direction to step in x or y-direction (either +1 or -1)
 		int stepX;
 		int stepY;
