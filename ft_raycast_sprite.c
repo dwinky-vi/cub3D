@@ -24,7 +24,7 @@ void sortSprites(t_sprite *sprite, int count)
 	}
 }
 
-void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double posX, double posY)
+void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double pos_x, double pos_y)
 {
 	int k;
 	int j;
@@ -41,7 +41,7 @@ void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double 
 			{
 				sprite[i].x = k + 0.5;
 				sprite[i].y = j + 0.5;
-				sprite[i].distance = ((posX - sprite[i].x) * (posX - sprite[i].x) + (posY - sprite[i].y) * (posY - sprite[i].y));
+				sprite[i].distance = ((pos_x - sprite[i].x) * (pos_x - sprite[i].x) + (pos_y - sprite[i].y) * (pos_y - sprite[i].y));
 				i++;
 			}
 			j++;
@@ -50,20 +50,20 @@ void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double 
 	}
 }
 
-void	ft_spritecasting(t_vars *vars, double posX, double posY, double *ZBuffer)
+void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y, double *ZBuffer)
 {
 	int			w = vars->data.config.width;
 	int			h = vars->data.config.height;
 	int			numSprites = vars->count_sprites;
 	t_sprite	sprite[numSprites];
 
-	ft_calculate_distance(sprite, numSprites, vars->data.map, posX, posY);
+	ft_calculate_distance(sprite, numSprites, vars->data.map, pos_x, pos_y);
 	sortSprites(sprite, numSprites);
 	for (int i = 0; i < numSprites; i++)
 	{
 		//translate sprite position to relative to camera
-		double spriteX = sprite[i].x - posX;
-		double spriteY = sprite[i].y - posY;
+		double spriteX = sprite[i].x - pos_x;
+		double spriteY = sprite[i].y - pos_y;
 		double invDet = 1.0 / (vars->person.planeX * vars->person.dirY - vars->person.dirX * vars->person.planeY); //required for correct matrix multiplication
 
 		double transformX = invDet * (vars->person.dirY * spriteX - vars->person.dirX * spriteY);

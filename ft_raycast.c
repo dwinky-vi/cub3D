@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 18:25:15 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 21:51:38 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int ft_raycast(t_vars *vars)
 {
 	int		w = vars->data.config.width;
 	int		h = vars->data.config.height;
-	double	posX = vars->person.posX;
-	double	posY = vars->person.posY;
+	double	pos_x = vars->person.pos_x;
+	double	pos_y = vars->person.pos_y;
 	int		texWidth = 64;
 	int 	texHeight = 64;
 	double	ZBuffer[vars->data.config.width];
@@ -52,8 +52,8 @@ int ft_raycast(t_vars *vars)
 		double rayDirY = vars->person.dirY + vars->person.planeY * cameraX;
 
 		//which box of the map we're in
-		int mapX = (int)posX;
-		int mapY = (int)posY;
+		int mapX = (int)pos_x;
+		int mapY = (int)pos_y;
 
 		//length of ray from current position to next x or y-side
 		double sideDistX;
@@ -72,22 +72,22 @@ int ft_raycast(t_vars *vars)
 		if (rayDirX < 0)
 		{
 			stepX = -1;
-			sideDistX = (posX - mapX) * deltaDistX;
+			sideDistX = (pos_x - mapX) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+			sideDistX = (mapX + 1.0 - pos_x) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
 			stepY = -1;
-			sideDistY = (posY - mapY) * deltaDistY;
+			sideDistY = (pos_y - mapY) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+			sideDistY = (mapY + 1.0 - pos_y) * deltaDistY;
 		}
 		while (hit == FALSE)
 		{
@@ -110,7 +110,7 @@ int ft_raycast(t_vars *vars)
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
 		if (side == 0) //вертикаль
 		{
-			perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+			perpWallDist = (mapX - pos_x + (1 - stepX) / 2) / rayDirX;
 			if (stepX == -1)
 			{
 				texHeight = vars->texture[0].height;
@@ -124,7 +124,7 @@ int ft_raycast(t_vars *vars)
 		}
 		else // горизанталь
 		{
-			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+			perpWallDist = (mapY - pos_y + (1 - stepY) / 2) / rayDirY;
 			if (stepY == -1)
 			{
 				texHeight = vars->texture[2].height;
@@ -154,9 +154,9 @@ int ft_raycast(t_vars *vars)
 		// это y-координата стены, если side == 1
 		double wallX; 
 		if (side == 0)
-			wallX = posY + perpWallDist * rayDirY;
+			wallX = pos_y + perpWallDist * rayDirY;
 		else
-			wallX = posX + perpWallDist * rayDirX;
+			wallX = pos_x + perpWallDist * rayDirX;
 		wallX -= floor((wallX));
 
 		// texX –– x-координата текстуры
@@ -191,7 +191,7 @@ int ft_raycast(t_vars *vars)
 		x++;
 	}
 	//SPRITE CASTING
-	ft_spritecasting(vars, posX, posY, ZBuffer);
+	ft_spritecasting(vars, pos_x, pos_y, ZBuffer);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 	mlx_destroy_image(vars->mlx_ptr,vars->img.img);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 20:36:29 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 21:50:00 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 typedef struct	s_point
 {
-	int 		x;
+	int			x;
 	int			y;
 }				t_point;
 
@@ -41,54 +41,54 @@ typedef struct	s_data
 	char		*error;
 }				t_data;
 
-typedef struct  s_img
+typedef struct	s_img
 {
-    void        *img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-}               t_img;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}				t_img;
 
-typedef struct  s_texture
+typedef struct	s_texture
 {
-    void        *img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
 	int			height;
 	int			width;
-}               t_texture;
+}				t_texture;
 
 typedef struct	s_person
 {
 	// координаты игрока
-	double posX;
-	double posY;
-  	// направление персонажа, куда смотрю
-	double dirX;
-	double dirY;
+	double		pos_x;
+	double		pos_y;
+	// направление персонажа, куда смотрю
+	double		dirX;
+	double		dirY;
 	// угол обзора. плоскость которую видим
-  	double planeX;
-	double planeY;
+	double		planeX;
+	double		planeY;
 	// скорость персонажа
-	double moveSpeed;
+	double		moveSpeed;
 	// скорость поворота камеры
-    double rotSpeed;
+	double		rotSpeed;
 }				t_person;
 
-typedef struct s_sprite
+typedef struct	s_sprite
 {
 	double		x;
 	double		y;
 	double		distance;
 }				t_sprite;
 
-typedef struct  s_vars
+typedef struct	s_vars
 {
-    void    	*mlx_ptr;
-    void    	*win_ptr;
+	void		*mlx_ptr;
+	void		*win_ptr;
 	t_person	person;
 	t_data		data;
 	t_img		img;
@@ -101,6 +101,6 @@ typedef struct  s_vars
 	char		k_123;
 	char		k_124;
 	char		k_257;
-}               t_vars;
+}				t_vars;
 
 #endif

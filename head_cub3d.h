@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 10:27:54 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 22:41:43 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ char    *ft_validator(t_data *data, void *mlx_ptr);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 unsigned int	ft_mlx_get_color(t_texture *data, int x, int y);
+
+/*
+** validator
+*/
+
+int		ft_checking_map(char **map);
 
 /*
 **движения и повороты

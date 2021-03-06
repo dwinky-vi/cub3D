@@ -2,7 +2,8 @@
 
 SRCS	= \
 		main.c ft_free.c ft_parser1.c ft_parser2.c\
-		ft_validator.c ft_raycast.c ft_raycast_sprite.c ft_hooks.c ft_steps.c ft_my_mlx.c\
+		ft_validator1.c ft_validator2.c \
+		ft_raycast.c ft_raycast_sprite.c ft_hooks.c ft_steps.c ft_my_mlx.c\
 
 NAME		= cub3D
 

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 18:24:41 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 22:54:04 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,10 +180,10 @@ void			ft_find_person(t_vars *vars)
 		{
 			if (ft_strchr("NSEW", vars->data.map[k][j]))
 			{
-				vars->person.posX = k + 0.5;
-				vars->person.posY = j + 0.5;
-				vars->person.moveSpeed = 0.06; // скорость ходьбы
-				vars->person.rotSpeed = 0.035; // скорость поворотов
+				vars->person.pos_x = k + 0.5;
+				vars->person.pos_y = j + 0.5;
+				vars->person.moveSpeed = 0.08; // скорость ходьбы
+				vars->person.rotSpeed = 0.045; // скорость поворотов
 				if (vars->data.map[k][j] == 'N')
 				{
 					vars->person.dirX = -1;

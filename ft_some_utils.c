@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 14:14:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/04 10:32:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/06 21:57:12 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_lstprint_ass_str(t_list **list)
 void	ft_print_map(char **map)
 {
 	int		k;
+	int		j;
 
 	if (map == NULL)
 	{
@@ -44,7 +45,7 @@ void	ft_print_map(char **map)
 	k = 0;
 	while (map[k] != NULL)
 	{
-		int j = 0;
+		j = 0;
 		while (map[k][j])
 		{
 			ft_putchar(map[k][j]);
