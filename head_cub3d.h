@@ -44,6 +44,8 @@ int		ft_raycast(t_vars *vars);
 
 void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double posX, double posY);
 
+void	ft_spritecasting(t_vars *vars, double posX, double posY, double *ZBuffer);
+
 
 /*
 ** parser

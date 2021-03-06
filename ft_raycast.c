@@ -229,13 +229,47 @@ int ft_raycast(t_vars *vars)
 		x++;
 	}
 	//SPRITE CASTING
-	int numSprites = vars->count_sprites;
+	ft_spritecasting(vars, posX, posY, ZBuffer);
+	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
+	mlx_destroy_image(vars->mlx_ptr,vars->img.img);
+	return (0);
+}
 
-	t_sprite sprite[numSprites];
+void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double posX, double posY)
+{
+	int k;
+	int j;
+	int i;
+
+	i = 0;
+	k = 0;
+	while (map[k])
+	{
+		j = 0;
+		while (map[k][j])
+		{
+			if (map[k][j] == '2')
+			{
+				sprite[i].x = k + 0.5;
+				sprite[i].y = j + 0.5;
+				sprite[i].distance = ((posX - sprite[i].x) * (posX - sprite[i].x) + (posY - sprite[i].y) * (posY - sprite[i].y));
+				i++;
+			}
+			j++;
+		}
+		k++;
+	}
+}
+
+void	ft_spritecasting(t_vars *vars, double posX, double posY, double *ZBuffer)
+{
+	int			w = vars->data.config.width;
+	int			h = vars->data.config.height;
+	int			numSprites = vars->count_sprites;
+	t_sprite	sprite[numSprites];
+
 	ft_calculate_distance(sprite, numSprites, vars->data.map, posX, posY);
 	sortSprites(sprite, numSprites);
-
-	//after sorting the sprites, do the projection and draw them
 	for (int i = 0; i < numSprites; i++)
 	{
 		//translate sprite position to relative to camera
@@ -267,12 +301,12 @@ int ft_raycast(t_vars *vars)
 		if (drawEndX >= w)
 			drawEndX = w - 1;
 
-		texHeight = vars->texture[4].height;
-		texWidth = vars->texture[4].width;
+		int texHeight = vars->texture[4].height;
+		int texWidth = vars->texture[4].width;
 		//loop through every vertical stripe of the sprite on screen
 		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+			int texX = (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
 			//the conditions in the if are:
 			//1) it's in front of camera plane so you don't see things behind you
 			//2) it's on the screen (left)
@@ -281,7 +315,7 @@ int ft_raycast(t_vars *vars)
 			if (transformY > 0 && stripe > 0 && stripe < w && transformY < ZBuffer[stripe])
 				for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 				{
-					int d = (y) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int d = y * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * texHeight) / spriteHeight) / 256;
 					int color = ft_mlx_get_color(&vars->texture[4], texX, texY); //get current color from the texture
 					if ((color & 0x00FFFFFF) != 0)
@@ -289,33 +323,9 @@ int ft_raycast(t_vars *vars)
 				}
 		}
 	}
-	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
-	mlx_destroy_image(vars->mlx_ptr,vars->img.img);
-	return (0);
 }
 
-void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double posX, double posY)
+void	func_1()
 {
-	int k;
-	int j;
-	int i;
-
-	i = 0;
-	k = 0;
-	while (map[k])
-	{
-		j = 0;
-		while (map[k][j])
-		{
-			if (map[k][j] == '2')
-			{
-				sprite[i].x = k + 0.5;
-				sprite[i].y = j + 0.5;
-				sprite[i].distance = ((posX - sprite[i].x) * (posX - sprite[i].x) + (posY - sprite[i].y) * (posY - sprite[i].y));
-				i++;
-			}
-			j++;
-		}
-		k++;
-	}
+	
 }
