@@ -12,12 +12,16 @@
 
 #include "head_cub3d.h"
 
-int     ft_check_resolution(int width, int height)
+int     ft_check_resolution(int *width, int *height, void *mlx_ptr)
 {
-    // if (!(0 < width && width <= 1920))
-    //     return (1);
-    // if (!(0 < height && height <= 1080))
-    //     return (1);
+    int this_width;
+    int this_height;
+
+    mlx_get_screen_size(mlx_ptr, &this_width, &this_height);
+    if (!(0 < *width && *width <= this_width))
+        *width = this_width;
+    if (!(0 < *height && *height <= this_height))
+        *height = this_height;
     return (0);
 }
 
@@ -104,11 +108,11 @@ int     ft_checking_map(char **map)
     return (0);
 }
 
-char    *ft_validator(t_data *data)
+char    *ft_validator(t_data *data, void *mlx_ptr)
 {
     char *error;
 
-    if (ft_check_resolution(data->config.width, data->config.height))
+    if (ft_check_resolution(&data->config.width, &data->config.height, mlx_ptr))
         return ("Error in window resolution (R)");
     if (ft_check_and_get_color(data->config.f_str, &(data->config.f_int)))
         return ("Error in floor color (F)");

@@ -61,7 +61,7 @@ int			main(int argc, char **argv)
 	vars = ft_parse_data(fd);
 	if (vars.data.error != NULL)
 		return (ft_puterror(vars.data.error));
-	if ((error = ft_validator(&vars.data)))
+	if ((error = ft_validator(&vars.data, vars.mlx_ptr)))
 		return (ft_puterror(error));
 	close(fd);
 	vars.mlx_ptr = mlx_init();

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   head_cub3d.h                                         :+:      :+:    :+:   */
+/*   head_cub3d.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,9 +16,11 @@
 # include "head_structs.h"
 # include "./libft/libft.h"
 # include "./ft_printf/ft_printf.h"
-# include "./minilibx2/mlx.h" ///!!!!!!!!!
+
+# include "./minilibx/mlx.h" ///!!!!!!!!!
 # include <fcntl.h>
 # include <math.h>
+
 
 /*
 **утилиты
@@ -46,6 +48,7 @@ void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double 
 
 void	ft_spritecasting(t_vars *vars, double posX, double posY, double *ZBuffer);
 
+int		get_color_wall(t_vars *vars, double texX, double texY, int stepX, int stepY, int side);
 
 /*
 ** parser
@@ -53,7 +56,7 @@ void	ft_spritecasting(t_vars *vars, double posX, double posY, double *ZBuffer);
 
 t_vars	ft_parse_data(int fd);
 
-char	*ft_validator(t_data *data);
+char    *ft_validator(t_data *data, void *mlx_ptr);
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 

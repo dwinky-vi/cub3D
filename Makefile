@@ -2,7 +2,7 @@
 
 SRCS	= \
 		main.c ft_free.c ft_parser1.c ft_parser2.c\
-		ft_validator.c ft_raycast.c ft_hooks.c ft_steps.c ft_my_mlx.c\
+		ft_validator.c ft_raycast.c ft_raycast_sprite.c ft_hooks.c ft_steps.c ft_my_mlx.c\
 
 NAME		= cub3D
 
@@ -10,13 +10,13 @@ LIBFT_PATH		= ./libft
 
 FT_PRINTF_PATH	= ./ft_printf
 
-MINILIBX_PATH	= ./minilibx2
+MINILIBX_PATH	= ./minilibx
 
 HEADER		= head_cub3d.h
 
 CC		= gcc
 
-CFLAGS	= -g
+CFLAGS	= 
 
 # создаём скрытую директорию, в которой будут .o файлы
 OBJS_DIR =			.obj
@@ -41,17 +41,17 @@ make_printf:
 			@${MAKE} -C ft_printf
 
 make_mlx:
-			@${MAKE} -C minilibx2
+			@${MAKE} -C minilibx
 
 $(NAME): 	$(OBJS)
-			@mv $(MINILIBX_PATH)/libmlx.a . && rm -rf $(MINILIBX_PATH)/libmlx.a
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
+			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
-					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -c $< -o $@
+					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -I $(MINILIBX_PATH)/mlx.h -c $< -o $@
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(GREEN)[OK]$(NO_COLOR)\n"
 
 clean:

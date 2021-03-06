@@ -183,7 +183,7 @@ void			ft_find_person(t_vars *vars)
 				vars->person.posX = k + 0.5;
 				vars->person.posY = j + 0.5;
 				vars->person.moveSpeed = 0.06; // скорость ходьбы
-				vars->person.rotSpeed = 0.025; // скорость поворотов
+				vars->person.rotSpeed = 0.035; // скорость поворотов
 				if (vars->data.map[k][j] == 'N')
 				{
 					vars->person.dirX = -1;

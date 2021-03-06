@@ -12,30 +12,6 @@
 
 #include "head_cub3d.h"
 
-void sortSprites(t_sprite *sprite, int count)
-{
-	int k;
-	int j;
-	t_sprite buf;
-
-	k = 0;
-	while (k < count)
-	{
-		j = 0;
-		while (j < count)
-		{
-			if (sprite[k].distance > sprite[j].distance)
-			{
-				buf = sprite[j];
-				sprite[j] = sprite[k];
-				sprite[k] = buf;
-			}
-			j++;
-		}
-		k++;
-	}
-}
-
 int ft_raycast(t_vars *vars)
 {
 	int		w = vars->data.config.width;
@@ -205,21 +181,7 @@ int ft_raycast(t_vars *vars)
 			{
 				int texY = (int)texPos & (texHeight - 1);
 				texPos += step;
-				if (side == 0) //вертикаль
-				{
-
-					if (stepX == -1)
-						 color = ft_mlx_get_color(&vars->texture[0], texX, texY);
-					else if (stepX == 1)
-						 color = ft_mlx_get_color(&vars->texture[1], texX, texY);
-				}
-				else // горизанталь
-				{
-					if (stepY == -1)
-						 color = ft_mlx_get_color(&vars->texture[2], texX, texY);
-					else if (stepY == 1)
-						 color = ft_mlx_get_color(&vars->texture[3], texX, texY);
-				}
+				color = get_color_wall(vars, texX, texY, stepX, stepY, side);
 				my_mlx_pixel_put(&vars->img, x, y, color);
 			}
 			y++;
@@ -235,94 +197,25 @@ int ft_raycast(t_vars *vars)
 	return (0);
 }
 
-void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double posX, double posY)
+int		get_color_wall(t_vars *vars, double texX, double texY, int stepX, int stepY, int side)
 {
-	int k;
-	int j;
-	int i;
+	int color;
 
-	i = 0;
-	k = 0;
-	while (map[k])
+	if (side == 0) //вертикаль
 	{
-		j = 0;
-		while (map[k][j])
-		{
-			if (map[k][j] == '2')
-			{
-				sprite[i].x = k + 0.5;
-				sprite[i].y = j + 0.5;
-				sprite[i].distance = ((posX - sprite[i].x) * (posX - sprite[i].x) + (posY - sprite[i].y) * (posY - sprite[i].y));
-				i++;
-			}
-			j++;
-		}
-		k++;
+		if (stepX == -1)
+			color = ft_mlx_get_color(&vars->texture[0], texX, texY);
+		else if (stepX == 1)
+			color = ft_mlx_get_color(&vars->texture[1], texX, texY);
 	}
-}
-
-void	ft_spritecasting(t_vars *vars, double posX, double posY, double *ZBuffer)
-{
-	int			w = vars->data.config.width;
-	int			h = vars->data.config.height;
-	int			numSprites = vars->count_sprites;
-	t_sprite	sprite[numSprites];
-
-	ft_calculate_distance(sprite, numSprites, vars->data.map, posX, posY);
-	sortSprites(sprite, numSprites);
-	for (int i = 0; i < numSprites; i++)
+	else // горизанталь
 	{
-		//translate sprite position to relative to camera
-		double spriteX = sprite[i].x - posX;
-		double spriteY = sprite[i].y - posY;
-		double invDet = 1.0 / (vars->person.planeX * vars->person.dirY - vars->person.dirX * vars->person.planeY); //required for correct matrix multiplication
-
-		double transformX = invDet * (vars->person.dirY * spriteX - vars->person.dirX * spriteY);
-		double transformY = invDet * (-vars->person.planeY * spriteX + vars->person.planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
-
-		int spriteScreenX = (int)((w / 2) * (1 + transformX / transformY));
-
-		//calculate height of the sprite on screen
-		int spriteHeight = fabs((double)(h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + h / 2;
-		if (drawStartY < 0)
-			drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + h / 2;
-		if (drawEndY >= h)
-			drawEndY = h - 1;
-
-		//calculate width of the sprite
-		int spriteWidth = fabs((double)(h / (transformY)));
-		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		if (drawStartX < 0)
-			drawStartX = 0;
-		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if (drawEndX >= w)
-			drawEndX = w - 1;
-
-		int texHeight = vars->texture[4].height;
-		int texWidth = vars->texture[4].width;
-		//loop through every vertical stripe of the sprite on screen
-		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
-		{
-			int texX = (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
-			//the conditions in the if are:
-			//1) it's in front of camera plane so you don't see things behind you
-			//2) it's on the screen (left)
-			//3) it's on the screen (right)
-			//4) ZBuffer, with perpendicular distance
-			if (transformY > 0 && stripe > 0 && stripe < w && transformY < ZBuffer[stripe])
-				for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-				{
-					int d = y * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = ((d * texHeight) / spriteHeight) / 256;
-					int color = ft_mlx_get_color(&vars->texture[4], texX, texY); //get current color from the texture
-					if ((color & 0x00FFFFFF) != 0)
-						my_mlx_pixel_put(&vars->img, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
-				}
-		}
+		if (stepY == -1)
+			color = ft_mlx_get_color(&vars->texture[2], texX, texY);
+		else if (stepY == 1)
+			color = ft_mlx_get_color(&vars->texture[3], texX, texY);
 	}
+	return (color);
 }
 
 void	func_1()
