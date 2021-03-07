@@ -11,7 +11,7 @@ LIBFT_PATH		= ./libft
 
 FT_PRINTF_PATH	= ./ft_printf
 
-MINILIBX_PATH	= ./minilibx
+MINILIBX_PATH	= ./minilibx_c
 
 HEADER		= head_cub3d.h
 
@@ -42,11 +42,11 @@ make_printf:
 			@${MAKE} -C ft_printf
 
 make_mlx:
-			@${MAKE} -C minilibx
+			@${MAKE} -C minilibx_c
 
 $(NAME): 	$(OBJS)
-			@mv $(MINILIBX_PATH)/libmlx.dylib . && rm -rf $(MINILIBX_PATH)/libmlx.dylib
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
+			@mv $(MINILIBX_PATH)/libmlx.a . && rm -rf $(MINILIBX_PATH)/libmlx.a
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf -L. -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h libft/libft.a

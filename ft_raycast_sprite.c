@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_raycast_sprite.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 14:17:13 by dwinky            #+#    #+#             */
+/*   Updated: 2021/03/07 17:48:09 by dwinky           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "head_cub3d.h"
 
-void sortSprites(t_sprite *sprite, int count)
+void 	sortSprites(t_sprite *sprite, int count)
 {
-	int k;
-	int j;
-	t_sprite buf;
+	int			k;
+	int			j;
+	t_sprite	buf;
 
 	k = 0;
 	while (k < count)
@@ -24,7 +36,7 @@ void sortSprites(t_sprite *sprite, int count)
 	}
 }
 
-void	ft_calculate_distance(t_sprite *sprite, int numSprites, char **map, double pos_x, double pos_y)
+void	ft_calculate_distance(t_sprite *sprite, char **map, double pos_x, double pos_y)
 {
 	int k;
 	int j;
@@ -54,12 +66,14 @@ void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y, double *ZBuffer)
 {
 	int			w = vars->data.config.width;
 	int			h = vars->data.config.height;
+	int			i;
 	int			numSprites = vars->count_sprites;
 	t_sprite	sprite[numSprites];
 
-	ft_calculate_distance(sprite, numSprites, vars->data.map, pos_x, pos_y);
+	ft_calculate_distance(sprite, vars->data.map, pos_x, pos_y);
 	sortSprites(sprite, numSprites);
-	for (int i = 0; i < numSprites; i++)
+	i = 0;
+	while (i < numSprites)
 	{
 		//translate sprite position to relative to camera
 		double spriteX = sprite[i].x - pos_x;
@@ -111,5 +125,6 @@ void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y, double *ZBuffer)
 						my_mlx_pixel_put(&vars->img, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
 				}
 		}
+		i++;
 	}
 }

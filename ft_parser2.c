@@ -6,114 +6,114 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 22:54:04 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/07 14:13:44 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 #include "head_parser.h"
 
-static int ft_get_width(char *str)
+static int	ft_get_width(char *str)
 {
-    char    *tmp;
+	char	*tmp;
 	int		width;
 
-    tmp = str;
+	tmp = str;
 	width = ft_atoi(str);
 	while (ft_isdigit(*str))
 		str++;
-    free(tmp);
+	free(tmp);
 	return (width);
 }
 
-static int ft_get_height(char *str)
+static int	ft_get_height(char *str)
 {
-    char    *tmp;
+	char	*tmp;
 	int		height;
 
-    tmp = str;
+	tmp = str;
 	while (ft_isdigit(*str))
 		str++;
 	while (!ft_isdigit(*str))
 		str++;
 	height = ft_atoi(str);
-    free(tmp);
+	free(tmp);
 	return (height);
 }
 
-void    ft_set_config(t_config *config, char *line)
+void		ft_set_config(t_config *config, char *line)
 {
 	if (line[0] == 'R' && config->width != 0)
 	{
 		config->width = 0;
 		return ;
 	}
-    else if (line[0] == 'N' && line[1] == 'O' && config->no)
+	else if (line[0] == 'N' && line[1] == 'O' && config->no)
 	{
 		free(config->no);
 		config->no = NULL;
 		return ;
 	}
-    else if (line[0] == 'S' && line[1] == 'O' && config->so)
+	else if (line[0] == 'S' && line[1] == 'O' && config->so)
 	{
 		free(config->so);
 		config->so = NULL;
 		return ;
 	}
-    else if (line[0] == 'W' && line[1] == 'E' && config->we)
+	else if (line[0] == 'W' && line[1] == 'E' && config->we)
 	{
 		free(config->we);
 		config->we = NULL;
 		return ;
 	}
-    else if (line[0] == 'E' && line[1] == 'A' && config->ea)
+	else if (line[0] == 'E' && line[1] == 'A' && config->ea)
 	{
 		free(config->ea);
 		config->ea = NULL;
 		return ;
 	}
-    else if (line[0] == 'S' && config->s)
+	else if (line[0] == 'S' && config->s)
 	{
 		free(config->s);
 		config->s = NULL;
 		return ;
 	}
-    else if (line[0] == 'F' && config->f_str)
+	else if (line[0] == 'F' && config->f_str)
 	{
 		free(config->f_str);
 		config->f_str = NULL;
 		return ;
 	}
-    else if (line[0] == 'C' && config->c_str)
+	else if (line[0] == 'C' && config->c_str)
 	{
 		free(config->c_str);
 		config->c_str = NULL;
 		return ;
 	}
-    if (line[0] == 'R')
+	if (line[0] == 'R')
 	{
-        config->width = ft_get_width(ft_strtrim(line + 1, " "));
+		config->width = ft_get_width(ft_strtrim(line + 1, " "));
 		config->height = ft_get_height(ft_strtrim(line + 1, " "));
 	}
-    else if (line[0] == 'N' && line[1] == 'O')
-        config->no = ft_strtrim(line + 2, " ");
-    else if (line[0] == 'S' && line[1] == 'O')
-        config->so = ft_strtrim(line + 2, " ");
-    else if (line[0] == 'W' && line[1] == 'E')
-        config->we = ft_strtrim(line + 2, " ");
-    else if (line[0] == 'E' && line[1] == 'A')
-        config->ea = ft_strtrim(line + 2, " ");
-    else if (line[0] == 'S')
-        config->s = ft_strtrim(line + 1, " ");
-    else if (line[0] == 'F')
-        config->f_str = ft_strtrim(line + 1, " ");
-    else if (line[0] == 'C')
-        config->c_str = ft_strtrim(line + 1, " ");
+	else if (line[0] == 'N' && line[1] == 'O')
+		config->no = ft_strtrim(line + 2, " ");
+	else if (line[0] == 'S' && line[1] == 'O')
+		config->so = ft_strtrim(line + 2, " ");
+	else if (line[0] == 'W' && line[1] == 'E')
+		config->we = ft_strtrim(line + 2, " ");
+	else if (line[0] == 'E' && line[1] == 'A')
+		config->ea = ft_strtrim(line + 2, " ");
+	else if (line[0] == 'S')
+		config->s = ft_strtrim(line + 1, " ");
+	else if (line[0] == 'F')
+		config->f_str = ft_strtrim(line + 1, " ");
+	else if (line[0] == 'C')
+		config->c_str = ft_strtrim(line + 1, " ");
 }
 
 t_list		*ft_make_list_map(int fd, char *line)
 {
-    t_list	*head;
+	t_list	*head;
 	t_list	*cur;
 	int		r;
 
@@ -135,10 +135,10 @@ t_list		*ft_make_list_map(int fd, char *line)
 		return (NULL);
 	}
 	ft_lstadd_back(&head, cur);
-    return (head);
+	return (head);
 }
 
-char	**ft_convert_lst_to_matrix(t_list **lst)
+char		**ft_convert_lst_to_matrix(t_list **lst)
 {
 	int		k;
 	char	**map;
@@ -165,7 +165,7 @@ char	**ft_convert_lst_to_matrix(t_list **lst)
 	return (map);
 }
 
-void			ft_find_person(t_vars *vars)
+void		ft_find_person(t_vars *vars)
 {
 	int k;
 	int j;
@@ -182,8 +182,8 @@ void			ft_find_person(t_vars *vars)
 			{
 				vars->person.pos_x = k + 0.5;
 				vars->person.pos_y = j + 0.5;
-				vars->person.moveSpeed = 0.08; // скорость ходьбы
-				vars->person.rotSpeed = 0.045; // скорость поворотов
+				vars->person.moveSpeed = 0.08;
+				vars->person.rotSpeed = 0.045;
 				if (vars->data.map[k][j] == 'N')
 				{
 					vars->person.dirX = -1;

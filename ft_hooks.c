@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:49:29 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 19:12:18 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/07 17:40:04 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			key_release_hook(int key, t_vars *vars)
 	return (0);
 }
 
-int			exit_hook(int key, void *vars)
+int			exit_hook(int key, t_vars *vars)
 {
 	ft_putstr("Exit");
 	exit(0);

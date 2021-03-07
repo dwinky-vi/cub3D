@@ -367,12 +367,12 @@ void	*mlx_xpm_file_to_image(void *xvar,char *file,int *width,int *height)
       (ptr = mmap(0,size,PROT_WRITE|PROT_READ,MAP_PRIVATE,fd,0))==
       (void *)MAP_FAILED)
     {
-      if (fd>=0)
+      if (fd >= 0)
 	close(fd);
       return ((void *)0);
     }
   mlx_int_file_get_rid_comment(ptr, size);
-  img = mlx_int_parse_xpm(xvar,ptr,size,mlx_int_get_line, width, height);
+  img = mlx_int_parse_xpm(xvar, ptr,size, mlx_int_get_line, width, height);
   munmap(ptr,size);
   close(fd);
   return (img);
@@ -380,5 +380,5 @@ void	*mlx_xpm_file_to_image(void *xvar,char *file,int *width,int *height)
 
 void	*mlx_xpm_to_image(void *xvar,char **xpm_data,int *width,int *height)
 {
-  return (mlx_int_parse_xpm(xvar,xpm_data,0,mlx_int_static_line, width, height));
+  return (mlx_int_parse_xpm(xvar, xpm_data, 0, mlx_int_static_line, width, height));
 }

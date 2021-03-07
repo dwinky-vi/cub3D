@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:53 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 21:42:52 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/07 14:02:31 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ void	set_hooks_2(t_vars *vars);
 
 int		ft_func(t_vars *vars);
 
-void	ft_display_map(t_vars *vars);
-
-int		key_press_hook_2(int key, t_vars *vars);
-
-int		key_release_hook_2(int key, t_vars *vars);
-
 void	ft_step(t_vars *vars);
+
+void	ft_cast_rays(t_vars *vars);
+
+void	ft_draw_pixel(t_vars *vars, t_point start, t_point end, int color);
+
+int		ft_init_img(void *mlx_ptr, t_img *img, t_config *config)
+
+void	ft_display_map(t_vars *vars);
 
 #endif

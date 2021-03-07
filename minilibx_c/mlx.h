@@ -117,7 +117,7 @@ int	mlx_loop (void *mlx_ptr);
 **  Usually asked...
 */
 
-int	mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,
+int		mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,
 		       char *string);
 void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
 			  int *width, int *height);
@@ -125,16 +125,16 @@ void	*mlx_xpm_file_to_image(void *mlx_ptr, char *filename,
 			       int *width, int *height);
 void    *mlx_png_file_to_image(void *mlx_ptr, char *file, int *width, int *height);
 
-int	mlx_destroy_window(void *mlx_ptr, void *win_ptr);
+int		mlx_destroy_window(void *mlx_ptr, void *win_ptr);
 
-int	mlx_destroy_image(void *mlx_ptr, void *img_ptr);
+int		mlx_destroy_image(void *mlx_ptr, void *img_ptr);
 
 /*
 **  generic hook system for all events, and minilibX functions that
 **    can be hooked. Some macro and defines from X11/X.h are needed here.
 */
 
-int	mlx_hook(void *win_ptr, int x_event, int x_mask,
+int		mlx_hook(void *win_ptr, int x_event, int x_mask,
                  int (*funct)(), void *param);
 
 int     mlx_mouse_hide();
@@ -142,8 +142,8 @@ int     mlx_mouse_show();
 int     mlx_mouse_move(void *win_ptr, int x, int y);
 int     mlx_mouse_get_pos(void *win_ptr, int *x, int *y);
 
-int	mlx_do_key_autorepeatoff(void *mlx_ptr);
-int	mlx_do_key_autorepeaton(void *mlx_ptr);
-int	mlx_do_sync(void *mlx_ptr);
+int		mlx_do_key_autorepeatoff(void *mlx_ptr);
+int		mlx_do_key_autorepeaton(void *mlx_ptr);
+int		mlx_do_sync(void *mlx_ptr);
 
 #endif /* MLX_H */

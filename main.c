@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 23:02:40 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/07 17:50:29 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,26 @@ int			ft_puterror(char *str)
 
 int			ft_get_textures(void *mlx, t_texture *texture, t_config *config)
 {
-	texture[0].img = mlx_xpm_file_to_image(mlx, config->no, &texture[0].width,
-											&texture[0].height);
-	if (texture[0].img == NULL)
-		return (1);
+	texture[0].img = mlx_xpm_file_to_image(mlx, config->no, &texture[0].width, &texture[0].height);
 	texture[0].addr = mlx_get_data_addr(texture[0].img, &texture[0].bits_per_pixel, &texture[0].line_length, &texture[0].endian);
-
-	texture[1].img = mlx_xpm_file_to_image(mlx, config->so, &texture[1].width,
-											&texture[1].height);
-	if (texture[1].img == NULL)
+	if (texture[0].addr == NULL)
 		return (1);
+	texture[1].img = mlx_xpm_file_to_image(mlx, config->so, &texture[1].width, &texture[1].height);
 	texture[1].addr = mlx_get_data_addr(texture[1].img, &texture[1].bits_per_pixel, &texture[1].line_length, &texture[1].endian);
-
-	texture[2].img = mlx_xpm_file_to_image(mlx, config->we, &texture[2].width,
-											&texture[2].height);
-	if (texture[2].img == NULL)
+	if (texture[1].addr == NULL)
 		return (1);
+	texture[2].img = mlx_xpm_file_to_image(mlx, config->we, &texture[2].width, &texture[2].height);
 	texture[2].addr = mlx_get_data_addr(texture[2].img, &texture[2].bits_per_pixel, &texture[2].line_length, &texture[2].endian);
-
-	texture[3].img = mlx_xpm_file_to_image(mlx, config->ea, &texture[3].width,
-											&texture[3].height);
-	if (texture[3].img == NULL)
+	if (texture[2].addr == NULL)
 		return (1);
+	texture[3].img = mlx_xpm_file_to_image(mlx, config->ea, &texture[3].width, &texture[3].height);
 	texture[3].addr = mlx_get_data_addr(texture[3].img, &texture[3].bits_per_pixel, &texture[3].line_length, &texture[3].endian);
-
-	texture[4].img = mlx_xpm_file_to_image(mlx, config->s, &texture[4].width,
-											&texture[4].height);
-	if (texture[4].img == NULL)
+	if (texture[3].addr == NULL)
 		return (1);
+	texture[4].img = mlx_xpm_file_to_image(mlx, config->s, &texture[4].width, &texture[4].height);
 	texture[4].addr = mlx_get_data_addr(texture[4].img, &texture[4].bits_per_pixel, &texture[4].line_length, &texture[4].endian);
+	if (texture[4].addr == NULL)
+		return (1);
 	return (0);
 }
 
@@ -78,11 +69,10 @@ int			main(int argc, char **argv)
 	vars.mlx_ptr = mlx_init();
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
-	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.width,
-									vars.data.config.height, "CUB3D");
+	vars.win_ptr =
+	mlx_new_window(vars.mlx_ptr, vars.data.config.width, vars.data.config.height, "CUB3D");
 	if (ft_get_textures(vars.mlx_ptr, vars.texture, &vars.data.config))
 		return (ft_puterror("Error\nBad textures"));
-	printf("%d,   %d\n\n", vars.data.config.width, vars.data.config.height);	
 	ft_set_hooks(&vars);
 	mlx_loop_hook(vars.mlx_ptr, ft_raycast, &vars);
 	mlx_loop(vars.mlx_ptr);
