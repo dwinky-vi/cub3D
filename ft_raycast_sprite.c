@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:17:13 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/07 17:48:09 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/09 22:52:30 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,35 @@ void	ft_insert_sort(t_sprite *sprite, int size)
 	}
 }
 
-void	ft_merge_sort(t_sprite *sprite, int size, int start, int end)
+void	ft_quick_sort(t_sprite *sprite, int first, int last)
 {
 	t_sprite tmp;
+	int left;
+	int right;
+	int center;
 
-	if (size < 1)
-		return ;
-	while (start < end)
+	if (first < last)
 	{
-		if (sprite[start].distance > sprite[end].distance)
+		left = first;
+		right = last;
+		center = (first + last) / 2;
+		while (left <= right)
 		{
-			tmp = sprite[start];
-			sprite[start] = sprite[end];
-			sprite[end] = tmp;
+			while (sprite[left].distance > sprite[center].distance)
+				left++;
+			while (sprite[center].distance > sprite[right].distance)
+				right--;
+			if (left <= right)
+			{
+				tmp = sprite[left];
+				sprite[left] = sprite[right];
+				sprite[right] = tmp;
+				left++;
+				right--;
+			}
 		}
-		start++;
+		ft_quick_sort(sprite, first, right);
+		ft_quick_sort(sprite, left, last);
 	}
 }
 
@@ -110,7 +124,7 @@ void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y, double *ZBuffer)
 	t_sprite	sprite[numSprites];
 
 	ft_calculate_distance(sprite, vars->data.map, pos_x, pos_y);
-	ft_insert_sort(sprite, numSprites);
+	ft_quick_sort(sprite, 0, numSprites - 1);
 	i = 0;
 	while (i < numSprites)
 	{

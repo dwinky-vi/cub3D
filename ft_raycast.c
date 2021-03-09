@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/07 18:35:14 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/09 22:39:50 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,10 @@ int		ft_raycast(t_vars *vars)
 		}
 		int color;
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
+		/*
+		** изменить условия
+		** сделать два if'а
+		*/
 		if (side == 0) //вертикаль
 		{
 			perpWallDist = (map_x - pos_x + (1 - stepX) / 2) / rayDirX;

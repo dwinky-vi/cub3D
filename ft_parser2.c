@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/07 14:13:44 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/09 22:07:57 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,32 +184,32 @@ void		ft_find_person(t_vars *vars)
 				vars->person.pos_y = j + 0.5;
 				vars->person.moveSpeed = 0.08;
 				vars->person.rotSpeed = 0.045;
-				if (vars->data.map[k][j] == 'N')
+				if (vars->data.map[k][j] == 'N') // север
 				{
 					vars->person.dirX = -1;
 					vars->person.dirY = 0;
 					vars->person.planeX = 0;
 					vars->person.planeY = 0.66;
 				}
-				else if (vars->data.map[k][j] == 'S')
+				else if (vars->data.map[k][j] == 'S') // юг
 				{
 					vars->person.dirX = 1;
 					vars->person.dirY = 0;
 					vars->person.planeX = 0;
 					vars->person.planeY = -0.66;
 				}
-				else if (vars->data.map[k][j] == 'E')
-				{
-					vars->person.dirX = 0;
-					vars->person.dirY = 1;
-					vars->person.planeX = 0.66;
-					vars->person.planeY = 0;
-				}
-				else if (vars->data.map[k][j] == 'W')
+				else if (vars->data.map[k][j] == 'W')// запад
 				{
 					vars->person.dirX = 0;
 					vars->person.dirY = -1;
 					vars->person.planeX = -0.66;
+					vars->person.planeY = 0;
+				}
+				else if (vars->data.map[k][j] == 'E') // восток
+				{
+					vars->person.dirX = 0;
+					vars->person.dirY = 1;
+					vars->person.planeX = 0.66;
 					vars->person.planeY = 0;
 				}
 				vars->data.map[k][j] = '0';
