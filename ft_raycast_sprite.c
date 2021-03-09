@@ -36,6 +36,45 @@ void 	sortSprites(t_sprite *sprite, int count)
 	}
 }
 
+void	ft_insert_sort(t_sprite *sprite, int size)
+{
+	int			k;
+	int			j;
+	t_sprite	tmp;
+
+	k = 0;
+	while (k < size)
+	{
+		j = k;
+		while (j > 0 && sprite[j - 1].distance < sprite[j].distance)
+		{
+			tmp = sprite[j - 1];
+			sprite[j - 1] = sprite[j];
+			sprite[j] = tmp;
+			j--;
+		}
+		k++;
+	}
+}
+
+void	ft_merge_sort(t_sprite *sprite, int size, int start, int end)
+{
+	t_sprite tmp;
+
+	if (size < 1)
+		return ;
+	while (start < end)
+	{
+		if (sprite[start].distance > sprite[end].distance)
+		{
+			tmp = sprite[start];
+			sprite[start] = sprite[end];
+			sprite[end] = tmp;
+		}
+		start++;
+	}
+}
+
 void	ft_calculate_distance(t_sprite *sprite, char **map, double pos_x, double pos_y)
 {
 	int k;
@@ -71,7 +110,7 @@ void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y, double *ZBuffer)
 	t_sprite	sprite[numSprites];
 
 	ft_calculate_distance(sprite, vars->data.map, pos_x, pos_y);
-	sortSprites(sprite, numSprites);
+	ft_insert_sort(sprite, numSprites);
 	i = 0;
 	while (i < numSprites)
 	{
