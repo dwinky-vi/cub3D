@@ -6,12 +6,12 @@ cub3D
 
 **/.DS_Store
 .vscode/*
-minilibx/*.o
-minilibx/*.swiftdoc
-minilibx/*.swiftmodule
-minilibx2/*.o
+minilibx_c/*.o
+minilibx_swift/*.o
+minilibx_swift/*.swiftdoc
+minilibx_swift/*.swiftmodule
 **/libmlx.dylib
 
 # **- Два соседних символа звездочки соответствуют любому файлу или нуля или более каталогов.
 # Когда за ним следует косая черта ( /), он соответствует только каталогам.
-# git rm -r --cached .idea
+# git rm -r --cached <name_file>
