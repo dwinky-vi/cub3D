@@ -54,6 +54,8 @@ void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y,
 int		get_color_wall(t_vars *vars, double texX, double texY, int stepX,
 						int stepY, int side);
 
+void	ft_quick_sort(t_sprite *sprite, int first, int last);
+
 /*
 ** parser
 */

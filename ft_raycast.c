@@ -12,6 +12,16 @@
 
 #include "head_cub3d.h"
 
+static int	ft_init_img(void *mlx_ptr, t_img *img, t_config *config)
+{
+	img->img = mlx_new_image(mlx_ptr, config->width, config->height);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+									&img->line_length, &img->endian);
+	if (img->addr == NULL)
+		return (1);
+	return (0);
+}
+
 int		ft_raycast(t_vars *vars)
 {
 	int		w = vars->data.config.width;
@@ -20,13 +30,11 @@ int		ft_raycast(t_vars *vars)
 	double	pos_y = vars->person.pos_y;
 	int		texWidth = 64;
 	int		texHeight = 64;
-	double	ZBuffer[vars->data.config.width];
+	double	perpendiculars_array[vars->data.config.width];
 	int		texture[8][texWidth * texHeight];
 
-	vars->img.img = mlx_new_image(vars->mlx_ptr, vars->data.config.width, vars->data.config.height);
-	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
-	if (!vars->img.addr)
-		return  (-1);
+	if (ft_init_img(vars->mlx_ptr, &vars->img, &vars->data.config))
+		return (-1);
 	make_step(vars);
 	generete_textures(texWidth, texHeight, texture);
 	int x = 0;
@@ -94,37 +102,29 @@ int		ft_raycast(t_vars *vars)
 		}
 		int color;
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
-		/*
-		** изменить условия
-		** сделать два if'а
-		*/
-		if (side == 0) //вертикаль
-		{
+		if (side == 0)  //вертикаль
 			perpWallDist = (map_x - pos_x + (1 - stepX) / 2) / rayDirX;
-			if (stepX == -1)
-			{
-				texHeight = vars->texture[0].height;
-				texWidth = vars->texture[0].width;
-			}
-			else if (stepX == 1)
-			{
-				texHeight = vars->texture[1].height;
-				texWidth = vars->texture[1].width;
-			}
-		}
 		else // горизанталь
-		{
 			perpWallDist = (map_y - pos_y + (1 - stepY) / 2) / rayDirY;
-			if (stepY == -1)
-			{
-				texHeight = vars->texture[2].height;
-				texWidth = vars->texture[2].width;
-			}
-			else if (stepY == 1)
-			{
-				texHeight = vars->texture[3].height;
-				texWidth = vars->texture[3].width;
-			}
+		if (side == 0 && stepX == -1)
+		{
+			texHeight = vars->texture[0].height;
+			texWidth = vars->texture[0].width;
+		}
+		else if (side == 0 && stepX == 1)
+		{
+			texHeight = vars->texture[1].height;
+			texWidth = vars->texture[1].width;
+		}
+		else if (stepY == -1)
+		{
+			texHeight = vars->texture[2].height;
+			texWidth = vars->texture[2].width;
+		}
+		else if (stepY == 1)
+		{
+			texHeight = vars->texture[3].height;
+			texWidth = vars->texture[3].width;
 		}
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(h / perpWallDist);
@@ -162,7 +162,6 @@ int		ft_raycast(t_vars *vars)
 	/********/
 		while (y < vars->data.config.height)
 		{
-
 			if (y < drawStart) // потолок
 				my_mlx_pixel_put(&vars->img, x, y, vars->data.config.c_int);
 			else if (y > drawEnd) // пол
@@ -176,12 +175,10 @@ int		ft_raycast(t_vars *vars)
 			}
 			y++;
 		}
-		//SET THE ZBUFFER FOR THE SPRITE CASTING
-		ZBuffer[x] = perpWallDist; //perpendicular distance is used
+		perpendiculars_array[x] = perpWallDist;
 		x++;
 	}
-	//SPRITE CASTING
-	ft_spritecasting(vars, pos_x, pos_y, ZBuffer);
+	ft_spritecasting(vars, pos_x, pos_y, perpendiculars_array);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 	mlx_destroy_image(vars->mlx_ptr, vars->img.img);
 	return (0);

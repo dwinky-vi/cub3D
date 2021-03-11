@@ -19,6 +19,12 @@ typedef struct	s_point
 	int			y;
 }				t_point;
 
+typedef struct	s_point_d
+{
+	int			x;
+	int			y;
+}				t_point_d;
+
 typedef struct	s_config
 {
 	int			width; // ширина
