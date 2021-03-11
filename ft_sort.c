@@ -9,13 +9,13 @@ static void	ft_swap_sprite(t_sprite *sprite1, t_sprite *sprite2)
 	*sprite2 = tmp;
 }
 
-void		ft_quick_sort(t_sprite *sprite, int first, int last)
+void		 ft_quick_sort(t_sprite *sprite, int first, int last)
 {
 	int		left;
 	int		right;
 	int		center;
 
-	if (first < last)
+	if (first <= last)
 	{
 		left = first;
 		right = last;
@@ -28,13 +28,16 @@ void		ft_quick_sort(t_sprite *sprite, int first, int last)
 				right--;
 			if (left <= right)
 			{
-				ft_swap_sprite(sprite + left, sprite + right);
+				if (sprite[left].distance < sprite[right].distance)
+					ft_swap_sprite(sprite + left, sprite + right);
 				left++;
 				right--;
 			}
 		}
-		ft_quick_sort(sprite, first, right);
-		ft_quick_sort(sprite, left, last);
+		if (0 < right)
+			ft_quick_sort(sprite, first, right);
+		if (left < last)
+			ft_quick_sort(sprite, left, last);
 	}
 }
 
@@ -57,7 +60,7 @@ static void sortSprites(t_sprite *sprite, int count)
 	}
 }
 
-static void	ft_insert_sort(t_sprite *sprite, int size)
+void	ft_insert_sort(t_sprite *sprite, int size)
 {
 	int		k;
 	int		j;

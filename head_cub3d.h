@@ -56,6 +56,7 @@ int		get_color_wall(t_vars *vars, double texX, double texY, int stepX,
 
 void	ft_quick_sort(t_sprite *sprite, int first, int last);
 
+void	ft_insert_sort(t_sprite *sprite, int size);
 /*
 ** parser
 */
