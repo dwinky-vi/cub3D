@@ -6,12 +6,50 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 21:50:00 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/11 23:29:41 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEAD_STRUCTS_H
 # define HEAD_STRUCTS_H
+
+typedef struct	s_spritecast
+{
+	double	sprite_pos_x;
+	double	sprite_pos_y;
+	int		draw_start_y;
+	int		draw_end_y;
+	int		draw_start_x;
+	int		draw_end_x;
+	int		texture_h;
+	int		texture_w;
+	int		sprite_h;
+	int		sprite_w;
+	int		sprite_screen_x;
+	double	transform_x;
+	double	transform_y;
+} 				t_spritecast;
+
+typedef struct	s_raycast
+{
+	int		side;
+	double	pos_x;
+	double	pos_y;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	int		tex_w;
+	int		tex_h;
+	int		tex_x;
+	int		tex_y;
+	int		draw_start;
+	int		draw_end;
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+}				t_raycast;
+
 
 typedef struct	s_point
 {
@@ -51,8 +89,8 @@ typedef struct	s_img
 {
 	void		*img;
 	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
+	int			b_p_p;
+	int			line_len;
 	int			endian;
 }				t_img;
 
@@ -60,8 +98,8 @@ typedef struct	s_texture
 {
 	void		*img;
 	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
+	int			b_p_p;
+	int			line_len;
 	int			endian;
 	int			height;
 	int			width;

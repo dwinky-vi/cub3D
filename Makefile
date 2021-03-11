@@ -1,9 +1,12 @@
 
 
 SRCS	= \
-		main.c ft_free.c ft_parser1.c ft_parser2.c\
+		main.c ft_free.c \
+		ft_parser1.c    ft_parser2.c \
 		ft_validator1.c ft_validator2.c \
-		ft_raycast.c ft_raycast_sprite.c ft_hooks.c ft_steps.c ft_my_mlx.c ft_sort.c\
+		ft_raycast1.c   ft_raycast2.c \
+		ft_some_utils.c\
+		ft_spritecasting.c ft_hooks.c ft_steps.c ft_my_mlx.c ft_sort.c\
 
 NAME		= cub3D
 
@@ -33,7 +36,7 @@ OBJS	= 			$(addprefix $(OBJS_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 
 NORM 	=			~/.scripts/colorised_norm.sh
 
-all:		make_mlx make_lib make_printf $(NAME)
+all:		make_mlx_c make_lib make_printf $(NAME)
 
 make_lib:
 			@${MAKE} -C libft
@@ -41,7 +44,7 @@ make_lib:
 make_printf:
 			@${MAKE} -C ft_printf
 
-make_mlx:
+make_mlx_c:
 			@${MAKE} -C minilibx_c
 
 $(NAME): 	$(OBJS)
@@ -49,7 +52,7 @@ $(NAME): 	$(OBJS)
 			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf -L. -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
-$(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h libft/libft.a
+$(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h head_parser.h libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
 					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -I $(MINILIBX_PATH)/mlx.h -c $< -o $@
@@ -104,6 +107,6 @@ LIGHT_CYAN	= \033[1;36m
 WHITE 		= \033[1;37m
 
 .PHONY:	all clean fclean re 
-.PHONY: make_lib make_printf make_mlx norm
+.PHONY: make_lib make_printf make_mlx_c norm
 .PHONY: SRCS NAME LIBFT_PATH FT_PRINTF_PATH MINILIBX_PATH HEADER CC CFLAGS OBJS_DIR OBJS NORM
 .PHONY: UNDER_LINE BOLD NO_COLOR BLACK RED GREEN BROWN BLUE PURPLE CYAN LIGHT_GRAY DARK_GRAY LIGHT_RED LIGHT_GREEN YELLOW LIGTH_BLUE LIGHT_PURPLE LIGHT_CYAN WHITE

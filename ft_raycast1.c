@@ -1,42 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_raycast.c                                       :+:      :+:    :+:   */
+/*   ft_raycast1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/09 22:39:50 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 00:31:24 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 
-static int	ft_init_img(void *mlx_ptr, t_img *img, t_config *config)
-{
-	img->img = mlx_new_image(mlx_ptr, config->width, config->height);
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
-									&img->line_length, &img->endian);
-	if (img->addr == NULL)
-		return (1);
-	return (0);
-}
-
 int		ft_raycast(t_vars *vars)
 {
-	int		w = vars->data.config.width;
-	int		h = vars->data.config.height;
-	double	pos_x = vars->person.pos_x;
-	double	pos_y = vars->person.pos_y;
-	int		texWidth = 64;
-	int		texHeight = 64;
+	int		w;
+	int		h;
+	double	pos_x;
+	double	pos_y;
+	int		tex_w = 64;
+	int		tex_h = 64;
 	double	perpendiculars_array[vars->data.config.width];
-	int		texture[8][texWidth * texHeight];
 
 	if (ft_init_img(vars->mlx_ptr, &vars->img, &vars->data.config))
 		return (-1);
+	w = vars->data.config.width;
+	h = vars->data.config.height;
+	pos_x = vars->person.pos_x;
+	pos_y = vars->person.pos_y;
 	make_step(vars);
-	generete_textures(texWidth, texHeight, texture);
 	int x = 0;
 	while (x < w)
 	{
@@ -106,27 +98,7 @@ int		ft_raycast(t_vars *vars)
 			perpWallDist = (map_x - pos_x + (1 - stepX) / 2) / rayDirX;
 		else // горизанталь
 			perpWallDist = (map_y - pos_y + (1 - stepY) / 2) / rayDirY;
-		if (side == 0 && stepX == -1)
-		{
-			texHeight = vars->texture[0].height;
-			texWidth = vars->texture[0].width;
-		}
-		else if (side == 0 && stepX == 1)
-		{
-			texHeight = vars->texture[1].height;
-			texWidth = vars->texture[1].width;
-		}
-		else if (stepY == -1)
-		{
-			texHeight = vars->texture[2].height;
-			texWidth = vars->texture[2].width;
-		}
-		else if (stepY == 1)
-		{
-			texHeight = vars->texture[3].height;
-			texWidth = vars->texture[3].width;
-		}
-		//Calculate height of line to draw on screen
+		ft_get_tex_width_height(vars, &tex_w, &tex_h, side, stepX, stepY);
 		int lineHeight = (int)(h / perpWallDist);
 		// drawStart начало стены
 		// drawEnd конец стены
@@ -150,13 +122,13 @@ int		ft_raycast(t_vars *vars)
 		wallX -= floor((wallX));
 
 		// texX –– x-координата текстуры
-		int texX = (int)(wallX * (double)texWidth);
+		int texX = (int)(wallX * (double)tex_w);
 		if (side == 0 && rayDirX > 0)
-			texX = texWidth - texX - 1;
+			texX = tex_w - texX - 1;
 		if (side == 1 && rayDirY < 0)
-			texX = texWidth - texX - 1;
+			texX = tex_w - texX - 1;
 			// How much to increase the texture coordinate per screen pixel
-		double step = 1.0 * texHeight / lineHeight;
+		double step = 1.0 * tex_h / lineHeight;
 		// Starting texture coordinate
 		double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
 	/********/
@@ -168,7 +140,7 @@ int		ft_raycast(t_vars *vars)
 				my_mlx_pixel_put(&vars->img, x, y, vars->data.config.f_int);
 			else // стена
 			{
-				int texY = (int)texPos & (texHeight - 1);
+				int texY = (int)texPos & (tex_h - 1);
 				texPos += step;
 				color = get_color_wall(vars, texX, texY, stepX, stepY, side);
 				my_mlx_pixel_put(&vars->img, x, y, color);
@@ -188,50 +160,37 @@ int		get_color_wall(t_vars *vars, double texX, double texY, int stepX, int stepY
 {
 	int color;
 
-	if (side == 0) //вертикаль
-	{
-		if (stepX == -1)
-			color = ft_mlx_get_color(&vars->texture[0], texX, texY);
-		else if (stepX == 1)
-			color = ft_mlx_get_color(&vars->texture[1], texX, texY);
-	}
-	else // горизанталь
-	{
-		if (stepY == -1)
-			color = ft_mlx_get_color(&vars->texture[2], texX, texY);
-		else if (stepY == 1)
-			color = ft_mlx_get_color(&vars->texture[3], texX, texY);
-	}
+	if (side == 0 && stepX == -1)
+		color = ft_mlx_get_color(&vars->texture[0], texX, texY);
+	else if (side == 0 && stepX == 1)
+		color = ft_mlx_get_color(&vars->texture[1], texX, texY);
+	else if (stepY == -1)
+		color = ft_mlx_get_color(&vars->texture[2], texX, texY);
+	else if (stepY == 1)
+		color = ft_mlx_get_color(&vars->texture[3], texX, texY);
 	return (color);
 }
 
-void	generete_textures(int texWidth, int texHeight, int texture[8][texWidth * texHeight])
+void	ft_get_tex_width_height(t_vars *vars, int *tex_w, int *tex_h, int side, int stepX, int stepY)
 {
-	int x;
-	int y;
-	int xorcolor;
-	int ycolor;
-	int xycolor;
-
-	x = 0;
-	while (x < texWidth)
+	if (side == 0 && stepX == -1)
 	{
-		y = 0;
-		while (y < texHeight)
-		{
-			xorcolor = (x * 256 / texWidth) ^ (y * 256 / texHeight);
-			ycolor = y * 256 / texHeight;
-			xycolor = y * 128 / texHeight + x * 128 / texWidth;
-			texture[0][texWidth * y + x] = 65536 * 254 * (x != y && x != texWidth - y); //flat red texture with black cross
-			texture[1][texWidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
-			texture[2][texWidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
-			texture[3][texWidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
-			texture[4][texWidth * y + x] = 256 * xorcolor; //xor green
-			texture[5][texWidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
-			texture[6][texWidth * y + x] = 65536 * ycolor; //red gradient
-			texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
-			y++;
-		}
-		x++;
+		*tex_h = vars->texture[0].height;
+		*tex_w = vars->texture[0].width;
+	}
+	else if (side == 0 && stepX == 1)
+	{
+		*tex_h = vars->texture[1].height;
+		*tex_w = vars->texture[1].width;
+	}
+	else if (stepY == -1)
+	{
+		*tex_h = vars->texture[2].height;
+		*tex_w = vars->texture[2].width;
+	}
+	else if (stepY == 1)
+	{
+		*tex_h = vars->texture[3].height;
+		*tex_w = vars->texture[3].width;
 	}
 }

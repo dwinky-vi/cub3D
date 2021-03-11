@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/09 21:54:43 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 00:31:36 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@
 
 int		ft_puterror(char *str);
 
-void	ft_lstprint_ass_str(t_list **list);
-
 void	ft_print_map(char **map);
-
-void	ft_print_config(t_config config);
 
 void	ft_free_map(char **map);
 
@@ -43,13 +39,15 @@ void	ft_free_config(t_config *conf);
 
 int		ft_raycast(t_vars *vars);
 
-void	generete_textures(int texWidth, int texHeight, int texture[8][texWidth * texHeight]);
+void	ft_get_tex_width_height(t_vars *vars, int *texWidth, int *texHeight, int side, int stepX, int stepY);
 
-void	ft_calculate_distance(t_sprite *sprite, char **map,
-								double pos_x, double pos_y);
+// void	ft_calculate_distance(t_sprite *sprite, char **map,
+								// double pos_x, double pos_y);
 
 void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y,
-							double *ZBuffer);
+							double *perpen_array);
+
+void	ft_draw_vertic_stripe(t_vars *vars, t_spritecast *ray, double *p_array);
 
 int		get_color_wall(t_vars *vars, double texX, double texY, int stepX,
 						int stepY, int side);
@@ -65,7 +63,13 @@ t_vars	ft_parse_data(int fd);
 
 char	*ft_validator(t_data *data, void *mlx_ptr);
 
+/*
+** my_mlx
+*/
+
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+int		ft_init_img(void *mlx_ptr, t_img *img, t_config *config);
 
 unsigned
 int		ft_mlx_get_color(t_texture *data, int x, int y);
@@ -97,6 +101,8 @@ int		make_step(t_vars *vars);
 /*
 ** hooks
 */
+
+void	ft_set_hooks(t_vars *vars);
 
 int		key_press_hook(int key, t_vars *vars);
 
