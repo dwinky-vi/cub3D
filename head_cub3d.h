@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 00:31:36 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:43:45 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y,
 
 void	ft_draw_vertic_stripe(t_vars *vars, t_spritecast *ray, double *p_array);
 
-int		get_color_wall(t_vars *vars, double texX, double texY, int stepX,
-						int stepY, int side);
+int		get_color_wall(t_vars *vars, t_raycast *ray);
 
 void	ft_quick_sort(t_sprite *sprite, int first, int last);
 

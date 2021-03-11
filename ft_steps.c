@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 09:58:22 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 21:59:12 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:31:44 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,34 @@
 
 void		make_step_forward(char **map, t_person *person, float speed)
 {
-	if (map[(int)(person->pos_x + person->dirX * person->moveSpeed * speed)][(int)person->pos_y] == '0')
-		person->pos_x += person->dirX * person->moveSpeed * speed;
-	if (map[(int)(person->pos_x)][(int)(person->pos_y + person->dirY * person->moveSpeed * speed)] == '0')
-		person->pos_y += person->dirY * person->moveSpeed * speed;
+	if (map[(int)(person->pos.x + person->dir.x * person->moveSpeed * speed)][(int)person->pos.y] == '0')
+		person->pos.x += person->dir.x * person->moveSpeed * speed;
+	if (map[(int)(person->pos.x)][(int)(person->pos.y + person->dir.y * person->moveSpeed * speed)] == '0')
+		person->pos.y += person->dir.y * person->moveSpeed * speed;
 }
 
 void		make_step_back(char **map, t_person *person)
 {
-	if (map[(int)(person->pos_x - person->dirX * person->moveSpeed)][(int)person->pos_y] == '0')
-		person->pos_x -= person->dirX * person->moveSpeed;
-	if (map[(int)person->pos_x][(int)(person->pos_y - person->dirY * person->moveSpeed)] == '0')
-		person->pos_y -= person->dirY * person->moveSpeed;
+	if (map[(int)(person->pos.x - person->dir.x * person->moveSpeed)][(int)person->pos.y] == '0')
+		person->pos.x -= person->dir.x * person->moveSpeed;
+	if (map[(int)person->pos.x][(int)(person->pos.y - person->dir.y * person->moveSpeed)] == '0')
+		person->pos.y -= person->dir.y * person->moveSpeed;
 }
 
 void		make_step_left(char **map, t_person *person)
 {
-	if (map[(int)(person->pos_x - person->planeX * person->moveSpeed)][(int)person->pos_y] == '0')
-		person->pos_x -= person->planeX * person->moveSpeed;
-	if (map[(int)(person->pos_x)][(int)(person->pos_y - person->planeY * person->moveSpeed)] == '0')
-		person->pos_y -= person->planeY * person->moveSpeed;
+	if (map[(int)(person->pos.x - person->plane.x * person->moveSpeed)][(int)person->pos.y] == '0')
+		person->pos.x -= person->plane.x * person->moveSpeed;
+	if (map[(int)(person->pos.x)][(int)(person->pos.y - person->plane.y * person->moveSpeed)] == '0')
+		person->pos.y -= person->plane.y * person->moveSpeed;
 }
 
 void		make_step_right(char **map, t_person *person)
 {
-	if (map[(int)(person->pos_x + person->planeX * person->moveSpeed)][(int)person->pos_y] == '0')
-		person->pos_x += person->planeX * person->moveSpeed;
-	if (map[(int)(person->pos_x)][(int)(person->pos_y + person->planeY * person->moveSpeed)] == '0')
-		person->pos_y += person->planeY * person->moveSpeed;
+	if (map[(int)(person->pos.x + person->plane.x * person->moveSpeed)][(int)person->pos.y] == '0')
+		person->pos.x += person->plane.x * person->moveSpeed;
+	if (map[(int)(person->pos.x)][(int)(person->pos.y + person->plane.y * person->moveSpeed)] == '0')
+		person->pos.y += person->plane.y * person->moveSpeed;
 }
 
 void		make_rotation_left(char **map, t_person *person)
@@ -56,12 +56,12 @@ void		make_rotation_left(char **map, t_person *person)
 	double oldDirX;
 	double oldPlaneX;
 
-	oldDirX = person->dirX;
-	oldPlaneX = person->planeX;
-	person->dirX = person->dirX * cos(person->rotSpeed) - person->dirY * sin(person->rotSpeed);
-	person->dirY = oldDirX * sin(person->rotSpeed) + person->dirY * cos(person->rotSpeed);
-	person->planeX = person->planeX * cos(person->rotSpeed) - person->planeY * sin(person->rotSpeed);
-	person->planeY = oldPlaneX * sin(person->rotSpeed) + person->planeY * cos(person->rotSpeed);
+	oldDirX = person->dir.x;
+	oldPlaneX = person->plane.x;
+	person->dir.x = person->dir.x * cos(person->rotSpeed) - person->dir.y * sin(person->rotSpeed);
+	person->dir.y = oldDirX * sin(person->rotSpeed) + person->dir.y * cos(person->rotSpeed);
+	person->plane.x = person->plane.x * cos(person->rotSpeed) - person->plane.y * sin(person->rotSpeed);
+	person->plane.y = oldPlaneX * sin(person->rotSpeed) + person->plane.y * cos(person->rotSpeed);
 }
 
 void		make_rotation_right(char **map, t_person *person)
@@ -69,12 +69,12 @@ void		make_rotation_right(char **map, t_person *person)
 	double oldDirX;
 	double oldPlaneX;
 
-	oldDirX = person->dirX;
-	oldPlaneX = person->planeX;
-	person->dirX = person->dirX * cos(-person->rotSpeed) - person->dirY * sin(-person->rotSpeed);
-	person->dirY = oldDirX * sin(-person->rotSpeed) + person->dirY * cos(-person->rotSpeed);
-	person->planeX = person->planeX * cos(-person->rotSpeed) - person->planeY * sin(-person->rotSpeed);
-	person->planeY = oldPlaneX * sin(-person->rotSpeed) + person->planeY * cos(-person->rotSpeed);
+	oldDirX = person->dir.x;
+	oldPlaneX = person->plane.x;
+	person->dir.x = person->dir.x * cos(-person->rotSpeed) - person->dir.y * sin(-person->rotSpeed);
+	person->dir.y = oldDirX * sin(-person->rotSpeed) + person->dir.y * cos(-person->rotSpeed);
+	person->plane.x = person->plane.x * cos(-person->rotSpeed) - person->plane.y * sin(-person->rotSpeed);
+	person->plane.y = oldPlaneX * sin(-person->rotSpeed) + person->plane.y * cos(-person->rotSpeed);
 }
 
 int			make_step(t_vars *vars)

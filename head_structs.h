@@ -6,62 +6,59 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/11 23:29:41 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:30:52 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEAD_STRUCTS_H
 # define HEAD_STRUCTS_H
 
+typedef struct	s_point_i
+{
+	int			x;
+	int			y;
+}				t_point_i;
+
+typedef struct	s_point_d
+{
+	double		x;
+	double		y;
+}				t_point_d;
+
 typedef struct	s_spritecast
 {
-	double	sprite_pos_x;
-	double	sprite_pos_y;
-	int		draw_start_y;
-	int		draw_end_y;
-	int		draw_start_x;
-	int		draw_end_x;
-	int		texture_h;
-	int		texture_w;
-	int		sprite_h;
-	int		sprite_w;
-	int		sprite_screen_x;
-	double	transform_x;
-	double	transform_y;
+	double		sprite_pos_x;
+	double		sprite_pos_y;
+	int			draw_start_y;
+	int			draw_end_y;
+	int			draw_start_x;
+	int			draw_end_x;
+	int			texture_h;
+	int			texture_w;
+	int			sprite_h;
+	int			sprite_w;
+	int			sprite_screen_x;
+	double		transform_x;
+	double		transform_y;
 } 				t_spritecast;
 
 typedef struct	s_raycast
 {
-	int		side;
-	double	pos_x;
-	double	pos_y;
-	int		map_x;
-	int		map_y;
-	int		step_x;
-	int		step_y;
-	int		tex_w;
-	int		tex_h;
-	int		tex_x;
-	int		tex_y;
-	int		draw_start;
-	int		draw_end;
-	double	camera_x;
-	double	dir_x;
-	double	dir_y;
+	int			side;
+	t_point_d	pos;
+	t_point_i	map; 
+	t_point_i	step;
+	int			tex_w;
+	int			tex_h;
+	t_point_i	tex;
+	int			draw_start;
+	int			draw_end;
+	double		camera_x;
+	t_point_d	dir;
+	double		delta_dist_x;
+	double		delta_dist_y;
 }				t_raycast;
 
-
-typedef struct	s_point
-{
-	int			x;
-	int			y;
-}				t_point;
-
-typedef struct	s_point_d
-{
-	int			x;
-	int			y;
-}				t_point_d;
 
 typedef struct	s_config
 {
@@ -107,18 +104,10 @@ typedef struct	s_texture
 
 typedef struct	s_person
 {
-	// координаты игрока
-	double		pos_x;
-	double		pos_y;
-	// направление персонажа, куда смотрю
-	double		dirX;
-	double		dirY;
-	// угол обзора. плоскость которую видим
-	double		planeX;
-	double		planeY;
-	// скорость персонажа
+	t_point_d	pos;
+	t_point_d	dir;
+	t_point_d	plane;
 	double		moveSpeed;
-	// скорость поворота камеры
 	double		rotSpeed;
 }				t_person;
 

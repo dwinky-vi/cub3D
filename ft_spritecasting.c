@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:17:13 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 00:00:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:32:56 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void		ft_spritecasting(t_vars *vars, double pos_x,
 	{
 		ray.sprite_pos_x = sprite_array[i].x - pos_x;
 		ray.sprite_pos_y = sprite_array[i].y - pos_y;
-		inv_det = 1.0 / (vars->person.planeX * vars->person.dirY - vars->person.dirX * vars->person.planeY);
-		ray.transform_x = inv_det * (vars->person.dirY * ray.sprite_pos_x - vars->person.dirX * ray.sprite_pos_y);
-		ray.transform_y = inv_det * (-vars->person.planeY * ray.sprite_pos_x + vars->person.planeX * ray.sprite_pos_y);
+		inv_det = 1.0 / (vars->person.plane.x * vars->person.dir.y - vars->person.dir.x * vars->person.plane.y);
+		ray.transform_x = inv_det * (vars->person.dir.y * ray.sprite_pos_x - vars->person.dir.x * ray.sprite_pos_y);
+		ray.transform_y = inv_det * (-vars->person.plane.y * ray.sprite_pos_x + vars->person.plane.x * ray.sprite_pos_y);
 		ft_init_draw_point(&ray, vars->data.config.height, vars->data.config.width);
 		ft_draw_vertic_stripe(vars, &ray, pern_array);
 		i++;
@@ -98,11 +98,11 @@ void		ft_spritecasting(t_vars *vars, double pos_x,
 void		ft_draw_vertic_stripe(t_vars *vars, t_spritecast *ray,
 									double *pern_array)
 {
-	int		x;
-	int		y;
-	int		d;
-	int		color;
-	t_point	tex;
+	int			x;
+	int			y;
+	int			d;
+	int			color;
+	t_point_i	tex;
 
 	x = ray->draw_start_x;
 	while (x < ray->draw_end_x)
