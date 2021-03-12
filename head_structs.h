@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 04:33:16 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 15:36:18 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ typedef struct	s_raycast
 	int			draw_end;
 	double		camera_x;
 	t_point_d	dir;
-	double		delta_dist_x;
-	double		delta_dist_y;
+	t_point_d	delta_dist;
+	double		wall_x;
+	int			draw_line_h;
+	double		perp_dist_to_wall;
 }				t_raycast;
 
 typedef struct	s_config

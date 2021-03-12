@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 04:30:31 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 15:21:32 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,18 @@ void	ft_free_config(t_config *conf);
 
 int		ft_raycast(t_vars *vars);
 
+void	ft_init_side_dist(t_raycast *ray);
+
+void	ft_calculate_dist_to_wall(t_raycast *ray, char **map);
+
+void	ft_init_perp_dist_to_wall(t_raycast *ray);
+
 void	ft_get_tex_width_height(t_vars *vars, int *texWidth, int *texHeight, int side, int stepX, int stepY);
 
-// void	ft_calculate_distance(t_sprite *sprite, char **map,
-								// double pos_x, double pos_y);
+void	ft_calculate_line_h_to_draw(t_raycast *ray, int h);
+
+
+
 
 void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y,
 							double *perpen_array);
@@ -55,9 +63,7 @@ void	ft_quick_sort(t_sprite *sprite, int first, int last);
 
 void	ft_insert_sort(t_sprite *sprite, int size);
 
-void	ft_init_side_dist(t_raycast *ray);
 
-void	ft_calculate_dist_to_wall(t_raycast *ray, char **map);
 
 /*
 ** parser

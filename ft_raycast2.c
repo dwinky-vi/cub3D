@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:41:24 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 04:21:01 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 14:56:16 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,32 @@ void	ft_get_tex_width_height(t_vars *vars, int *tex_w, int *tex_h, int side, int
 	}
 }
 
+/*
+** calculate step and initial sideDist
+**
+*/
+
 void	ft_init_side_dist(t_raycast *ray)
 {
 	if (ray->dir.x < 0)
 	{
 		ray->step.x = -1;
-		ray->side_dist.x = (ray->pos.x - ray->map.x) * ray->delta_dist_x;
+		ray->side_dist.x = (ray->pos.x - ray->map.x) * ray->delta_dist.x;
 	}
 	else
 	{
 		ray->step.x = 1;
-		ray->side_dist.x = (ray->map.x + 1.0 - ray->pos.x) * ray->delta_dist_x;
+		ray->side_dist.x = (ray->map.x + 1.0 - ray->pos.x) * ray->delta_dist.x;
 	}
 	if (ray->dir.y < 0)
 	{
 		ray->step.y = -1;
-		ray->side_dist.y = (ray->pos.y - ray->map.y) * ray->delta_dist_y;
+		ray->side_dist.y = (ray->pos.y - ray->map.y) * ray->delta_dist.y;
 	}
 	else
 	{
 		ray->step.y = 1;
-		ray->side_dist.y = (ray->map.y + 1.0 - ray->pos.y) * ray->delta_dist_y;
+		ray->side_dist.y = (ray->map.y + 1.0 - ray->pos.y) * ray->delta_dist.y;
 	}
 }
 
@@ -84,13 +89,13 @@ void	ft_calculate_dist_to_wall(t_raycast *ray, char **map)
 	{
 		if (ray->side_dist.x < ray->side_dist.y)
 		{
-			ray->side_dist.x += ray->delta_dist_x;
+			ray->side_dist.x += ray->delta_dist.x;
 			ray->map.x += ray->step.x;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->side_dist.y += ray->delta_dist_y;
+			ray->side_dist.y += ray->delta_dist.y;
 			ray->map.y += ray->step.y;
 			ray->side = 1;
 		}
