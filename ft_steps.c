@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 09:58:22 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 01:31:44 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 04:32:23 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,28 @@ void		make_step_right(char **map, t_person *person)
 
 void		make_rotation_left(char **map, t_person *person)
 {
-	double oldDirX;
-	double oldPlaneX;
+	double old_dir_x;
+	double old_plane_x;
 
-	oldDirX = person->dir.x;
-	oldPlaneX = person->plane.x;
+	old_dir_x = person->dir.x;
+	old_plane_x = person->plane.x;
 	person->dir.x = person->dir.x * cos(person->rotSpeed) - person->dir.y * sin(person->rotSpeed);
-	person->dir.y = oldDirX * sin(person->rotSpeed) + person->dir.y * cos(person->rotSpeed);
+	person->dir.y = old_dir_x * sin(person->rotSpeed) + person->dir.y * cos(person->rotSpeed);
 	person->plane.x = person->plane.x * cos(person->rotSpeed) - person->plane.y * sin(person->rotSpeed);
-	person->plane.y = oldPlaneX * sin(person->rotSpeed) + person->plane.y * cos(person->rotSpeed);
+	person->plane.y = old_plane_x * sin(person->rotSpeed) + person->plane.y * cos(person->rotSpeed);
 }
 
 void		make_rotation_right(char **map, t_person *person)
 {
-	double oldDirX;
-	double oldPlaneX;
+	double old_dir_x;
+	double old_plane_x;
 
-	oldDirX = person->dir.x;
-	oldPlaneX = person->plane.x;
+	old_dir_x = person->dir.x;
+	old_plane_x = person->plane.x;
 	person->dir.x = person->dir.x * cos(-person->rotSpeed) - person->dir.y * sin(-person->rotSpeed);
-	person->dir.y = oldDirX * sin(-person->rotSpeed) + person->dir.y * cos(-person->rotSpeed);
+	person->dir.y = old_dir_x * sin(-person->rotSpeed) + person->dir.y * cos(-person->rotSpeed);
 	person->plane.x = person->plane.x * cos(-person->rotSpeed) - person->plane.y * sin(-person->rotSpeed);
-	person->plane.y = oldPlaneX * sin(-person->rotSpeed) + person->plane.y * cos(-person->rotSpeed);
+	person->plane.y = old_plane_x * sin(-person->rotSpeed) + person->plane.y * cos(-person->rotSpeed);
 }
 
 int			make_step(t_vars *vars)

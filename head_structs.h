@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 01:30:52 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 04:33:16 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct	s_raycast
 	t_point_d	pos;
 	t_point_i	map; 
 	t_point_i	step;
+	t_point_d 	side_dist;
 	int			tex_w;
 	int			tex_h;
 	t_point_i	tex;
@@ -59,11 +60,10 @@ typedef struct	s_raycast
 	double		delta_dist_y;
 }				t_raycast;
 
-
 typedef struct	s_config
 {
-	int			width; // ширина
-	int			height;// высота
+	int			width;
+	int			height;
 	char		*no;
 	char		*so;
 	char		*we;

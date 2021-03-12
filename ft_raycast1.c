@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 01:43:35 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 04:20:53 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,51 +40,11 @@ int		ft_raycast(t_vars *vars)
 		ray.map.x = ray.pos.x;
 		ray.map.y = ray.pos.y;
 
-		//length of ray from current position to next x or y-side
-		double sideDistX;
-		double sideDistY;
 		ray.delta_dist_x = fabs(1 / ray.dir.x);
 		ray.delta_dist_y = fabs(1 / ray.dir.y);
 		double perpWallDist;
-
-		int hit = FALSE; //was there a wall hit?
-		if (ray.dir.x < 0)
-		{
-			ray.step.x = -1;
-			sideDistX = (ray.pos.x - ray.map.x) * ray.delta_dist_x;
-		}
-		else
-		{
-			ray.step.x = 1;
-			sideDistX = (ray.map.x + 1.0 - ray.pos.x) * ray.delta_dist_x;
-		}
-		if (ray.dir.y < 0)
-		{
-			ray.step.y = -1;
-			sideDistY = (ray.pos.y - ray.map.y) * ray.delta_dist_y;
-		}
-		else
-		{
-			ray.step.y = 1;
-			sideDistY = (ray.map.y + 1.0 - ray.pos.y) * ray.delta_dist_y;
-		}
-		while (hit == FALSE)
-		{
-			if (sideDistX < sideDistY)
-			{
-				sideDistX += ray.delta_dist_x;
-				ray.map.x += ray.step.x;
-				ray.side = 0;
-			}
-			else
-			{
-				sideDistY += ray.delta_dist_y;
-				ray.map.y += ray.step.y;
-				ray.side = 1; // вертикаль
-			}
-			if (vars->data.map[ray.map.x][ray.map.y] == '1')
-				hit = TRUE;
-		}
+		ft_init_side_dist(&ray);
+		ft_calculate_dist_to_wall(&ray, vars->data.map);
 		if (ray.side == 0)  //вертикаль
 			perpWallDist = (ray.map.x - ray.pos.x + (1 - ray.step.x) / 2) / ray.dir.x;
 		else // горизанталь
@@ -111,8 +71,8 @@ int		ft_raycast(t_vars *vars)
 		if (ray.side == 1 && ray.dir.y < 0)
 			ray.tex.x = tex_w - ray.tex.x - 1;
 		double step = 1.0 * tex_h / lineHeight;
-		int y = 0;
 		double texPos = (ray.draw_start - h / 2 + lineHeight / 2) * step;
+		int y = 0;
 		while (y < vars->data.config.height)
 		{
 			if (y < ray.draw_start) // потолок
@@ -135,43 +95,4 @@ int		ft_raycast(t_vars *vars)
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 	mlx_destroy_image(vars->mlx_ptr, vars->img.img);
 	return (0);
-}
-
-int		get_color_wall(t_vars *vars, t_raycast *ray)
-{
-	int color;
-
-	if (ray->side == 0 && ray->step.x == -1)
-		color = ft_mlx_get_color(&vars->texture[0], ray->tex.x, ray->tex.y);
-	else if (ray->side == 0 && ray->step.x == 1)
-		color = ft_mlx_get_color(&vars->texture[1], ray->tex.x, ray->tex.y);
-	else if (ray->step.y == -1)
-		color = ft_mlx_get_color(&vars->texture[2], ray->tex.x, ray->tex.y);
-	else if (ray->step.y == 1)
-		color = ft_mlx_get_color(&vars->texture[3], ray->tex.x, ray->tex.y);
-	return (color);
-}
-
-void	ft_get_tex_width_height(t_vars *vars, int *tex_w, int *tex_h, int side, int stepX, int stepY)
-{
-	if (side == 0 && stepX == -1)
-	{
-		*tex_h = vars->texture[0].height;
-		*tex_w = vars->texture[0].width;
-	}
-	else if (side == 0 && stepX == 1)
-	{
-		*tex_h = vars->texture[1].height;
-		*tex_w = vars->texture[1].width;
-	}
-	else if (stepY == -1)
-	{
-		*tex_h = vars->texture[2].height;
-		*tex_w = vars->texture[2].width;
-	}
-	else if (stepY == 1)
-	{
-		*tex_h = vars->texture[3].height;
-		*tex_w = vars->texture[3].width;
-	}
 }
