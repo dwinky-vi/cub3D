@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 15:36:18 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 20:18:27 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ typedef struct	s_spritecast
 	int			sprite_screen_x;
 	double		transform_x;
 	double		transform_y;
-} 				t_spritecast;
+}				t_spritecast;
 
 typedef struct	s_raycast
 {
 	int			side;
 	t_point_d	pos;
-	t_point_i	map; 
+	t_point_i	map;
 	t_point_i	step;
-	t_point_d 	side_dist;
+	t_point_d	side_dist;
 	int			tex_w;
 	int			tex_h;
 	t_point_i	tex;
@@ -109,8 +109,8 @@ typedef struct	s_person
 	t_point_d	pos;
 	t_point_d	dir;
 	t_point_d	plane;
-	double		moveSpeed;
-	double		rotSpeed;
+	double		speed_move;
+	double		speed_rot;
 }				t_person;
 
 typedef struct	s_sprite

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 17:27:13 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 20:17:22 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,15 @@ void	ft_free_config(t_config *conf);
 
 int		ft_raycast(t_vars *vars);
 
+void	ft_calculate_value(t_raycast *ray, t_person *person, int x, int w);
+
 void	ft_init_side_dist(t_raycast *ray);
 
 void	ft_calculate_dist_to_wall(t_raycast *ray, char **map);
 
 void	ft_init_perp_dist_to_wall(t_raycast *ray);
 
-void	ft_get_tex_width_height(t_vars *vars, int *texWidth, int *texHeight, int side, int stepX, int stepY);
+void	ft_get_tex_width_height(t_vars *vars, t_raycast *ray);
 
 void	ft_calculate_line_h_to_draw(t_raycast *ray, int h);
 
@@ -53,18 +55,18 @@ void	ft_calculate_value_of_wall_x(t_raycast *ray);
 
 void	ft_calculate_value_of_tex_x(t_raycast *ray);
 
+int		get_color_wall(t_vars *vars, t_raycast *ray);
 
+/*
+** spritecast
+*/
 
 void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y,
 							double *perpen_array);
 
-int		get_color_wall(t_vars *vars, t_raycast *ray);
-
 void	ft_quick_sort(t_sprite *sprite, int first, int last);
 
 void	ft_insert_sort(t_sprite *sprite, int size);
-
-
 
 /*
 ** parser
