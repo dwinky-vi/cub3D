@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 01:31:08 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 20:19:06 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,8 +182,8 @@ void		ft_find_person(t_vars *vars)
 			{
 				vars->person.pos.x = k + 0.5;
 				vars->person.pos.y = j + 0.5;
-				vars->person.moveSpeed = 0.08;
-				vars->person.rotSpeed = 0.045;
+				vars->person.speed_move = 0.08;
+				vars->person.speed_rot = 0.045;
 				if (vars->data.map[k][j] == 'N') // север
 				{
 					vars->person.dir.x = -1;

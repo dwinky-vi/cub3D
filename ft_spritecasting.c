@@ -6,12 +6,13 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:17:13 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 17:23:43 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 20:12:41 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
-
+#include <time.h>
+#include <stdio.h>
 double		power_2(double num)
 {
 	return (num * num);
