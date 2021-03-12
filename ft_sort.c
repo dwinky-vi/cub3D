@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 21:43:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 00:03:16 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 20:25:04 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ void		ft_quick_sort(t_sprite *sprite, int first, int last)
 			right--;
 		}
 	}
-	if (right > 0)
-		ft_quick_sort(sprite, first, right);
-	if (left < last)
-		ft_quick_sort(sprite, left, last);
+	ft_quick_sort(sprite, first, right);
+	ft_quick_sort(sprite, left, last);
 }
 
 void		ft_insert_sort(t_sprite *sprite, int size)
