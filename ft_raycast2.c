@@ -6,57 +6,32 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 22:41:24 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 14:56:16 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 19:44:36 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 
-int		get_color_wall(t_vars *vars, t_raycast *ray)
-{
-	int color;
+/*
+** camera_x [-1, 1] приведение значения ширины экрана к этим величинам
+*/
 
-	if (ray->side == 0 && ray->step.x == -1)
-		color = ft_mlx_get_color(&vars->texture[0], ray->tex.x, ray->tex.y);
-	else if (ray->side == 0 && ray->step.x == 1)
-		color = ft_mlx_get_color(&vars->texture[1], ray->tex.x, ray->tex.y);
-	else if (ray->step.y == -1)
-		color = ft_mlx_get_color(&vars->texture[2], ray->tex.x, ray->tex.y);
-	else if (ray->step.y == 1)
-		color = ft_mlx_get_color(&vars->texture[3], ray->tex.x, ray->tex.y);
-	return (color);
-}
-
-void	ft_get_tex_width_height(t_vars *vars, int *tex_w, int *tex_h, int side, int stepX, int stepY)
+void		ft_calculate_value(t_raycast *ray, t_person *person, int x, int w)
 {
-	if (side == 0 && stepX == -1)
-	{
-		*tex_h = vars->texture[0].height;
-		*tex_w = vars->texture[0].width;
-	}
-	else if (side == 0 && stepX == 1)
-	{
-		*tex_h = vars->texture[1].height;
-		*tex_w = vars->texture[1].width;
-	}
-	else if (stepY == -1)
-	{
-		*tex_h = vars->texture[2].height;
-		*tex_w = vars->texture[2].width;
-	}
-	else if (stepY == 1)
-	{
-		*tex_h = vars->texture[3].height;
-		*tex_w = vars->texture[3].width;
-	}
+	ray->camera_x = 2 * x / (double)w - 1;
+	ray->dir.x = person->dir.x + person->plane.x * ray->camera_x;
+	ray->dir.y = person->dir.y + person->plane.y * ray->camera_x;
+	ray->map.x = ray->pos.x;
+	ray->map.y = ray->pos.y;
+	ray->delta_dist.x = fabs(1 / ray->dir.x);
+	ray->delta_dist.y = fabs(1 / ray->dir.y);
 }
 
 /*
-** calculate step and initial sideDist
-**
+** calculate step and initial side_dist
 */
 
-void	ft_init_side_dist(t_raycast *ray)
+void		ft_init_side_dist(t_raycast *ray)
 {
 	if (ray->dir.x < 0)
 	{
@@ -80,7 +55,7 @@ void	ft_init_side_dist(t_raycast *ray)
 	}
 }
 
-void	ft_calculate_dist_to_wall(t_raycast *ray, char **map)
+void		ft_calculate_dist_to_wall(t_raycast *ray, char **map)
 {
 	int hit;
 
@@ -102,4 +77,19 @@ void	ft_calculate_dist_to_wall(t_raycast *ray, char **map)
 		if (map[ray->map.x][ray->map.y] == '1')
 			hit = TRUE;
 	}
+}
+
+/*
+** side == 0 –– вертикаль
+** side == 1 –– горизанталь
+*/
+
+void		ft_init_perp_dist_to_wall(t_raycast *ray)
+{
+	if (ray->side == 0)
+		ray->perp_dist_to_wall =
+				(ray->map.x - ray->pos.x + (1 - ray->step.x) / 2) / ray->dir.x;
+	else
+		ray->perp_dist_to_wall =
+				(ray->map.y - ray->pos.y + (1 - ray->step.y) / 2) / ray->dir.y;
 }
