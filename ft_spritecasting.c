@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:17:13 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 01:32:56 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 17:23:43 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,37 +65,11 @@ static void	ft_init_draw_point(t_spritecast *ray, int h, int w)
 		ray->draw_end_x = w - 1;
 }
 
-void		ft_spritecasting(t_vars *vars, double pos_x,
-								double pos_y, double *pern_array)
-{
-	int				i;
-	int				num_sprites = vars->count_sprites;
-	double			inv_det;
-	t_sprite		sprite_array[num_sprites];
-	t_point_d		sprite_pos;
-	t_spritecast	ray;
-
-	ft_calculate_distance(sprite_array, vars->data.map, pos_x, pos_y);
-	ft_quick_sort(sprite_array, 0, num_sprites - 1);
-	i = 0;
-	while (i < num_sprites)
-	{
-		ray.sprite_pos_x = sprite_array[i].x - pos_x;
-		ray.sprite_pos_y = sprite_array[i].y - pos_y;
-		inv_det = 1.0 / (vars->person.plane.x * vars->person.dir.y - vars->person.dir.x * vars->person.plane.y);
-		ray.transform_x = inv_det * (vars->person.dir.y * ray.sprite_pos_x - vars->person.dir.x * ray.sprite_pos_y);
-		ray.transform_y = inv_det * (-vars->person.plane.y * ray.sprite_pos_x + vars->person.plane.x * ray.sprite_pos_y);
-		ft_init_draw_point(&ray, vars->data.config.height, vars->data.config.width);
-		ft_draw_vertic_stripe(vars, &ray, pern_array);
-		i++;
-	}
-}
-
 /*
 **stripe -- полоса
 */
 
-void		ft_draw_vertic_stripe(t_vars *vars, t_spritecast *ray,
+static void	ft_draw_vertic_stripe(t_vars *vars, t_spritecast *ray,
 									double *pern_array)
 {
 	int			x;
@@ -123,5 +97,31 @@ void		ft_draw_vertic_stripe(t_vars *vars, t_spritecast *ray,
 			}
 		}
 		x++;
+	}
+}
+
+void		ft_spritecasting(t_vars *vars, double pos_x,
+								double pos_y, double *pern_array)
+{
+	int				i;
+	int				num_sprites = vars->count_sprites;
+	double			inv_det;
+	t_sprite		sprite_array[num_sprites];
+	t_point_d		sprite_pos;
+	t_spritecast	ray;
+
+	ft_calculate_distance(sprite_array, vars->data.map, pos_x, pos_y);
+	ft_quick_sort(sprite_array, 0, num_sprites - 1);
+	i = 0;
+	while (i < num_sprites)
+	{
+		ray.sprite_pos_x = sprite_array[i].x - pos_x;
+		ray.sprite_pos_y = sprite_array[i].y - pos_y;
+		inv_det = 1.0 / (vars->person.plane.x * vars->person.dir.y - vars->person.dir.x * vars->person.plane.y);
+		ray.transform_x = inv_det * (vars->person.dir.y * ray.sprite_pos_x - vars->person.dir.x * ray.sprite_pos_y);
+		ray.transform_y = inv_det * (-vars->person.plane.y * ray.sprite_pos_x + vars->person.plane.x * ray.sprite_pos_y);
+		ft_init_draw_point(&ray, vars->data.config.height, vars->data.config.width);
+		ft_draw_vertic_stripe(vars, &ray, pern_array);
+		i++;
 	}
 }

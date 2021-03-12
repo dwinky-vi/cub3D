@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 15:21:32 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/12 17:27:13 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ void	ft_get_tex_width_height(t_vars *vars, int *texWidth, int *texHeight, int si
 
 void	ft_calculate_line_h_to_draw(t_raycast *ray, int h);
 
+void	ft_calculate_value_of_wall_x(t_raycast *ray);
+
+void	ft_calculate_value_of_tex_x(t_raycast *ray);
 
 
 
 void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y,
 							double *perpen_array);
-
-void	ft_draw_vertic_stripe(t_vars *vars, t_spritecast *ray, double *p_array);
 
 int		get_color_wall(t_vars *vars, t_raycast *ray);
 
