@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/07 14:56:02 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 18:13:04 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int		ft_check_resolution(int *width, int *height, void *mlx_ptr)
 {
-	// int	this_width;
-	// int	this_height;
+	int	this_width;
+	int	this_height;
 
-	// mlx_get_screen_size(mlx_ptr, &this_width, &this_height);
-	// if (!(0 < *width && *width <= this_width))
-	// 	*width = this_width;
-	// if (!(0 < *height && *height <= this_height))
-	// 	*height = this_height;
+	mlx_get_screen_size(mlx_ptr, &this_width, &this_height);
+	if (!(0 < *width && *width <= this_width))
+		*width = this_width;
+	if (!(0 < *height && *height <= this_height))
+		*height = this_height;
 	return (0);
 }
 
