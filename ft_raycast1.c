@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 20:13:29 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 17:27:51 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int			ft_raycast(t_vars *vars)
 		perpendiculars_array[x] = ray.perp_dist_to_wall;
 		x++;
 	}
-	ft_spritecasting(vars, ray.pos.x, ray.pos.y, perpendiculars_array);
+	ft_spritecast(vars, &ray.pos, perpendiculars_array);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
 	mlx_destroy_image(vars->mlx_ptr, vars->img.img);
 	return (0);

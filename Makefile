@@ -6,7 +6,9 @@ SRCS	= \
 		ft_validator1.c ft_validator2.c \
 		ft_raycast1.c   ft_raycast2.c ft_raycast3.c \
 		ft_some_utils.c\
-		ft_spritecasting.c ft_hooks.c ft_steps.c ft_my_mlx.c ft_sort.c\
+		ft_spritecast1.c ft_spritecast2.c \
+		ft_steps1.c ft_steps2.c \
+		ft_hooks.c ft_my_mlx.c ft_sort.c\
 
 NAME		= cub3D
 

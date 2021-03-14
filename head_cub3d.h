@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 20:17:22 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 17:34:07 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ int		get_color_wall(t_vars *vars, t_raycast *ray);
 ** spritecast
 */
 
-void	ft_spritecasting(t_vars *vars, double pos_x, double pos_y,
-							double *perpen_array);
+void	ft_spritecast(t_vars *vars, t_point_d *pos, double *perpen_array);
 
 void	ft_quick_sort(t_sprite *sprite, int first, int last);
 
 void	ft_insert_sort(t_sprite *sprite, int size);
+
+void	ft_calculate_sprites(t_sprite *sprite, char **map, t_point_d *pos);
 
 /*
 ** parser
