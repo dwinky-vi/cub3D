@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 20:19:06 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 22:41:48 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static int	ft_get_width(char *str)
 
 	tmp = str;
 	width = ft_atoi(str);
-	while (ft_isdigit(*str))
-		str++;
 	free(tmp);
+	if (width < 0)
+		width = 0;
 	return (width);
 }
 
@@ -34,10 +34,10 @@ static int	ft_get_height(char *str)
 	tmp = str;
 	while (ft_isdigit(*str))
 		str++;
-	while (!ft_isdigit(*str))
-		str++;
 	height = ft_atoi(str);
 	free(tmp);
+	if (height < 0)
+		height = 0;
 	return (height);
 }
 
@@ -92,23 +92,23 @@ void		ft_set_config(t_config *config, char *line)
 	}
 	if (line[0] == 'R')
 	{
-		config->width = ft_get_width(ft_strtrim(line + 1, " "));
-		config->height = ft_get_height(ft_strtrim(line + 1, " "));
+		config->width = ft_get_width(ft_strtrim(line + 1, " \t"));
+		config->height = ft_get_height(ft_strtrim(line + 1, " \t"));
 	}
 	else if (line[0] == 'N' && line[1] == 'O')
-		config->no = ft_strtrim(line + 2, " ");
+		config->no = ft_strtrim(line + 2, " \t");
 	else if (line[0] == 'S' && line[1] == 'O')
-		config->so = ft_strtrim(line + 2, " ");
+		config->so = ft_strtrim(line + 2, " \t");
 	else if (line[0] == 'W' && line[1] == 'E')
-		config->we = ft_strtrim(line + 2, " ");
+		config->we = ft_strtrim(line + 2, " \t");
 	else if (line[0] == 'E' && line[1] == 'A')
-		config->ea = ft_strtrim(line + 2, " ");
+		config->ea = ft_strtrim(line + 2, " \t");
 	else if (line[0] == 'S')
-		config->s = ft_strtrim(line + 1, " ");
+		config->s = ft_strtrim(line + 1, " \t");
 	else if (line[0] == 'F')
-		config->f_str = ft_strtrim(line + 1, " ");
+		config->f_str = ft_strtrim(line + 1, " \t");
 	else if (line[0] == 'C')
-		config->c_str = ft_strtrim(line + 1, " ");
+		config->c_str = ft_strtrim(line + 1, " \t");
 }
 
 t_list		*ft_make_list_map(int fd, char *line)

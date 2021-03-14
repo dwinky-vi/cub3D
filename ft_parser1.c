@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/06 19:53:11 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 22:33:17 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_vars		ft_parse_data(int fd)
 	while ((r = get_next_line(fd, &line)) > 0)
 	{
 		tmp = line;
-		line = ft_strtrim(line, " ");
+		line = ft_strtrim(line, " \t");
 		if (ft_is_identifier(line))
 		{
 			ft_set_config(&vars.data.config, line);
@@ -81,7 +81,7 @@ int			ft_check(t_vars *vars, int fd, char *last_line)
 
 	if (!vars->data.config.so || !vars->data.config.we ||
 		!vars->data.config.no ||
-		!vars->data.config.ea || !vars->data.config.width ||
+		!vars->data.config.ea ||
 		!vars->data.config.s || !vars->data.config.f_str ||
 		!vars->data.config.c_str)
 	{
