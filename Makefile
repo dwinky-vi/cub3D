@@ -53,14 +53,14 @@ make_mlx_c:
 			@${MAKE} -C minilibx_swift
 
 $(NAME): 	$(OBJS)
-#			@mv ./minilibx_swift/libmlx.dylib . && rm -rf ./minilibx_swift/libmlx.dylib
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf $(MINILIBX_C_PATH)/libmlx.a  -framework OpenGL -framework AppKit -o $(NAME)
+			@cp ./minilibx_swift/libmlx.dylib .
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf $(MINILIBX_C_PATH)/libmlx.a libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h head_parser.h libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
-					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -I $(MINILIBX_C_PATH)/mlx.h -c $< -o $@
+					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -I $(MINILIBX_C_PATH)/mlx.h -I $(MINILIBX_SWIFT_PATH)/mlx.h -c $< -o $@
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(GREEN)[OK]$(NO_COLOR)\n"
 
 clean:
@@ -73,7 +73,7 @@ clean:
 
 fclean: 	clean
 			@rm -rf $(NAME)
-#			@rm -rf libmlx.dylib
+			@rm -rf libmlx.dylib
 #			@rm -rf libmlx.a
 			@cd $(LIBFT_PATH) && make fclean
 			@cd $(FT_PRINTF_PATH) && make fclean

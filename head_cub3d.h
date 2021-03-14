@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/14 19:57:44 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 21:02:59 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "./ft_printf/ft_printf.h"
 
 # include "./minilibx_c/mlx.h"
+# include "./minilibx_swift/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 
