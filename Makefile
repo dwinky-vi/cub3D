@@ -16,7 +16,9 @@ LIBFT_PATH		= ./libft
 
 FT_PRINTF_PATH	= ./ft_printf
 
-MINILIBX_PATH	= ./minilibx_c
+MINILIBX_C_PATH	= ./minilibx_c
+
+MINILIBX_SWIFT_PATH	= ./minilibx_swift
 
 HEADER		= head_cub3d.h
 
@@ -48,16 +50,17 @@ make_printf:
 
 make_mlx_c:
 			@${MAKE} -C minilibx_c
+			@${MAKE} -C minilibx_swift
 
 $(NAME): 	$(OBJS)
-			@mv $(MINILIBX_PATH)/libmlx.a . && rm -rf $(MINILIBX_PATH)/libmlx.a
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf -L. -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+#			@mv ./minilibx_swift/libmlx.dylib . && rm -rf ./minilibx_swift/libmlx.dylib
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf $(MINILIBX_C_PATH)/libmlx.a  -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h head_parser.h libft/libft.a
 					@test -d $(OBJS_DIR) || mkdir $(OBJS_DIR)
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(RED)[KO]        $(NO_COLOR)\r"
-					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -I $(MINILIBX_PATH)/mlx.h -c $< -o $@
+					@$(CC) $(CFLAGS) -I $(HEADER) -I head_structs.h -I head_parser.h -I $(MINILIBX_C_PATH)/mlx.h -c $< -o $@
 					@printf "$(GREEN)$(BOLD)Compilation $(UNDER_LINE)$(YELLOW)$<$(NO_COLOR)  $(BOLD)–– $(GREEN)[OK]$(NO_COLOR)\n"
 
 clean:
@@ -65,14 +68,17 @@ clean:
 			@/bin/rm -rf $(OBJS_DIR)
 			@cd $(LIBFT_PATH) && make clean
 			@cd $(FT_PRINTF_PATH) && make clean
-			@cd $(MINILIBX_PATH) && make clean
+			@cd $(MINILIBX_C_PATH) && make clean
+			@cd $(MINILIBX_SWIFT_PATH) && make clean
 
 fclean: 	clean
 			@rm -rf $(NAME)
 #			@rm -rf libmlx.dylib
-#			@cd $(LIBFT_PATH) && make fclean
-#			@cd $(FT_PRINTF_PATH) && make fclean
-#			@cd $(MINILIBX_PATH) && make fclean
+#			@rm -rf libmlx.a
+			@cd $(LIBFT_PATH) && make fclean
+			@cd $(FT_PRINTF_PATH) && make fclean
+			@cd $(MINILIBX_C_PATH) && make fclean
+			@cd $(MINILIBX_SWIFT_PATH) && make fclean
 			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
 
 re: 		fclean all
@@ -110,5 +116,5 @@ WHITE 		= \033[1;37m
 
 .PHONY:	all clean fclean re 
 .PHONY: make_lib make_printf make_mlx_c norm
-.PHONY: SRCS NAME LIBFT_PATH FT_PRINTF_PATH MINILIBX_PATH HEADER CC CFLAGS OBJS_DIR OBJS NORM
+.PHONY: SRCS NAME LIBFT_PATH FT_PRINTF_PATH MINILIBX_C_PATH MINILIBX_SWIFT_PATH HEADER CC CFLAGS OBJS_DIR OBJS NORM
 .PHONY: UNDER_LINE BOLD NO_COLOR BLACK RED GREEN BROWN BLUE PURPLE CYAN LIGHT_GRAY DARK_GRAY LIGHT_RED LIGHT_GREEN YELLOW LIGTH_BLUE LIGHT_PURPLE LIGHT_CYAN WHITE

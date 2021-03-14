@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/14 17:34:07 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 19:57:44 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		ft_checking_map(char **map);
 
 void	make_step_forward(char **map, t_person *person, float speed);
 
-void	make_step_back(char **map, t_person *person);
+void	make_step_back(char **map, t_person *person, float speed);
 
 void	make_step_left(char **map, t_person *person);
 

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/14 18:24:19 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/14 20:09:30 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			ft_get_textures(void *mlx, t_texture *tex, t_config *config)
 										&tex[3].height);
 	tex[3].addr = mlx_get_data_addr(tex[3].img, &tex[3].b_p_p,
 									&tex[3].line_len, &tex[3].endian);
-	tex[4].img = mlx_xpm_file_to_image(mlx, config->s, &tex[4].width, 
+	tex[4].img = mlx_xpm_file_to_image(mlx, config->s, &tex[4].width,
 										&tex[4].height);
 	tex[4].addr = mlx_get_data_addr(tex[4].img, &tex[4].b_p_p,
 									&tex[4].line_len, &tex[4].endian);
@@ -59,8 +59,8 @@ int			main(int argc, char **argv)
 	vars.mlx_ptr = mlx_init();
 	if (vars.mlx_ptr == NULL)
 		return (ft_puterror("Error in mlx_init()"));
-	vars.win_ptr =
-	mlx_new_window(vars.mlx_ptr, vars.data.config.width, vars.data.config.height, "CUB3D");
+	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.width, \
+					vars.data.config.height, "CUB3D");
 	if (ft_get_textures(vars.mlx_ptr, vars.texture, &vars.data.config))
 		return (ft_puterror("Error\nBad textures"));
 	ft_set_hooks(&vars);

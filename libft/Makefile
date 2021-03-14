@@ -54,7 +54,7 @@ clean:
 
 fclean: 	clean
 			@rm -rf $(NAME)
-			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
+			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)  deleted$(NO_COLOR)\n"
 
 re: 		fclean all
 
