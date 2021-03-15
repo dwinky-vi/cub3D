@@ -99,27 +99,27 @@ void *mlx_init()
 
 void mlx_loop(mlx_ptr_t *mlx_ptr)
 {
-  CFRunLoopObserverRef observer;
-  CFRunLoopObserverContext ocontext = {.version = 0, .info = mlx_ptr, .retain = NULL, .release = NULL, .copyDescription = NULL};
+	CFRunLoopObserverRef observer;
+	CFRunLoopObserverContext ocontext = {.version = 0, .info = mlx_ptr, .retain = NULL, .release = NULL, .copyDescription = NULL};
 
-  mlx_ptr->main_loop_active = 1;
+	mlx_ptr->main_loop_active = 1;
 
-  observer = CFRunLoopObserverCreate(NULL, kCFRunLoopBeforeTimers, true, 0, do_loop_flush, &ocontext);
-  CFRunLoopAddObserver(CFRunLoopGetMain(), observer, kCFRunLoopCommonModes);
+	observer = CFRunLoopObserverCreate(NULL, kCFRunLoopBeforeTimers, true, 0, do_loop_flush, &ocontext);
+	CFRunLoopAddObserver(CFRunLoopGetMain(), observer, kCFRunLoopCommonModes);
 
-  //  [[[MlxLoopHookObj alloc] initWithPtr:mlx_ptr] performSelector:@selector(do_loop_hook) withObject:nil afterDelay:0.0];
+	//  [[[MlxLoopHookObj alloc] initWithPtr:mlx_ptr] performSelector:@selector(do_loop_hook) withObject:nil afterDelay:0.0];
 
-  [NSApp run];
+	[NSApp run];
 }
 
 
 void mlx_pixel_put(mlx_ptr_t *mlx_ptr, mlx_win_list_t *win_ptr, int x, int y, int color)
 {
-  if (!win_ptr->pixmgt)
-    return ;
-  [(id)(win_ptr->winid) selectGLContext];
-  [(id)(win_ptr->winid) pixelPutColor:color X:x Y:y];
-  win_ptr->nb_flush ++;
+	if (!win_ptr->pixmgt)
+		return ;
+	[(id)(win_ptr->winid) selectGLContext];
+	[(id)(win_ptr->winid) pixelPutColor:color X:x Y:y];
+	win_ptr->nb_flush ++;
 }
 
 

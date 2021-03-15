@@ -6,12 +6,16 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/14 20:09:30 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 15:42:55 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 #include <stdio.h>
+
+#define ERROR01 "Error 01\n Bad fd\n"
+#define ERROR02 "Error 02\n Problem in mlx"
+#define ERROR03 "Error 03\n Bad textures"
 
 int			ft_get_textures(void *mlx, t_texture *tex, t_config *config)
 {
@@ -43,26 +47,28 @@ int			ft_get_textures(void *mlx, t_texture *tex, t_config *config)
 
 int			main(int argc, char **argv)
 {
-	int			fd;
-	t_vars		vars;
-	char		*error;
+	int		fd;
+	t_vars	vars;
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		return (ft_puterror("Error in fd"));
+		return (ft_puterror(ERROR01));
 	vars = ft_parse_data(fd);
 	if (vars.data.error != NULL)
 		return (ft_puterror(vars.data.error));
-	if ((error = ft_validator(&vars.data, vars.mlx_ptr)))
-		return (ft_puterror(error));
+	vars.data.error = ft_validator(&vars.data, vars.mlx_ptr);
+	if (vars.data.error != NULL)
+		return (ft_puterror(vars.data.error));
 	close(fd);
+	printf("%d\n", vars.data.config.width);
+	printf("%d\n", vars.data.config.height);
 	vars.mlx_ptr = mlx_init();
-	if (vars.mlx_ptr == NULL)
-		return (ft_puterror("Error in mlx_init()"));
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.width, \
 					vars.data.config.height, "CUB3D");
+	if (vars.win_ptr == NULL)
+		return (ft_puterror(ERROR02));
 	if (ft_get_textures(vars.mlx_ptr, vars.texture, &vars.data.config))
-		return (ft_puterror("Error\nBad textures"));
+		return (ft_puterror(ERROR03));
 	ft_set_hooks(&vars);
 	mlx_loop_hook(vars.mlx_ptr, ft_raycast, &vars);
 	mlx_loop(vars.mlx_ptr);

@@ -647,27 +647,28 @@ int get_mouse_button(NSEventType eventtype)
 
 void *mlx_new_window(mlx_ptr_t *mlx_ptr, int size_x, int size_y, char *title)
 {
-  mlx_win_list_t	*newwin;
-  NSString		*str;
+	mlx_win_list_t	*newwin;
+	NSString		*str;
 
-  if ((newwin = malloc(sizeof(*newwin))) == NULL)
-    return ((void *)0);
-  newwin->img_list = NULL;
-  newwin->next = mlx_ptr->win_list;
-  newwin->nb_flush = 0;
-  newwin->pixmgt = 1;
-  mlx_ptr->win_list = newwin;
-
-  NSRect windowRect = NSMakeRect(100, 100, size_x, size_y);
-  str = [NSString stringWithCString:title encoding:NSASCIIStringEncoding];
-  newwin->winid = [[MlxWin alloc] initWithRect:windowRect andTitle:str pfaAttrs:pfa_attrs];
-  if (newwin->winid)
-    if (![(id)(newwin->winid) pixel_management])
-      {
-	[(id)(newwin->winid) destroyPixelManagement];
-	[(id)(newwin->winid) destroyMe];
-      }
-  return ((void *)newwin);
+	if (mlx_ptr == NULL || size_x <= 0 || size_y <= 0 || title == NULL)
+		return ((void *)0);
+	if ((newwin = malloc(sizeof(*newwin))) == NULL)
+		return ((void *)0);
+	newwin->img_list = NULL;
+	newwin->next = mlx_ptr->win_list;
+	newwin->nb_flush = 0;
+	newwin->pixmgt = 1;
+	mlx_ptr->win_list = newwin;
+	NSRect windowRect = NSMakeRect(100, 100, size_x, size_y);
+	str = [NSString stringWithCString:title encoding:NSASCIIStringEncoding];
+	newwin->winid = [[MlxWin alloc] initWithRect:windowRect andTitle:str pfaAttrs:pfa_attrs];
+	if (newwin->winid)
+		if (![(id)(newwin->winid) pixel_management])
+		{
+			[(id)(newwin->winid) destroyPixelManagement];
+			[(id)(newwin->winid) destroyMe];
+		}
+	return ((void *)newwin);
 }
 
 
