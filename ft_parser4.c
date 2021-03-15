@@ -6,13 +6,13 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 15:47:25 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 18:22:31 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 21:44:26 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
-#define ERROR09 "Error 09\n Found many players\n"
-#define ERROR10 "Error 10\n Player not found\n"
+#define ERROR09 "Error\n09 Found many players\n"
+#define ERROR10 "Error\n10 Player not found\n"
 
 static void	ft_init_person_dir(t_person *person, double z1, double z2)
 {

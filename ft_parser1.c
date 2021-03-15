@@ -6,14 +6,14 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 18:34:03 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 21:43:58 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 #include "head_parser.h"
-#define ERROR04 "Error 04\n Promlen in malloc\n"
-#define ERROR05 "Error 05\n Problem in GNL\n"
+#define ERROR04 "Error\n04 Promlen in malloc\n"
+#define ERROR05 "Error\n05 Problem in GNL\n"
 
 /*
 ** 		_____main function_____
@@ -30,7 +30,7 @@ t_vars		ft_parse_data(int fd)
 	while ((r = get_next_line(fd, &line)) > 0)
 	{
 		tmp = line;
-		line = ft_strtrim(line, " \t");
+		line = ft_strtrim(line, " ");
 		if (line == NULL)
 		{
 			vars.data.error = ERROR04;

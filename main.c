@@ -6,16 +6,16 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 17:55:17 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 21:53:12 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 #include <stdio.h>
 
-#define ERROR01 "Error 01\n Bad fd\n"
-#define ERROR02 "Error 02\n Problem in mlx"
-#define ERROR03 "Error 03\n Bad textures"
+#define ERROR01 "Error\n01 Not valid file"
+#define ERROR02 "Error\n02 Problem in mlx"
+#define ERROR03 "Error\n03 Bad textures"
 
 int			ft_get_textures(void *mlx, t_texture *tex, t_config *config)
 {
@@ -45,13 +45,28 @@ int			ft_get_textures(void *mlx, t_texture *tex, t_config *config)
 	return (0);
 }
 
+int			ft_check_file_cub(char *str)
+{
+	int k;
+	
+	k = 0;
+	while (str[k])
+	{
+		if (str[k] == '.' && str[k + 1] == 'c' && str[k + 2] == 'u' &&
+			str[k + 3] == 'b' && str[k + 4] == '\0')
+			return (open(str, O_RDONLY));
+		k++;
+	}
+	return (-1);
+
+}
 int			main(int argc, char **argv)
 {
 	int		fd;
 	t_vars	vars;
 
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
+	fd = ft_check_file_cub(argv[1]);
+	if (fd == -1)
 		return (ft_puterror(ERROR01));
 	vars = ft_parse_data(fd);
 	if (vars.data.error != NULL)

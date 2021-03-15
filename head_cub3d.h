@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 19:20:21 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 22:04:07 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int		ft_mlx_get_color(t_texture *data, int x, int y);
 char	*ft_validator(t_data *data, void *mlx_ptr);
 
 int		ft_check_other_chars_map(char **map);
+
+int		ft_check_empty_line_map(char **map);
 
 /*
 ** движения и повороты

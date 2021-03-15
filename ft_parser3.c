@@ -6,14 +6,14 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 17:56:00 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 18:33:26 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 21:44:16 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
-#define ERROR06 "Error 06\n Some identifiers are missing or dublicated\n"
-#define ERROR07 "Error 07\n Problem in ft_make_list_map\n"
-#define ERROR08 "Error 08\n Problem malloc, when converting list to an array\n"
+#define ERROR06 "Error\n06 Some identifiers are missing or dublicated\n"
+#define ERROR07 "Error\n07 Problem in ft_make_list_map\n"
+#define ERROR08 "Error\n08 Problem malloc, when converting list to an array\n"
 
 static t_list	*ft_make_list_map(int fd, char *line)
 {

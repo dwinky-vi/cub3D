@@ -6,11 +6,17 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 18:59:27 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 23:01:50 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
+
+#define ERROR11 "Error\n11 Wrong window resolution (R)"
+#define ERROR12 "Error\n12 Wrong floor color (F)"
+#define ERROR13 "Error\n13 Wrong ceilling color (C)"
+#define ERROR14 "Error\n14 Invalid symbols in map"
+#define ERROR15 "Error\n15 Empty line in map"
 
 int		ft_check_resolution(int *width, int *height, void *mlx_ptr)
 {
@@ -40,28 +46,78 @@ int		ft_get_color(int num1, int num2, int num3)
 	return (color);
 }
 
+int		ft_check_len_nums(char *str)
+{
+	int len;
+
+	len = 0;
+	//написать проверку на незначащие нули
+	// проверить знаки + - в начале числа
+	// проверить переполнение в разрешеним
+	//
+	//
+	//
+
+
+
+
+
+
+	if
+
+
+
+	
+	while (ft_isdigit(*str))
+	{
+		len++;
+		str++;
+	}
+	if (len > 3)
+		return (1);
+	while (!ft_isdigit(*str))
+		str++;
+	len = 0;
+	while (ft_isdigit(*str))
+	{
+		str++;
+		len++;
+	}
+	if (len > 3)
+		return (1);
+	while (!ft_isdigit(*str))
+		str++;
+	len = 0;
+	while (ft_isdigit(*str))
+	{
+		len++;
+		str++;
+	}
+	if (len > 3)
+		return (1);
+	return (0);
+}
+
 int		ft_check_and_get_color(char *str, int *color)
 {
 	int	num1;
 	int	num2;
 	int	num3;
 
-	num1 = ft_atoi(str);
-	if (!(0 <= num1 && num1 <= 255))
+	if (ft_check_len_nums(str))
 		return (1);
+	num1 = ft_atoi(str);
 	while (ft_isdigit(*str))
 		str++;
 	while (!ft_isdigit(*str))
 		str++;
 	num2 = ft_atoi(str);
-	if (!(0 <= num2 && num2 <= 255))
-		return (1);
 	while (ft_isdigit(*str))
 		str++;
 	while (!ft_isdigit(*str))
 		str++;
 	num3 = ft_atoi(str);
-	if (!(0 <= num3 && num3 <= 255))
+	if (num1 < 0 || 255 < num1 || num2 < 0 || 255 < num2 || num3 < 0 || 255 < num3)
 		return (1);
 	*color = ft_get_color(num1, num2, num3);
 	return (0);
@@ -70,13 +126,15 @@ int		ft_check_and_get_color(char *str, int *color)
 char	*ft_validator(t_data *data, void *mlx_ptr)
 {
 	if (ft_check_resolution(&data->config.width, &data->config.height, mlx_ptr))
-		return ("Error in window resolution (R)");
+		return (ERROR11);
 	if (ft_check_and_get_color(data->config.f_str, &(data->config.f_int)))
-		return ("Error in floor color (F)");
+		return (ERROR12);
 	if (ft_check_and_get_color(data->config.c_str, &(data->config.c_int)))
-		return ("Error in floor color (C)");
+		return (ERROR13);
 	if (ft_check_other_chars_map(data->map))
-		return ("Error \nInvalid map");
+		return (ERROR14);
+	if (ft_check_empty_line_map(data->map))
+		return (ERROR15);
 	return (NULL);
 }
 
