@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 15:47:25 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 16:46:08 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 17:39:02 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void		ft_count_sprites(t_vars *vars)
 	}
 }
 
-
 void		ft_init_person_pos(t_person *person, double z1, double z2, double z3, double z4)
 {
 	person->dir.x  = z1;
@@ -63,31 +62,21 @@ void		ft_find_person(t_person *person, t_data *data)
 				person->pos.y = j + 0.5;
 				person->speed_move = 0.08;
 				person->speed_rot = 0.045;
-				if (data->map[k][j] == 'N') // север
+				if (data->map[k][j] == 'N')
 				{
 					ft_init_person_pos(person, -1, 0, 0, 0.66);
-					
 				}
-				else if (data->map[k][j] == 'S') // юг
+				else if (data->map[k][j] == 'S')
 				{
-					person->dir.x = 1;
-					person->dir.y = 0;
-					person->plane.x = 0;
-					person->plane.y = -0.66;
+					ft_init_person_pos(person, 1, 0, 0, -0.66);
 				}
-				else if (data->map[k][j] == 'W')// запад
+				else if (data->map[k][j] == 'W')
 				{
-					person->dir.x = 0;
-					person->dir.y = -1;
-					person->plane.x = -0.66;
-					person->plane.y = 0;
+					ft_init_person_pos(person, 0, -1, -0.66, 0);
 				}
-				else if (data->map[k][j] == 'E') // восток
+				else if (data->map[k][j] == 'E')
 				{
-					person->dir.x = 0;
-					person->dir.y = 1;
-					person->plane.x = 0.66;
-					person->plane.y = 0;
+					ft_init_person_pos(person, 0, 1, 0.66, 0);
 				}
 				data->map[k][j] = '0';
 				if (f == (char)TRUE)
@@ -104,3 +93,9 @@ void		ft_find_person(t_person *person, t_data *data)
 	if (!f)
 		data->error = ERROR10;
 }
+/*
+** север
+** юг
+** запад
+** восток
+*/
