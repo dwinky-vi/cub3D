@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 14:03:34 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 18:59:27 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*ft_validator(t_data *data, void *mlx_ptr)
 		return ("Error in floor color (F)");
 	if (ft_check_and_get_color(data->config.c_str, &(data->config.c_int)))
 		return ("Error in floor color (C)");
-	if (ft_checking_map(data->map))
+	if (ft_check_other_chars_map(data->map))
 		return ("Error \nInvalid map");
 	return (NULL);
 }

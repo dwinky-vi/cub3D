@@ -5,97 +5,91 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/15 15:47:25 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 17:39:02 by dwinky           ###   ########.fr       */
+/*   Created: 2021/03/15 17:56:00 by dwinky            #+#    #+#             */
+/*   Updated: 2021/03/15 18:33:26 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
-#include "head_parser.h"
-#define ERROR09 "Error 09\n Found many players\n"
-#define ERROR10 "Error 10\n Player not found\n"
+#define ERROR06 "Error 06\n Some identifiers are missing or dublicated\n"
+#define ERROR07 "Error 07\n Problem in ft_make_list_map\n"
+#define ERROR08 "Error 08\n Problem malloc, when converting list to an array\n"
 
-void		ft_count_sprites(t_vars *vars)
+static t_list	*ft_make_list_map(int fd, char *line)
 {
-	size_t	k;
-	size_t	j;
+	t_list	*head;
+	t_list	*cur;
+	int		r;
 
-	vars->count_sprites = 0;
-	k = 0;
-	while (vars->data.map[k])
+	if (!(head = ft_lstnew(line)))
+		return (NULL);
+	while ((r = get_next_line(fd, &line)) > 0)
 	{
-		j = 0;
-		while (vars->data.map[k][j])
+		cur = ft_lstnew(line);
+		if (!cur)
 		{
-			if (vars->data.map[k][j] == '2')
-				(vars->count_sprites)++;
-			j++;
+			ft_lstclear(&head, free);
+			return (NULL);
+		}
+		ft_lstadd_back(&head, cur);
+	}
+	if (r < 0 || !(cur = ft_lstnew(line)))
+	{
+		ft_lstadd_back(&head, cur);
+		return (NULL);
+	}
+	ft_lstadd_back(&head, cur);
+	return (head);
+}
+
+static char		**ft_convert_lst_to_matrix(t_list **lst)
+{
+	int		k;
+	char	**map;
+	t_list	*head;
+
+	if (!(map = (char **)ft_calloc(ft_lstsize(*lst) + 1, sizeof(char *))))
+		return (NULL);
+	k = 0;
+	head = *lst;
+	while (*lst)
+	{
+		map[k] = ft_strdup((char *)(*lst)->content);
+		if (map[k] == NULL)
+		{
+			while (--k >= 0)
+				free(map[k]);
+			free(map);
+			return (NULL);
 		}
 		k++;
+		*lst = (*lst)->next;
 	}
+	ft_lstclear(&head, free);
+	return (map);
 }
 
-void		ft_init_person_pos(t_person *person, double z1, double z2, double z3, double z4)
+int				ft_check_and_make_map(t_data *data, t_config *config, int fd, char *last_line)
 {
-	person->dir.x  = z1;
-	person->dir.y = z2;
-	person->plane.x = z3;
-	person->plane.y = z4;
-}
+	t_list	*list_map;
 
-void		ft_find_person(t_person *person, t_data *data)
-{
-	size_t	k;
-	size_t	j;
-	char	f;
-
-	f = (char)FALSE;
-	k = 0;
-	while (data->map[k])
+	if (!config->so || !config->we || !config->no || config->width == -1 ||
+		!config->ea || !config->s || !config->f_str || !config->c_str)
 	{
-		j = 0;
-		while (data->map[k][j])
-		{
-			if (ft_strchr("NSEW", data->map[k][j]))
-			{
-				person->pos.x = k + 0.5;
-				person->pos.y = j + 0.5;
-				person->speed_move = 0.08;
-				person->speed_rot = 0.045;
-				if (data->map[k][j] == 'N')
-				{
-					ft_init_person_pos(person, -1, 0, 0, 0.66);
-				}
-				else if (data->map[k][j] == 'S')
-				{
-					ft_init_person_pos(person, 1, 0, 0, -0.66);
-				}
-				else if (data->map[k][j] == 'W')
-				{
-					ft_init_person_pos(person, 0, -1, -0.66, 0);
-				}
-				else if (data->map[k][j] == 'E')
-				{
-					ft_init_person_pos(person, 0, 1, 0.66, 0);
-				}
-				data->map[k][j] = '0';
-				if (f == (char)TRUE)
-				{
-					data->error = ERROR09;
-					return ;
-				}
-				f = (char)TRUE;
-			}
-			j++;
-		}
-		k++;
+		data->error = ERROR06;
+		return (1);
 	}
-	if (!f)
-		data->error = ERROR10;
+	list_map = ft_make_list_map(fd, last_line);
+	if (!list_map)
+	{
+		data->error = ERROR07;
+		return (1);
+	}
+	data->map = ft_convert_lst_to_matrix(&list_map);
+	if (!data->map)
+	{
+		data->error = ERROR08;
+		return (1);
+	}
+	return (0);
 }
-/*
-** север
-** юг
-** запад
-** восток
-*/

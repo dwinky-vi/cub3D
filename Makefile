@@ -2,7 +2,7 @@
 
 SRCS	= \
 		main.c ft_free.c \
-		ft_parser1.c    ft_parser2.c ft_parser3.c\
+		ft_parser1.c    ft_parser2.c ft_parser3.c ft_parser4.c\
 		ft_validator1.c ft_validator2.c \
 		ft_raycast1.c   ft_raycast2.c ft_raycast3.c \
 		ft_some_utils.c\

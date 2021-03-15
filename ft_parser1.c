@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 15:55:12 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 18:34:03 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_vars		ft_parse_data(int fd)
 		vars.data.error = ERROR05;
 		return (vars);
 	}
-	if (ft_check_and_make_map(&vars, fd, tmp))
+	if (ft_check_and_make_map(&vars.data, &vars.data.config, fd, tmp))
 		return (vars);
 	ft_find_person(&vars.person, &vars.data);
 	ft_count_sprites(&vars);

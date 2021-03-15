@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 15:42:55 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/15 17:55:17 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int			main(int argc, char **argv)
 	if (vars.data.error != NULL)
 		return (ft_puterror(vars.data.error));
 	close(fd);
-	printf("%d\n", vars.data.config.width);
-	printf("%d\n", vars.data.config.height);
 	vars.mlx_ptr = mlx_init();
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr, vars.data.config.width, \
 					vars.data.config.height, "CUB3D");
