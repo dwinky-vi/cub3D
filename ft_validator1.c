@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/16 17:19:44 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/16 22:39:57 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@
 #define ERROR13 "Error\n13 Wrong ceilling color (C)"
 #define ERROR14 "Error\n14 Invalid symbols in map"
 #define ERROR15 "Error\n15 Empty line in map"
-#define ERROR16 "Error\n15 Map is not close "
+#define ERROR16 "Error\n16 Map is not close "
+#define ERROR17 "Error\n17 File NO is not xpm"
+#define ERROR18 "Error\n18 File SO is not xpm"
+#define ERROR19 "Error\n19 File WE is not xpm"
+#define ERROR20 "Error\n20 File EA is not xpm"
+#define ERROR21 "Error\n21 Zero not close "
+
 int		ft_check_resolution(int *width, int *height, void *mlx_ptr)
 {
 	int	my_width;
@@ -158,6 +164,21 @@ int		ft_check_and_get_color(char *str, int *color)
 	return (0);
 }
 
+int		ft_check_xpm_file(char *str)
+{
+	int		fd;
+	size_t	len;
+
+	len = ft_strlen(str);
+	if (str[len - 4] != '.' || str[len - 3] != 'x' || str[len - 2] != 'p' || str[len - 1] != 'm')
+		return (1);
+	fd = open(str, O_RDONLY);
+	if (fd == -1)
+		return (1);
+	else
+		close(fd);
+	return (0);
+}
 char	*ft_validator(t_data *data, void *mlx_ptr)
 {
 	if (ft_check_resolution(&data->config.width, &data->config.height, mlx_ptr))
@@ -170,8 +191,18 @@ char	*ft_validator(t_data *data, void *mlx_ptr)
 		return (ERROR14);
 	if (ft_check_empty_line_map(data->map))
 		return (ERROR15);
-	if (ft_check_spaces_new_lines(data->map))
+	if (ft_check_edges(data->map))
 		return (ERROR16);
+	if (ft_check_xpm_file(data->config.no))
+		return (ERROR17);
+	if (ft_check_xpm_file(data->config.so))
+		return (ERROR18);
+	if (ft_check_xpm_file(data->config.we))
+		return (ERROR19);
+	if (ft_check_xpm_file(data->config.ea))
+		return (ERROR20);
+	if (ft_check_zero(data->map))
+		return (ERROR21);
 	return (NULL);
 }
 

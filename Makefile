@@ -24,7 +24,7 @@ HEADER		= head_cub3d.h
 
 CC		= gcc
 
-CFLAGS	= 
+CFLAGS	= -g
 
 # создаём скрытую директорию, в которой будут .o файлы
 OBJS_DIR =			.obj
