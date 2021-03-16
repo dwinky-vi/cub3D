@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 22:04:07 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/16 17:18:33 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int		ft_check_other_chars_map(char **map);
 
 int		ft_check_empty_line_map(char **map);
 
+int		ft_check_spaces_new_lines(char **map);
 /*
 ** движения и повороты
 */
