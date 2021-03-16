@@ -6,11 +6,12 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:49 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 23:01:50 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/16 15:50:25 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
+#include <stdio.h>
 
 #define ERROR11 "Error\n11 Wrong window resolution (R)"
 #define ERROR12 "Error\n12 Wrong floor color (F)"
@@ -57,17 +58,6 @@ int		ft_check_len_nums(char *str)
 	//
 	//
 	//
-
-
-
-
-
-
-	if
-
-
-
-	
 	while (ft_isdigit(*str))
 	{
 		len++;
@@ -98,26 +88,71 @@ int		ft_check_len_nums(char *str)
 	return (0);
 }
 
+int		ft_get_num(char *str)
+{
+	int	k;
+
+	if (*str == '+')
+		str++;
+		// -00
+	if (ft_isdigit(str[0]) == 0)
+		return (-1);
+	if (str[0] == '0' && str[1] == ' ')
+		return (0);
+	k = 0;
+	while (str[k] == '0')
+		k++;
+	if (ft_isdigit(str[k]) == 0)
+		return (0);
+	int num = ft_atoi(str + k);
+	str += k;
+	k = 0;
+	while (ft_isdigit(str[k]))
+		k++;
+	if (k > 3 || 255 < num)
+		return (-1);
+	return (num);
+}
+
+char 	*ft_skip_separator(char *str)
+{
+	if (*str == '+')
+		str++;
+	while (ft_isdigit(*str))
+		str++;
+	if (*str != ' ' && *str != ',')
+		return (NULL);
+	while (*str == ' ')
+		str++;
+	if (*str == ',')
+		str++;
+	while (*str == ' ')
+		str++;
+	return (str);
+}
+
 int		ft_check_and_get_color(char *str, int *color)
 {
 	int	num1;
 	int	num2;
 	int	num3;
 
-	if (ft_check_len_nums(str))
+	num1 = ft_get_num(str);
+	if (!(str = ft_skip_separator(str)))
 		return (1);
-	num1 = ft_atoi(str);
+	num2 = ft_get_num(str);
+	if (!(str = ft_skip_separator(str)))
+		return (1);
+	num3 = ft_get_num(str);
+	if (*str == '+')
+		str++;
 	while (ft_isdigit(*str))
 		str++;
-	while (!ft_isdigit(*str))
+	while (*str == ' ')
 		str++;
-	num2 = ft_atoi(str);
-	while (ft_isdigit(*str))
-		str++;
-	while (!ft_isdigit(*str))
-		str++;
-	num3 = ft_atoi(str);
-	if (num1 < 0 || 255 < num1 || num2 < 0 || 255 < num2 || num3 < 0 || 255 < num3)
+	if (*str != '\0')
+		return (1);
+	if (num1 < 0 || num2 < 0 || num3 < 0)
 		return (1);
 	*color = ft_get_color(num1, num2, num3);
 	return (0);
