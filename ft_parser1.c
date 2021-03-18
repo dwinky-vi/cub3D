@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 02:59:24 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 05:53:38 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_vars	*ft_error(t_vars *vars, char *error)
 	return (vars);
 }
 
-static void		ft_path(t_config *config, char *line, char *tmp)
+static void		ft_patch(t_config *config, char *line, char *tmp)
 {
 	ft_set_config(config, line);
 	free(tmp);
@@ -47,7 +47,7 @@ t_vars			ft_parse_data(int fd)
 		if (line == NULL)
 			return (*ft_error(&vars, ERROR04));
 		if (ft_is_identifier(line))
-			ft_path(&vars.data.config, line, tmp);
+			ft_patch(&vars.data.config, line, tmp);
 		else
 			break ;
 	}

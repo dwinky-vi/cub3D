@@ -7,38 +7,32 @@
 
 #include "mlx_int.h"
 #include "mlx_new_window.h"
-
 #include "font.c"
-
 
 void	do_loop_hook2(CFRunLoopTimerRef observer, void * info)
 {
-  ((mlx_ptr_t *)info)->loop_hook(((mlx_ptr_t *)info)->loop_hook_data);
+	((mlx_ptr_t *)info)->loop_hook(((mlx_ptr_t *)info)->loop_hook_data);
 }
-
 
 void do_loop_flush(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void * info)
 {
-  mlx_ptr_t	*mlx_ptr;
-  mlx_win_list_t *win;
+	mlx_ptr_t	*mlx_ptr;
+	mlx_win_list_t *win;
 
-  mlx_ptr = (mlx_ptr_t *)info;
-  win = mlx_ptr->win_list;
-  while (win)
-    {
-      if (win->nb_flush > 0 && win->pixmgt)
+	mlx_ptr = (mlx_ptr_t *)info;
+	win = mlx_ptr->win_list;
+	while (win)
 	{
-	  [(id)win->winid selectGLContext];
-	  [(id)win->winid mlx_gl_draw];
-	  glFlush();
-	  win->nb_flush = 0;
+		if (win->nb_flush > 0 && win->pixmgt)
+	{
+		[(id)win->winid selectGLContext];
+		[(id)win->winid mlx_gl_draw];
+		glFlush();
+		win->nb_flush = 0;
 	}
-      win = win->next;
-    }
+		win = win->next;
+	}
 }
-
-
-
 
 void *mlx_init()
 {
@@ -96,7 +90,6 @@ void *mlx_init()
   return ((void *)new_mlx);
 }
 
-
 void mlx_loop(mlx_ptr_t *mlx_ptr)
 {
 	CFRunLoopObserverRef observer;
@@ -112,7 +105,6 @@ void mlx_loop(mlx_ptr_t *mlx_ptr)
 	[NSApp run];
 }
 
-
 void mlx_pixel_put(mlx_ptr_t *mlx_ptr, mlx_win_list_t *win_ptr, int x, int y, int color)
 {
 	if (!win_ptr->pixmgt)
@@ -122,71 +114,65 @@ void mlx_pixel_put(mlx_ptr_t *mlx_ptr, mlx_win_list_t *win_ptr, int x, int y, in
 	win_ptr->nb_flush ++;
 }
 
-
 void	mlx_int_loop_once()
 {
-  NSEvent *event;
-  NSDate  *thedate;
+	NSEvent *event;
+	NSDate  *thedate;
 
-  thedate = [NSDate dateWithTimeIntervalSinceNow:0.1];
-  while (42)
-    {
-      event = [NSApp nextEventMatchingMask:NSEventMaskAny
-		     untilDate:thedate
-		     inMode:NSDefaultRunLoopMode
-		     dequeue:YES];
-      if (event == nil)
+	thedate = [NSDate dateWithTimeIntervalSinceNow:0.1];
+	while (42)
 	{
-	  [thedate release];
-	  return ;
+		event = [NSApp nextEventMatchingMask:NSEventMaskAny
+				untilDate:thedate
+				inMode:NSDefaultRunLoopMode
+				dequeue:YES];
+		if (event == nil)
+	{
+		[thedate release];
+		return ;
 	}
-      [NSApp sendEvent:event];
-      [NSApp updateWindows];
-    }
+		[NSApp sendEvent:event];
+		[NSApp updateWindows];
+	}
 }
-
 
 int     mlx_do_sync(mlx_ptr_t *mlx_ptr)
 {
-  mlx_win_list_t *win;
+	mlx_win_list_t *win;
 
-  win = mlx_ptr->win_list;
-  while (win)
-    {
-      if (win->pixmgt)
+	win = mlx_ptr->win_list;
+	while (win)
 	{
-	  [(id)(win->winid) selectGLContext];
-	  [(id)(win->winid) mlx_gl_draw];
-	  glFlush();
-	  if (!mlx_ptr->main_loop_active)
-	    mlx_int_loop_once();
+		if (win->pixmgt)
+	{
+		[(id)(win->winid) selectGLContext];
+		[(id)(win->winid) mlx_gl_draw];
+		glFlush();
+		if (!mlx_ptr->main_loop_active)
+		mlx_int_loop_once();
 	}
-      win = win->next;
-    }
-  return (0);
+		win = win->next;
+	}
+	return (0);
 }
-
 
 int mlx_loop_hook(mlx_ptr_t *mlx_ptr, void (*fct)(void *), void *param)
 {
-  CFRunLoopTimerContext	tcontext = {0, mlx_ptr, NULL, NULL, NULL};
-  CFRunLoopTimerRef	timer;
+	CFRunLoopTimerContext	tcontext = {0, mlx_ptr, NULL, NULL, NULL};
+	CFRunLoopTimerRef		timer;
 
-  if (mlx_ptr->loop_hook != NULL)
-    {
-      CFRunLoopTimerInvalidate(mlx_ptr->loop_timer);
-      [(id)(mlx_ptr->loop_timer) release];
-    }
-
-  mlx_ptr->loop_hook = fct;
-  mlx_ptr->loop_hook_data = param;
-
-  if (fct)
-    {
-      timer = CFRunLoopTimerCreate(kCFAllocatorDefault, 0.0, 0.0001, 0, 0, &do_loop_hook2, &tcontext);
-      mlx_ptr->loop_timer = timer;
-      CFRunLoopAddTimer(CFRunLoopGetMain(), timer, kCFRunLoopCommonModes);
-    }
-
+	if (mlx_ptr->loop_hook != NULL)
+	{
+		CFRunLoopTimerInvalidate(mlx_ptr->loop_timer);
+		[(id)(mlx_ptr->loop_timer) release];
+	}
+	mlx_ptr->loop_hook = fct;
+	mlx_ptr->loop_hook_data = param;
+	if (fct)
+	{
+		timer = CFRunLoopTimerCreate(kCFAllocatorDefault, 0.0, 0.0001, 0, 0, &do_loop_hook2, &tcontext);
+		mlx_ptr->loop_timer = timer;
+		CFRunLoopAddTimer(CFRunLoopGetMain(), timer, kCFRunLoopCommonModes);
+	}
   return (0);
 }

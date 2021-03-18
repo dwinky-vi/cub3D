@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 03:08:12 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 03:48:55 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 05:40:19 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ char	*ft_skip_separator(char *str)
 		str++;
 	if (*str != ' ' && *str != ',')
 		return (NULL);
-	while (*str == ' ')
-		str++;
 	if (*str == ',')
 		str++;
 	while (*str == ' ')

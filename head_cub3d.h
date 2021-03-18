@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 03:39:37 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 05:57:15 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # include "head_structs.h"
 # include "./libft/libft.h"
-
 # include "./minilibx_c/mlx.h"
 # include "./minilibx_swift/mlx.h"
 # include <fcntl.h>
 # include <math.h>
-#include <stdio.h>
+# include <stdio.h>
 
 /*
 ** utils
 */
+
 int		ft_puterror(char *str);
 
 void	ft_free_map(char **map);
@@ -72,6 +72,8 @@ void	ft_calculate_sprites(t_sprite *sprite, char **map, t_point_d *pos);
 */
 
 t_vars	ft_parse_data(int fd);
+void	ft_get_w_h(char *str, int *w, int *h);
+int		ft_is_dublicate_id(t_config *config, char *line);
 int		ft_get_textures(void *mlx, t_texture *tex, t_config *config);
 int		ft_check_file_cub(char *str);
 /*

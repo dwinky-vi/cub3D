@@ -1,10 +1,10 @@
-R 1680 1080
+R +1680 1080
 NO  ./texture/bluestone.xpm
 SO ./texture/redbrick.xpm 
 WE ./texture/colorstone.xpm
 EA ./texture/purplestone.xpm
 S ./texture/barrel.xpm
-F 255, 163, 137       
+F 255, 163, 137
 C 0, 255, 55
 
         1111111111111111111111111111111111111111111111111
