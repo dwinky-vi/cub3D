@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 17:56:00 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 02:47:11 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 03:26:25 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,20 @@ int				ft_check_and_make_map(t_data *data, t_config *config,
 		return (1);
 	}
 	return (0);
+}
+
+int			ft_check_file_cub(char *str)
+{
+	int k;
+	
+	k = 0;
+	while (str[k])
+	{
+		if (str[k] == '.' && str[k + 1] == 'c' && str[k + 2] == 'u' &&
+			str[k + 3] == 'b' && str[k + 4] == '\0')
+			return (open(str, O_RDONLY));
+		k++;
+	}
+	return (-1);
+
 }

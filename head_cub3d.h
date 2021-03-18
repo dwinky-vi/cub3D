@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 03:18:25 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 03:39:37 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@
 /*
 ** utils
 */
-
 int		ft_puterror(char *str);
-
-void	ft_print_map(char **map);
 
 void	ft_free_map(char **map);
 
@@ -75,17 +72,8 @@ void	ft_calculate_sprites(t_sprite *sprite, char **map, t_point_d *pos);
 */
 
 t_vars	ft_parse_data(int fd);
-int		ft_check_resolution(int *width, int *height, void *mlx_ptr);
-int		ft_check_and_get_color(char *str, int *color);
-int		ft_get_num(char *str);
-char 	*ft_skip_separator(char *str);
-int		ft_get_color(int num1, int num2, int num3);
-int		ft_check_xpm_file(char *str);
-int		ft_check_other_chars_map(char **map);
-int		ft_check_empty_line_map(char **map);
-int		ft_check_edges(char **map);
-int		ft_check_zero(char **map);
-
+int		ft_get_textures(void *mlx, t_texture *tex, t_config *config);
+int		ft_check_file_cub(char *str);
 /*
 ** my_mlx
 */
@@ -103,6 +91,18 @@ int		ft_mlx_get_color(t_texture *data, int x, int y);
 
 char	*ft_validator(t_data *data, void *mlx_ptr);
 
+int		ft_check_resolution(int *width, int *height, void *mlx_ptr);
+
+int		ft_check_and_get_color(char *str, int *color);
+
+int		ft_get_num(char *str);
+
+char	*ft_skip_separator(char *str);
+
+int		ft_get_color(int num1, int num2, int num3);
+
+int		ft_check_xpm_file(char *str);
+
 int		ft_check_other_chars_map(char **map);
 
 int		ft_check_empty_line_map(char **map);
@@ -110,6 +110,7 @@ int		ft_check_empty_line_map(char **map);
 int		ft_check_edges(char **map);
 
 int		ft_check_zero(char **map);
+
 /*
 ** движения и повороты
 */
