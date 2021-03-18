@@ -3,7 +3,7 @@
 SRCS	= \
 		main.c ft_free.c \
 		ft_parser1.c    ft_parser2.c ft_parser3.c ft_parser4.c\
-		ft_validator1.c ft_validator2.c \
+		ft_validator1.c ft_validator2.c ft_validator3.c ft_validator4.c\
 		ft_raycast1.c   ft_raycast2.c ft_raycast3.c \
 		ft_some_utils.c\
 		ft_spritecast1.c ft_spritecast2.c \
@@ -14,7 +14,7 @@ NAME		= cub3D
 
 LIBFT_PATH		= ./libft
 
-FT_PRINTF_PATH	= ./ft_printf
+# FT_PRINTF_PATH	= ./ft_printf
 
 MINILIBX_C_PATH	= ./minilibx_c
 
@@ -40,13 +40,13 @@ OBJS	= 			$(addprefix $(OBJS_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 
 NORM 	=			~/.scripts/colorised_norm.sh
 
-all:		make_mlx_c make_lib make_printf $(NAME)
+all:		make_mlx_c make_lib $(NAME)
 
 make_lib:
 			@${MAKE} -C libft
 
-make_printf:
-			@${MAKE} -C ft_printf
+# make_printf:
+# 			@${MAKE} -C ft_printf
 
 make_mlx_c:
 			@${MAKE} -C minilibx_c
@@ -54,7 +54,7 @@ make_mlx_c:
 
 $(NAME): 	$(OBJS)
 			@cp ./minilibx_swift/libmlx.dylib .
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft -L./ft_printf -lftprintf $(MINILIBX_C_PATH)/libmlx.a libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft $(MINILIBX_C_PATH)/libmlx.a libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h head_parser.h libft/libft.a
@@ -67,7 +67,7 @@ clean:
 			@rm -rf $(OBJS)
 			@/bin/rm -rf $(OBJS_DIR)
 			@cd $(LIBFT_PATH) && make clean
-			@cd $(FT_PRINTF_PATH) && make clean
+#			@cd $(FT_PRINTF_PATH) && make clean
 			@cd $(MINILIBX_C_PATH) && make clean
 			@cd $(MINILIBX_SWIFT_PATH) && make clean
 
@@ -76,7 +76,7 @@ fclean: 	clean
 			@rm -rf libmlx.dylib
 #			@rm -rf libmlx.a
 			@cd $(LIBFT_PATH) && make fclean
-			@cd $(FT_PRINTF_PATH) && make fclean
+#			@cd $(FT_PRINTF_PATH) && make fclean
 			@cd $(MINILIBX_C_PATH) && make fclean
 			@cd $(MINILIBX_SWIFT_PATH) && make fclean
 			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"
@@ -86,7 +86,7 @@ re: 		fclean all
 norm:
 			@$(NORM) $(SRCS) $(HEADER)
 			@cd $(LIBFT_PATH) && make norm
-			@cd $(FT_PRINTF_PATH) && make norm
+#			@cd $(FT_PRINTF_PATH) && make norm
 
 ################
 ##   COLORS   ##

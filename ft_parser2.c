@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 22:56:25 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 02:46:18 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,70 @@ static int	ft_is_dublicate_id(t_config *config, char *line)
 
 static void	ft_get_w_h(char *str, int *w, int *h)
 {
-	char	*tmp;
-	int		height;
-	int		width;
+	char			*tmp;
+	unsigned int	height;
+	unsigned int	width;
+	size_t			k;
 
 	tmp = str;
-	if (*str == '+' || *str == '-' || (str[0] == '0' && !(str[1] == ' ')))
+	*w = -12;
+	*h = -13;
+	if (*str == '+')
+		str++;
+	if (!ft_isdigit(*str))
+		return ;
+	k = 0;
+	while (str[k] == '0')
+		k++;
+	if (str[k] == '+' || str[k] == '-')
+		return ;
+	width = ft_atoi(str);
+	if (width == 0 || INT_MAX < width)
 	{
-		width = -12;
-		free(tmp);
+		*w = -12;
 		return ;
 	}
-	width = ft_atoi(str);
-	if (width == 0)
-		width = -12;
-	while (ft_isdigit(*str))
+	str += k;
+	k = 0;
+	while (ft_isdigit(str[k]))
+		k++;
+	if (k > 10)
+		return ;
+	str += k;
+	k = 0;
+	while (*str == ' ')
+		str++;
+	if (*str == ',')
 		str++;
 	while (*str == ' ')
 		str++;
+	if (*str == '+')
+		str++;
+	if (!ft_isdigit(*str))
+		return ;
+	k = 0;
+	while (str[k] == '0')
+		k++;
+	if (str[k] == '+' || str[k] == '-')
+		return ;
 	height = ft_atoi(str);
-	free(tmp);
-	if (*str == '+' || *str == '-' || (str[0] == '0' && !(str[1] == ' ')))
+	if (height == 0 || INT_MAX < height)
 	{
-		height = -13;
+		*h = -12;
 		return ;
 	}
-	if (height == 0)
-		height = -13;
+	str += k;
+	k = 0;
+	while (ft_isdigit(str[k]))
+		k++;
+	free(tmp);
+	if (k > 10)
+		return ;
+	str += k;
+	while (*str == ' ')
+		str++;
+	if (*str != '\0')
+		return ;
 	*w = width;
 	*h = height;
 }

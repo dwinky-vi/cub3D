@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/16 21:27:07 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 03:18:25 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include "head_structs.h"
 # include "./libft/libft.h"
-# include "./ft_printf/ft_printf.h"
 
 # include "./minilibx_c/mlx.h"
 # include "./minilibx_swift/mlx.h"
 # include <fcntl.h>
 # include <math.h>
+#include <stdio.h>
 
 /*
 ** utils
@@ -75,6 +75,16 @@ void	ft_calculate_sprites(t_sprite *sprite, char **map, t_point_d *pos);
 */
 
 t_vars	ft_parse_data(int fd);
+int		ft_check_resolution(int *width, int *height, void *mlx_ptr);
+int		ft_check_and_get_color(char *str, int *color);
+int		ft_get_num(char *str);
+char 	*ft_skip_separator(char *str);
+int		ft_get_color(int num1, int num2, int num3);
+int		ft_check_xpm_file(char *str);
+int		ft_check_other_chars_map(char **map);
+int		ft_check_empty_line_map(char **map);
+int		ft_check_edges(char **map);
+int		ft_check_zero(char **map);
 
 /*
 ** my_mlx

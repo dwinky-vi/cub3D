@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:21 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 21:43:58 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 02:59:24 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,24 @@
 #define ERROR04 "Error\n04 Promlen in malloc\n"
 #define ERROR05 "Error\n05 Problem in GNL\n"
 
+static t_vars	*ft_error(t_vars *vars, char *error)
+{
+	vars->data.error = error;
+	return (vars);
+}
+
+static void		ft_path(t_config *config, char *line, char *tmp)
+{
+	ft_set_config(config, line);
+	free(tmp);
+	free(line);
+}
+
 /*
 ** 		_____main function_____
 */
 
-t_vars		ft_parse_data(int fd)
+t_vars			ft_parse_data(int fd)
 {
 	t_vars	vars;
 	char	*line;
@@ -32,26 +45,15 @@ t_vars		ft_parse_data(int fd)
 		tmp = line;
 		line = ft_strtrim(line, " ");
 		if (line == NULL)
-		{
-			vars.data.error = ERROR04;
-			return (vars);
-		}
+			return (*ft_error(&vars, ERROR04));
 		if (ft_is_identifier(line))
-		{
-			ft_set_config(&vars.data.config, line);
-			free(tmp);
-			free(line);
-			continue ;
-		}
+			ft_path(&vars.data.config, line, tmp);
 		else
 			break ;
 	}
-	free(line);
 	if (r <= 0)
-	{
-		vars.data.error = ERROR05;
-		return (vars);
-	}
+		return (*ft_error(&vars, ERROR05));
+	free(line);
 	if (ft_check_and_make_map(&vars.data, &vars.data.config, fd, tmp))
 		return (vars);
 	ft_find_person(&vars.person, &vars.data);

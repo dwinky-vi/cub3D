@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 17:56:00 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/15 21:44:16 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 02:47:11 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ static char		**ft_convert_lst_to_matrix(t_list **lst)
 	return (map);
 }
 
-int				ft_check_and_make_map(t_data *data, t_config *config, int fd, char *last_line)
+int				ft_check_and_make_map(t_data *data, t_config *config,
+													int fd,
+													char *last_line)
 {
 	t_list	*list_map;
 
