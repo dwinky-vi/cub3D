@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:58 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 20:18:27 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 07:17:52 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,19 @@ typedef struct	s_sprite
 	double		distance;
 }				t_sprite;
 
+typedef struct	s_scrn
+{
+	int				fd;
+	unsigned int	size;
+	int				width;
+	int				height;
+	signed int		sign_z;
+	unsigned int	u_z;
+	unsigned int	ppd_54;
+	unsigned int	ppd_40;
+	unsigned int	plane_1;
+}				t_scrn;
+
 typedef struct	s_vars
 {
 	void		*mlx_ptr;
@@ -129,6 +142,7 @@ typedef struct	s_vars
 	t_img		img;
 	t_texture	texture[5];
 	int			count_sprites;
+	char		f_save;
 	char		k_13;
 	char		k_1;
 	char		k_0;

@@ -22,7 +22,8 @@ SRCS	= \
 		ft_my_mlx.c \
 		ft_sort.c\
 		ft_free.c \
-		ft_get_tex.c
+		ft_get_tex.c \
+		ft_screen.c
 
 NAME		= cub3D
 

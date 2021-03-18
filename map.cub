@@ -1,4 +1,4 @@
-R +1680 1080
+R 14000 10000
 NO  ./texture/bluestone.xpm
 SO ./texture/redbrick.xpm 
 WE ./texture/colorstone.xpm

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:38 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/14 17:27:51 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 07:42:07 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ int			ft_raycast(t_vars *vars)
 		x++;
 	}
 	ft_spritecast(vars, &ray.pos, perpendiculars_array);
-	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
-	mlx_destroy_image(vars->mlx_ptr, vars->img.img);
+	if (vars->f_save == 0)
+	{
+		mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->img.img, 0, 0);
+		mlx_destroy_image(vars->mlx_ptr, vars->img.img);
+	}
 	return (0);
 }

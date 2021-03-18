@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 06:17:13 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 07:55:08 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,9 @@ int		key_press_hook(int key, t_vars *vars);
 int		key_release_hook(int key, t_vars *vars);
 
 int		exit_hook(t_vars *vars);
+
+void	ft_init_scrn(t_scrn *scrn);
+
+void	ft_write_bmp(t_scrn *scrn, int bpp);
 
 #endif
