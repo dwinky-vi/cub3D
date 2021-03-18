@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:56 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 05:10:58 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:03:01 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,13 @@ int		ft_check_empty_line_map(char **map);
 int		ft_check_edges(char **map);
 
 int		ft_check_zero(char **map);
+
+void	ft_get_w_h(char *str, int *w, int *h);
+
+int		ft_is_dublicate_id(t_config *config, char *line);
+
+int		ft_get_textures(void *mlx, t_texture *tex, t_config *config);
+
+int		ft_check_file_cub(char *str);
 
 #endif

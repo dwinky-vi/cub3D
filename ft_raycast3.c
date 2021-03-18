@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:43:27 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 19:44:42 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:07:37 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int			get_color_wall(t_vars *vars, t_raycast *ray)
 {
 	int color;
 
+	color = 0;
 	if (ray->side == 0 && ray->step.x == -1)
 		color = ft_mlx_get_color(&vars->texture[0], ray->tex.x, ray->tex.y);
 	else if (ray->side == 0 && ray->step.x == 1)

@@ -6,13 +6,13 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 20:28:13 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/12 20:30:49 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:09:12 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 
-void		make_rotation_left(char **map, t_person *p)
+void		make_rotation_left(t_person *p)
 {
 	double old_dir_x;
 	double old_plane_x;
@@ -27,7 +27,7 @@ void		make_rotation_left(char **map, t_person *p)
 															cos(p->speed_rot);
 }
 
-void		make_rotation_right(char **map, t_person *p)
+void		make_rotation_right(t_person *p)
 {
 	double old_dir_x;
 	double old_plane_x;

@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 05:57:15 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:17:13 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,11 @@ void	ft_calculate_sprites(t_sprite *sprite, char **map, t_point_d *pos);
 */
 
 t_vars	ft_parse_data(int fd);
-void	ft_get_w_h(char *str, int *w, int *h);
-int		ft_is_dublicate_id(t_config *config, char *line);
+
 int		ft_get_textures(void *mlx, t_texture *tex, t_config *config);
+
 int		ft_check_file_cub(char *str);
+
 /*
 ** my_mlx
 */
@@ -114,7 +115,7 @@ int		ft_check_edges(char **map);
 int		ft_check_zero(char **map);
 
 /*
-** движения и повороты
+** move and rotation
 */
 
 void	make_step_forward(char **map, t_person *person, float speed);
@@ -125,9 +126,9 @@ void	make_step_left(char **map, t_person *person);
 
 void	make_step_right(char **map, t_person *person);
 
-void	make_rotation_left(char **map, t_person *person);
+void	make_rotation_left(t_person *person);
 
-void	make_rotation_right(char **map, t_person *person);
+void	make_rotation_right(t_person *person);
 
 int		make_step(t_vars *vars);
 
@@ -141,6 +142,6 @@ int		key_press_hook(int key, t_vars *vars);
 
 int		key_release_hook(int key, t_vars *vars);
 
-int		exit_hook(int key, t_vars *vars);
+int		exit_hook(t_vars *vars);
 
 #endif

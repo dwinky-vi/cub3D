@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 09:58:22 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/14 20:01:00 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:12:34 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int			make_step(t_vars *vars)
 	if (vars->KEY_D)
 		make_step_right(vars->data.map, &vars->person);
 	if (vars->KEY_LEFT)
-		make_rotation_left(vars->data.map, &vars->person);
+		make_rotation_left(&vars->person);
 	if (vars->KEY_RIGHT)
-		make_rotation_right(vars->data.map, &vars->person);
+		make_rotation_right(&vars->person);
 	return (0);
 }

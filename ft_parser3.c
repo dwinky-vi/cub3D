@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 17:56:00 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 05:57:52 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:06:41 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void		ft_get_w_h(char *str, int *w, int *h)
 	char		*tmp;
 	long long	height;
 	long long	width;
-	size_t		k;
 
 	tmp = str;
 	*w = -12;

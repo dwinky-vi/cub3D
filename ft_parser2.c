@@ -6,11 +6,12 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:29:42 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 06:00:23 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:03:48 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
+#include "head_parser.h"
 #define ERROR06 "Error\n06 Some identifiers are missing or dublicated\n"
 #define ERROR07 "Error\n07 Problem in ft_make_list_map\n"
 #define ERROR08 "Error\n08 Problem malloc, when converting list to an array\n"

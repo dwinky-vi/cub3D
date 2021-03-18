@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:49:29 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/11 22:33:02 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:20:04 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int			key_press_hook(int key, t_vars *vars)
 int			key_release_hook(int key, t_vars *vars)
 {
 	if (key == 53)
-		exit(0);
+		exit_hook(vars);
 	if (key == 13)
 		vars->k_13 = FALSE;
 	if (key == 1)
@@ -59,8 +59,9 @@ int			key_release_hook(int key, t_vars *vars)
 	return (0);
 }
 
-int			exit_hook(int key, t_vars *vars)
+int			exit_hook(t_vars *vars)
 {
+	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 	ft_putstr("Exit");
 	exit(0);
 }

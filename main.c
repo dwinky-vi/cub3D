@@ -6,13 +6,14 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 03:23:30 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:06:23 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
 #include <stdio.h>
 
+#define ERROR00 "Error\n00 file is missing"
 #define ERROR01 "Error\n01 Not valid file"
 #define ERROR02 "Error\n02 Problem in mlx"
 #define ERROR03 "Error\n03 Bad textures"
@@ -22,6 +23,8 @@ int			main(int argc, char **argv)
 	int		fd;
 	t_vars	vars;
 
+	if (argc == 1 ||3 < argc)
+		return (ft_puterror(ERROR00));
 	fd = ft_check_file_cub(argv[1]);
 	if (fd == -1)
 		return (ft_puterror(ERROR01));

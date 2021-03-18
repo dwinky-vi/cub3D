@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:17:13 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/14 17:33:53 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 06:08:48 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void		ft_spritecast(t_vars *vars, t_point_d *pos, double *pern_array)
 {
 	int				k;
 	t_sprite		sprite_array[vars->count_sprites];
-	t_point_d		sprite_pos;
 	t_spritecast	ray;
 
 	ft_calculate_sprites(sprite_array, vars->data.map, pos);
