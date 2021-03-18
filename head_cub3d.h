@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:26 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 07:55:08 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 08:57:31 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int		ft_mlx_get_color(t_texture *data, int x, int y);
 ** validator
 */
 
-char	*ft_validator(t_data *data, void *mlx_ptr);
+char	*ft_validator(t_vars *vars, t_data *data,
+						void *mlx_ptr, t_scrn *scrn);
 
 int		ft_check_resolution(int *width, int *height, void *mlx_ptr);
 
@@ -147,5 +148,9 @@ int		exit_hook(t_vars *vars);
 void	ft_init_scrn(t_scrn *scrn);
 
 void	ft_write_bmp(t_scrn *scrn, int bpp);
+
+void	ft_make_screen(t_vars *vars, t_scrn *scrn, char *str);
+
+void	ft_check_arg(int c, char *str, int *fd);
 
 #endif

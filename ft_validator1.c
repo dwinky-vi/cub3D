@@ -6,7 +6,7 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 02:57:47 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 03:34:53 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/18 08:48:38 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@
 ** 		_____main function_____
 */
 
-char	*ft_validator(t_data *data, void *mlx_ptr)
+char	*ft_validator(t_vars *vars, t_data *data, void *mlx_ptr, t_scrn *scrn)
 {
+	scrn->width = vars->data.config.width;
+	scrn->height = vars->data.config.height;
 	if (ft_check_resolution(&data->config.width, &data->config.height, mlx_ptr))
 		return (ERROR11);
 	if (ft_check_and_get_color(data->config.f_str, &(data->config.f_int)))
