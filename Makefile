@@ -29,7 +29,7 @@ NAME		= cub3D
 
 LIBFT_PATH		= ./libft
 
-# FT_PRINTF_PATH	= ./ft_printf
+FT_PRINTF_PATH	= ./ft_printf
 
 MINILIBX_C_PATH	= ./minilibx_c
 
@@ -46,22 +46,18 @@ OBJS_DIR =			.obj
 
 # VPATH = *перечесление папок*
 
-
-
-
-
 # прописываем (добавляем) путь для каждого .o файла
 OBJS	= 			$(addprefix $(OBJS_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 
 NORM 	=			~/.scripts/colorised_norm.sh
 
-all:		make_mlx_c make_lib $(NAME)
+all:		make_mlx_c make_printf make_lib $(NAME)
 
 make_lib:
-			@${MAKE} -C libft
+			@${MAKE} -C $(LIBFT_PATH)
 
-# make_printf:
-# 			@${MAKE} -C ft_printf
+make_printf:
+			@${MAKE} -C ft_printf
 
 make_mlx_c:
 			@${MAKE} -C minilibx_c
@@ -69,7 +65,7 @@ make_mlx_c:
 
 $(NAME): 	$(OBJS)
 			@cp ./minilibx_swift/libmlx.dylib .
-			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) -L./libft -lft $(MINILIBX_C_PATH)/libmlx.a libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
+			@$(CC) $(CFLAGS) $(OBJS) -I $(HEADER) $(LIBFT_PATH)/libft.a $(FT_PRINTF_PATH)/libftprintf.a $(MINILIBX_C_PATH)/libmlx.a libmlx.dylib -framework OpenGL -framework AppKit -o $(NAME)
 			@printf "$(LIGHT_PURPLE)$(BOLD)cub3D $(NO_COLOR)–– $(LIGHT_PURPLE)$(BOLD)[Success compiling]        $(NO_COLOR)\n"
 
 $(OBJS_DIR)/%.o:	%.c $(HEADER) head_structs.h head_parser.h libft/libft.a
@@ -82,7 +78,7 @@ clean:
 			@rm -rf $(OBJS)
 			@/bin/rm -rf $(OBJS_DIR)
 			@cd $(LIBFT_PATH) && make clean
-#			@cd $(FT_PRINTF_PATH) && make clean
+			@cd $(FT_PRINTF_PATH) && make clean
 			@cd $(MINILIBX_C_PATH) && make clean
 			@cd $(MINILIBX_SWIFT_PATH) && make clean
 
@@ -91,7 +87,7 @@ fclean: 	clean
 			@rm -rf libmlx.dylib
 #			@rm -rf libmlx.a
 			@cd $(LIBFT_PATH) && make fclean
-#			@cd $(FT_PRINTF_PATH) && make fclean
+			@cd $(FT_PRINTF_PATH) && make fclean
 			@cd $(MINILIBX_C_PATH) && make fclean
 			@cd $(MINILIBX_SWIFT_PATH) && make fclean
 			@printf "$(UNDER_LINE)$(BOLD)$(NAME)$(NO_COLOR) $(LIGHT_RED)deleted$(NO_COLOR)\n"

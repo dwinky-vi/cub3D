@@ -6,11 +6,12 @@
 /*   By: dwinky <dwinky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:54:32 by dwinky            #+#    #+#             */
-/*   Updated: 2021/03/18 09:11:41 by dwinky           ###   ########.fr       */
+/*   Updated: 2021/03/27 15:42:17 by dwinky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head_cub3d.h"
+#include "./ft_printf/ft_printf.h"
 #include <stdio.h>
 
 #define ERROR02 "Error\n02 Problem in mlx"
